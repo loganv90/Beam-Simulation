@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href = "./styles/style.css">
+      <link rel="stylesheet" href="./styles/reset.css" >
+      <link rel="stylesheet" href="./styles/styl.css">
+      <script src="./js/p5.min.js"></script>
+      <script src="./js/beam.js"></script>
+      <script src="./js/beamInput.js" defer></script>
+      <title>Optical Diagnostics Group | MecE265</title>
+    </head>
+    <body>
+      <div id="header">
+        <div id="header_in">
+          <h1><a href="NOBES_MecE_265.html"><b>NOBES<br>SOLIDWORKS</b></a></h1>
+          <div id="menu">
+            <ul>
+              <li><a href="NOBES_MecE_265.html">MecE 265</a></li>
+              <li><a href="NOBES_MecE_468.html">MecE 468</a></li>
+              <li><a href="NOBES_CSWA.html">CSWA/CSWP</a></li>
+              <li><a href="NOBES_SIM.html" class="active">Simulations</a></li>
+              <li><a href="NOBES_SW_Tutorials.html">SW Tutorials</a></li>
+              <li><a href="NOBES_SW.html">Extra Resources</a></li>
+              <li><a href="NOBES_Quiz.html">Quiz</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="main_part_inner">
+        <div id="main_part_inner_in">
+          <h2>Beam Deflection Simulation</h2>
+        </div>
+      </div>
+
+      <noscript>
+        <style type="text/css">
+          #content_inner {display: none};
+        </style>
+        This page requires javascript to be enabled or a javascript able browser.
+      </noscript>
+
+      <div id="content_inner"><br></br>
+        <div id="simulation">
+          <div id="container"></div>
+
+          <div class="input-container">
+            <div class="box-border" id="input">
+
+              <label for="input-F">F: </label><input type="text" value="50" id="input-F"><br></br>
+              <label for="input-W">W: </label><input type="text" value="0" id="input-W"><br></br>
+              <label for="input-A">A: </label><input type="text" value="300" id="input-A"><br></br>
+              <label for="input-L">L: </label><input type="text" value="400" id="input-L"><br></br>
+              <label for="input-M">M: </label><input type="text" value="0" id="input-M"><br></br>
+              <label for="input-I">I: </label><input type="text" value="100" id="input-I"><br></br>
+              <label for="input-E">E: </label><input type="text" value="100" id="input-E"><br></br>
+
+              <label for="beam-select">Beam Type:</label>
+              <select id="beam-select">
+                <option value="c-end-load">Cantilever End Load</option>
+                <option value="c-int-load">Cantilever Intermediate Load</option>
+                <option value="s-int-load">Simply Supported Intermediate Load</option>
+                <option value="s-cen-load">Simply Supported Center Load</option>
+              </select>
+
+            </div>
+          </div>
+        </div>
+      <br></br></div>
+
+      <div id="footer">
+        <div id="footer_in">
+          <p>Copyright © 2016 <a href="#">Optical Diagnostics Group</a>. All Rights Reserved</p>
+          <span>Design By: Bianca Angotti and Carmen Leung</span> <br>
+          <p></p>
+          <span>Simulation By: Pranj Patel and Logan Vaughan</span>
+        </div>
+      </div>
+    </body>
+</html>

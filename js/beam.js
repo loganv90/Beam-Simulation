@@ -13,24 +13,33 @@ function draw() {
 
   if (beamType.value == "c-end-load") {
     drawCEndLoad(leftOffset, heights);
+    drawFixedEnd(leftOffset, heights[0], false);
   }
   else if (beamType.value == "c-int-load") {
     drawCIntLoad(leftOffset, heights);
+    drawFixedEnd(leftOffset, heights[0], false);
   }
   else if (beamType.value == "c-uni-load") {
     drawCUniLoad(leftOffset, heights);
+    drawFixedEnd(leftOffset, heights[0], false);
   }
   else if (beamType.value == "c-tri-load") {
     drawCTriLoad(leftOffset, heights);
+    drawFixedEnd(leftOffset, heights[0], false);
   }
   else if (beamType.value == "c-end-mome") {
     drawCEndMome(leftOffset, heights);
+    drawFixedEnd(leftOffset, heights[0], false);
   }
   else if (beamType.value == "s-int-load") {
     drawSIntLoad(leftOffset, heights);
+    drawSupportedEnd(leftOffset, heights[0], false);
+    drawSupportedEnd(leftOffset+valueL, heights[0], false);
   }
   else if (beamType.value == "s-cen-load") {
     drawSCenLoad(leftOffset, heights);
+    drawSupportedEnd(leftOffset, heights[0], false);
+    drawSupportedEnd(leftOffset+valueL, heights[0], false);
   }
 
   fill(0);
@@ -82,9 +91,9 @@ function drawCEndLoad(x, heights) {
   fill(0);
   stroke(0);
   if (scaledMaxDeflectionY >= 0) {
-    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+valueL, y-10-scaledMaxDeflectionY);
+    text("\u03B4max =  " + maxDeflectionY.toExponential(2) + " px/m^2", x+valueL, y-10-scaledMaxDeflectionY);
   } else {
-    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+valueL, y+10-scaledMaxDeflectionY);
+    text("\u03B4max =  " + maxDeflectionY.toExponential(2) + " px/m^2", x+valueL, y+10-scaledMaxDeflectionY);
   }
 
 
@@ -103,9 +112,9 @@ function drawCEndLoad(x, heights) {
   fill(0);
   stroke(0);
   if (scaledMaxShearY >= 0) {
-    text("Vmax = " + maxShearY + "px/m^2", x, y-10-scaledMaxShearY);
+    text("Vmax =  " + maxShearY.toExponential(2) + " px/m^2", x, y-10-scaledMaxShearY);
   } else {
-    text("Vmax = " + maxShearY + "px/m^2", x, y+10-scaledMaxShearY);
+    text("Vmax =  " + maxShearY.toExponential(2) + " px/m^2", x, y+10-scaledMaxShearY);
   }
 
   // Draws the moment diagram
@@ -123,9 +132,9 @@ function drawCEndLoad(x, heights) {
   fill(0);
   stroke(0);
   if (scaledMaxMomentY > 0) {
-    text("Mmax = " + maxMomentY + "pxm", x, y-10-scaledMaxMomentY);
+    text("Mmax =  " + maxMomentY.toExponential(2) + " pxm", x, y-10-scaledMaxMomentY);
   } else {
-    text("Mmax = " + maxMomentY + "pxm", x, y+10-scaledMaxMomentY);
+    text("Mmax =  " + maxMomentY.toExponential(2) + " pxm", x, y+10-scaledMaxMomentY);
   }
 }
 
@@ -707,4 +716,58 @@ function drawDimAB(x, y, lenX, lenA, position = 1, spacing = 40, colour = color(
     textAlign(CENTER, CENTER);
     text(textB, middleB, y+position*spacing+position*5);
   }
+}
+
+/**
+ * This function draws the fixed end symbol.
+ * @param {number} x The position to draw the symbol from the left side of the canvas in pixels.
+ * @param {number} y The position to draw the symbol from the top of the canvas in pixels.
+ * @param {number} facingLeft If true, the symbol is drawn facing left. If false, the symbol is drawn facing right.
+ */
+function drawFixedEnd(x, y, facingLeft) {
+  fill(0);
+  stroke(0);
+
+  let deltaX;
+  if (facingLeft) {
+    deltaX = 5;
+  } else {
+    deltaX = -5;
+  }
+
+  line(x, y-9, x+deltaX, y-4);
+  line(x, y-4, x+deltaX, y+1);
+  line(x, y+1, x+deltaX, y+6);
+  line(x, y+6, x+deltaX, y+11);
+  line(x, y-10, x, y+10); // vertical line
+
+  line(x, y-10, x+deltaX, y-5);
+  line(x, y-5, x+deltaX, y+0);
+  line(x, y+0, x+deltaX, y+5);
+  line(x, y+5, x+deltaX, y+10);
+  line(x, y-10, x, y+10); // vertical line
+}
+
+/**
+ * This function draws the supported end symbol.
+ * @param {number} x The position to draw the symbol from the left side of the canvas in pixels.
+ * @param {number} y The position to draw the symbol from the top of the canvas in pixels.
+ */
+function drawSupportedEnd(x, y) {
+  fill(0);
+  stroke(0);
+
+  triangle(x, y, x+3, y+5, x-3, y+5);
+  
+  line(x+9, y+5, x+4, y+10);
+  line(x+4, y+5, x-1, y+10);
+  line(x-1, y+5, x-6, y+10);
+  line(x-6, y+5, x-11, y+10);
+  line(x-10, y+5, x+10, y+5); // horizontal line
+
+  line(x+9, y+5, x+4, y+10);
+  line(x+4, y+5, x-1, y+10);
+  line(x-1, y+5, x-6, y+10);
+  line(x-6, y+5, x-11, y+10);
+  line(x-10, y+5, x+10, y+5); // horizontal line
 }

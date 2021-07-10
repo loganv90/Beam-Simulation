@@ -1,5 +1,3 @@
-let leftOffset = 100;
-
 function setup() {
   let canvas = createCanvas(600, 800);
   canvas.parent("container");
@@ -10,398 +8,566 @@ function setup() {
 
 function draw() {
   background(200);
+  let leftOffset = 100;
+  let heights = [height/5, 2*height/5, 3*height/5, 4*height/5];
 
   if (beamType.value == "c-end-load") {
-    drawCENDLOAD();
+    drawCEndLoad(leftOffset, heights);
   }
   else if (beamType.value == "c-int-load") {
-    drawCINTLOAD(leftOffset, 2*height/5);
+    drawCIntLoad(leftOffset, heights);
+  }
+  else if (beamType.value == "c-uni-load") {
+    drawCUniLoad(leftOffset, heights);
+  }
+  else if (beamType.value == "c-tri-load") {
+    drawCTriLoad(leftOffset, heights);
+  }
+  else if (beamType.value == "c-end-mome") {
+    drawCEndMome(leftOffset, heights);
   }
   else if (beamType.value == "s-int-load") {
-    drawSINTLOAD(leftOffset, 3*height/5);
+    drawSIntLoad(leftOffset, heights);
   }
   else if (beamType.value == "s-cen-load") {
-    drawSCENLOAD(leftOffset, 4*height/5);
+    drawSCenLoad(leftOffset, heights);
+  }
+
+  fill(0);
+  stroke(0);
+  for (let i=0; i<heights.length; i++) {
+    line(leftOffset, heights[i], leftOffset+valueL, heights[i]);
   }
 }
 
-/**
- * This function draws the c-end-load figures........................................................................................................
- */
-function drawCENDLOAD() {
-  x = leftOffset;
 
+
+
+
+/**
+ * This function draws the c-end-load figures.
+ * @param {number} x The position of the leftmost portion the figures from the left side of the canvas in pixels.
+ * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
+ */
+function drawCEndLoad(x, heights) {
   // Draws the free body diagram
-  y = height/5;
-  if (valueF >= 0) {
-    dimensionPosition = 1;
-  } else {
+  let y = heights[0];
+  let dimensionPosition = 1;
+  if (valueF < 0) {
     dimensionPosition = -1;
   }
+
   drawArrow(x, y, valueL, valueF, color(200, 0, 0));
   drawDimL(x, y, valueL, dimensionPosition);
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
+
 
   // Draws the deflection diagram
-  y = 2*height/5;
+  y = heights[1];
   fill(0, 0, 200);
   stroke(0, 0, 100);
   textAlign(CENTER, CENTER);
-  let calibration = (50*400*400*400)/(3*100*100);
-  let canvY;
+
+  let deflectionCalibration = -(maxF*maxL*maxL*maxL)/(3*minE*minI);
+  let maxDeflectionY = -(valueF*valueL*valueL*valueL)/(3*valueE*valueI);
+  let scaledMaxDeflectionY = maxDeflectionY/(abs(deflectionCalibration)/50);
+
   noFill();
   beginShape();
-  for (let canvX = x; canvX <= x+valueL; canvX++) {
-    funcX = canvX - x;
-    funcY = (3*valueL-funcX)*(valueF*funcX*funcX)/(6*valueE*valueI);
-    canvY = map(funcY, -calibration, calibration, y-50, y+50, true);
-    vertex(canvX, canvY);
+  for (let funcX = 0; funcX <= valueL; funcX++) {
+    let funcY = -(3*valueL-funcX)*(valueF*funcX*funcX)/(6*valueE*valueI);
+    vertex(x+funcX, map(funcY, -deflectionCalibration, deflectionCalibration, y-50, y+50, true));
   }
   endShape();
+
   fill(0);
   stroke(0);
-  if (canvY >= y) {
-    text("\u03B4max = " + canvY + "px/m^2", x+valueL, canvY+10);
+  if (scaledMaxDeflectionY >= 0) {
+    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+valueL, y-10-scaledMaxDeflectionY);
   } else {
-    text("\u03B4max = " + canvY + "px/m^2", x+valueL, canvY-10);
+    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+valueL, y+10-scaledMaxDeflectionY);
   }
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
+
 
   // Draws the shear diagram
-  y = 3*height/5;
+  y = heights[2];
   fill(0, 200, 0);
   stroke(0, 100, 0);
   textAlign(CENTER, CENTER);
-  let maxShear = valueF;
-  rect(x, y, x+valueL, y-maxShear);
+
+  let shearCalibration = maxF;
+  let maxShearY = valueF;
+  let scaledMaxShearY = maxShearY/(abs(shearCalibration)/50);
+
+  rect(x, y, x+valueL, y-scaledMaxShearY);
+
   fill(0);
   stroke(0);
-  if (maxShear >= 0) {
-    text("Vmax = " + maxShear + "px/m^2", x, y-maxShear-10);
+  if (scaledMaxShearY >= 0) {
+    text("Vmax = " + maxShearY + "px/m^2", x, y-10-scaledMaxShearY);
   } else {
-    text("Vmax = " + maxShear + "px/m^2", x, y-maxShear+10);
+    text("Vmax = " + maxShearY + "px/m^2", x, y+10-scaledMaxShearY);
   }
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
 
   // Draws the moment diagram
-  y = 4*height/5;
+  y = heights[3];
   fill(200, 0, 0);
   stroke(100, 0, 0);
   textAlign(CENTER, CENTER);
-  maxMoment = -valueF*valueL/400;
-  triangle(x, y, x+valueL, y, x, y-maxMoment);
+
+  let momentCalibration = -maxF*maxL;
+  let maxMomentY = -valueF*valueL;
+  let scaledMaxMomentY = maxMomentY/(abs(momentCalibration)/50);
+
+  triangle(x, y, x+valueL, y, x, y-scaledMaxMomentY);
+
   fill(0);
   stroke(0);
-  if (maxMoment > 0) {
-    text("Mmax = " + maxMoment + "pxm", x, y-maxMoment-10);
+  if (scaledMaxMomentY > 0) {
+    text("Mmax = " + maxMomentY + "pxm", x, y-10-scaledMaxMomentY);
   } else {
-    text("Mmax = " + maxMoment + "pxm", x, y-maxMoment+10);
+    text("Mmax = " + maxMomentY + "pxm", x, y+10-scaledMaxMomentY);
   }
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
 }
 
-/**
- * This function draws the c-int-load figures........................................................................................................
- */
-function drawCINTLOAD() {
-  x = leftOffset;
 
+
+
+
+/**
+ * This function draws the c-int-load figures.
+ * @param {number} x The position of the leftmost portion the figures from the left side of the canvas in pixels.
+ * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
+ */
+function drawCIntLoad(x, heights) {
   // Draws the free body diagram
-  y = height/5;
-  if (valueF >= 0) {
-    dimensionPosition = 1;
-  } else {
+  let y = heights[0];
+  let dimensionPosition = 1;
+  if (valueF < 0) {
     dimensionPosition = -1;
   }
+
   drawArrow(x, y, valueA, valueF, color(200, 0, 0));
   drawDimL(x, y, valueL, dimensionPosition);
   drawDimAB(x, y, valueL, valueA, dimensionPosition);
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
+
 
   // Draws the deflection diagram
-  y = 2*height/5;
+  y = heights[1];
   fill(0, 0, 200);
   stroke(0, 0, 100);
   textAlign(CENTER, CENTER);
-  let calibration = (50*400*400*400)/(3*100*100);
-  let canvY;
+
+  let deflectionCalibration = -(3*maxL-maxA)*(maxF*maxA*maxA)/(6*minE*minI);
+  let maxDeflectionY = -(3*valueL-valueA)*(valueF*valueA*valueA)/(6*valueE*valueI);
+  let scaledMaxDeflectionY = maxDeflectionY/(abs(deflectionCalibration)/50);
+
   noFill();
   beginShape();
-  for (let canvX = x; canvX <= x+valueL; canvX++) {
-    funcX = canvX - x;
+  for (let funcX = 0; funcX <= valueL; funcX++) {
+    let funcY;
     if (funcX <= valueA) {
-      funcY = (3*valueA-funcX)*(valueF*funcX*funcX)/(6*valueE*valueI);
+      funcY = -(3*valueA-funcX)*(valueF*funcX*funcX)/(6*valueE*valueI);
     } else {
-      funcY = (3*funcX-valueA)*(valueF*valueA*valueA)/(6*valueE*valueI);
+      funcY = -(3*funcX-valueA)*(valueF*valueA*valueA)/(6*valueE*valueI);
     }
-    canvY = map(funcY, -calibration, calibration, y-50, y+50, true);
-    vertex(canvX, canvY);
+    vertex(x+funcX, map(funcY, -deflectionCalibration, deflectionCalibration, y-50, y+50, true));
   }
   endShape();
+
   fill(0);
   stroke(0);
-  if (canvY >= y) {
-    text("\u03B4max = " + canvY + "px/m^2", x+valueL, canvY+10);
+  if (scaledMaxDeflectionY > 0) {
+    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+valueL, y-10-scaledMaxDeflectionY);
   } else {
-    text("\u03B4max = " + canvY + "px/m^2", x+valueL, canvY-10);
+    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+valueL, y+10-scaledMaxDeflectionY);
   }
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
+
 
   // Draws the shear diagram
-  y = 3*height/5;
+  y = heights[2];
   fill(0, 200, 0);
   stroke(0, 100, 0);
   textAlign(CENTER, CENTER);
-  let maxShear = valueF;
-  rect(x, y, x+valueA, y-maxShear);
+
+  let shearCalibration = maxF;
+  let maxShearY = valueF;
+  let scaledMaxShearY = maxShearY/(abs(shearCalibration)/50);
+
+  rect(x, y, x+valueA, y-scaledMaxShearY);
+
   fill(0);
   stroke(0);
-  if (maxShear >= 0) {
-    text("Vmax = " + maxShear + "px/m^2", x, y-maxShear-10);
+  if (scaledMaxShearY >= 0) {
+    text("Vmax = " + maxShearY + "px/m^2", x, y-10-scaledMaxShearY);
   } else {
-    text("Vmax = " + maxShear + "px/m^2", x, y-maxShear+10);
+    text("Vmax = " + maxShearY + "px/m^2", x, y+10-scaledMaxShearY);
   }
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
+
 
   // Draws the moment diagram
-  y = 4*height/5;
+  y = heights[3];
   fill(200, 0, 0);
   stroke(100, 0, 0);
   textAlign(CENTER, CENTER);
-  maxMoment = -valueF*valueA/400;
-  triangle(x, y, x+valueA, y, x, y-maxMoment);
+
+  let momentCalibration = -maxF*maxA;
+  let maxMomentY = -valueF*valueA;
+  let scaledMaxMomentY = maxMomentY/(abs(momentCalibration)/50);
+
+  triangle(x, y, x+valueA, y, x, y-scaledMaxMomentY);
+
   fill(0);
   stroke(0);
-  if (maxMoment > 0) {
-    text("Mmax = " + maxMoment + "pxm", x, y-maxMoment-10);
+  if (scaledMaxMomentY > 0) {
+    text("Mmax = " + maxMomentY + "pxm", x, y-10-scaledMaxMomentY);
   } else {
-    text("Mmax = " + maxMoment + "pxm", x, y-maxMoment+10);
+    text("Mmax = " + maxMomentY + "pxm", x, y+10-scaledMaxMomentY);
   }
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
 }
 
-/**
- * This function draws the s-int-load figures........................................................................................................
- */
- function drawSINTLOAD() {
-  x = leftOffset;
 
+
+
+
+/**
+ * This function draws the c-uni-load figures.
+ * @param {number} x The position of the leftmost portion the figures from the left side of the canvas in pixels.
+ * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
+ */
+function drawCUniLoad(x, heights) {
   // Draws the free body diagram
-  y = height/5;
-  if (valueF >= 0) {
-    dimensionPosition = 1;
-  } else {
+  let y = heights[0];
+  let dimensionPosition = 1;
+  if (valueW < 0) {
     dimensionPosition = -1;
   }
-  drawArrow(x, y, valueA, valueF, color(200, 0, 0));
+
+  drawUniArrow(x, y, valueL, valueW, color(200, 0, 0));
   drawDimL(x, y, valueL, dimensionPosition);
-  drawDimAB(x, y, valueL, valueA, dimensionPosition);
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
+
 
   // Draws the deflection diagram
-  y = 2*height/5;
+  y = heights[1];
   fill(0, 0, 200);
   stroke(0, 0, 100);
   textAlign(CENTER, CENTER);
-  let calibration = 6666.666;
-  let valueB = valueL-valueA;
+
+  let deflectionCalibration = -(maxW*maxL*maxL*maxL*maxL)/(8*minE*minI);
+  let maxDeflectionY = -(valueW*valueL*valueL*valueL*valueL)/(8*valueE*valueI);
+  let scaledMaxDeflectionY = maxDeflectionY/(abs(deflectionCalibration)/50);
+
+  noFill();
+  beginShape();
+  for (let funcX = 0; funcX <= valueL; funcX++) {
+    let funcY = -(6*valueL*valueL-4*valueL*funcX+funcX*funcX)*(valueW*funcX*funcX)/(24*valueE*valueI);
+    vertex(x+funcX, map(funcY, -deflectionCalibration, deflectionCalibration, y-50, y+50, true));
+  }
+  endShape();
+
+  fill(0);
+  stroke(0);
+  if (scaledMaxDeflectionY > 0) {
+    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+valueL, y-10-scaledMaxDeflectionY);
+  } else {
+    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+valueL, y+10-scaledMaxDeflectionY);
+  }
+
+
+  // Draws the shear diagram
+  y = heights[2];
+  fill(0, 200, 0);
+  stroke(0, 100, 0);
+  textAlign(CENTER, CENTER);
+
+  let shearCalibration = maxW*maxL;
+  let maxShearY = valueW*valueL;
+  let scaledMaxShearY = maxShearY/(abs(shearCalibration)/50);
+
+  triangle(x, y, x+valueL, y, x, y-scaledMaxShearY);
+
+  fill(0);
+  stroke(0);
+  if (scaledMaxShearY >= 0) {
+    text("Vmax = " + maxShearY + "px/m^2", x, y-10-scaledMaxShearY);
+  } else {
+    text("Vmax = " + maxShearY + "px/m^2", x, y+10-scaledMaxShearY);
+  }
+
+
+  // Draws the moment diagram
+  y = heights[3];
+  fill(200, 0, 0);
+  stroke(100, 0, 0);
+  textAlign(CENTER, CENTER);
+
+  let momentCalibration = -maxW*maxL*maxL/2;
+  let maxMomentY = -valueW*valueL*valueL/2;
+  let scaledMaxMomentY = maxMomentY/(abs(momentCalibration)/50);
+
+  beginShape();
+  for (let funcX = 0; funcX <= valueL; funcX++) {
+    let funcY = -valueW*(valueL-funcX)*(valueL-funcX)/2;
+    vertex(x+funcX, map(funcY, -momentCalibration, momentCalibration, y-50, y+50, true));
+  }
+  vertex(x, y);
+  vertex(x, y-scaledMaxMomentY);
+  endShape();
+
+  fill(0);
+  stroke(0);
+  if (scaledMaxMomentY > 0) {
+    text("Mmax = " + maxMomentY + "pxm", x, y-10-scaledMaxMomentY);
+  } else {
+    text("Mmax = " + maxMomentY + "pxm", x, y+10-scaledMaxMomentY);
+  }
+}
+
+
+
+
+
+/**
+ * This function draws the c-tri-load figures.
+ * @param {number} x The position of the leftmost portion the figures from the left side of the canvas in pixels.
+ * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
+ */
+ function drawCTriLoad(x, heights) {
+  
+}
+
+
+
+
+
+/**
+ * This function draws the c-end-mome figures.
+ * @param {number} x The position of the leftmost portion the figures from the left side of the canvas in pixels.
+ * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
+ */
+ function drawCEndMome(x, heights) {
+  
+}
+
+
+
+
+
+/**
+ * This function draws the s-int-load figures.
+ * @param {number} x The position of the leftmost portion the figures from the left side of the canvas in pixels.
+ * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
+ */
+ function drawSIntLoad(x, heights) {
+  // Draws the free body diagram
+  let y = heights[0];
+  let dimensionPosition = 1;
+  if (valueF < 0) {
+    dimensionPosition = -1;
+  }
+
+  drawArrow(x, y, valueA, valueF, color(200, 0, 0));
+  drawDimL(x, y, valueL, dimensionPosition);
+  drawDimAB(x, y, valueL, valueA, dimensionPosition);
+
+
+  // Draws the deflection diagram
+  y = heights[1];
+  fill(0, 0, 200);
+  stroke(0, 0, 100);
+  textAlign(CENTER, CENTER);
+
+  let deflectionCalibration = -(maxF*(maxA/2)*Math.pow(maxL*maxL-(maxA/2)*(maxA/2), 3/2))/(9*Math.sqrt(3)*maxL*minE*minI);
   let maxDeflectionX;
   let maxDeflectionY;
   if (valueA >= valueL/2) {
-    maxDeflectionX = Math.sqrt((valueL*valueL-valueB*valueB)/3);
-    maxDeflectionY = (valueF*valueB*Math.pow(valueL*valueL-valueB*valueB, 3/2))/(9*Math.sqrt(3)*valueL*valueE*valueI);
+    maxDeflectionX = Math.sqrt((valueL*valueL-(valueL-valueA)*(valueL-valueA))/3);
+    maxDeflectionY = -(valueF*(valueL-valueA)*Math.pow(valueL*valueL-(valueL-valueA)*(valueL-valueA), 3/2))/(9*Math.sqrt(3)*valueL*valueE*valueI);
   } else {
     maxDeflectionX = valueL-Math.sqrt((valueL*valueL-valueA*valueA)/3);
-    maxDeflectionY = (valueF*valueA*Math.pow(valueL*valueL-valueA*valueA, 3/2))/(9*Math.sqrt(3)*valueL*valueE*valueI);
+    maxDeflectionY = -(valueF*valueA*Math.pow(valueL*valueL-valueA*valueA, 3/2))/(9*Math.sqrt(3)*valueL*valueE*valueI);
   }
+  let scaledMaxDeflectionY = maxDeflectionY/(abs(deflectionCalibration)/50);
+
   noFill();
   beginShape();
-  for (let canvX = x; canvX <= x+valueL; canvX++) {
-    funcX = canvX - x;
+  for (let funcX = 0; funcX <= valueL; funcX++) {
+    let funcY;
     if (funcX <= valueA) {
-      funcY = (valueL*valueL-valueB*valueB-funcX*funcX)*(valueF*valueB*funcX)/(6*valueL*valueE*valueI);
+      funcY = -(valueL*valueL-(valueL-valueA)*(valueL-valueA)-funcX*funcX)*(valueF*(valueL-valueA)*funcX)/(6*valueL*valueE*valueI);
     } else {
-      funcY = (valueL*valueL-valueA*valueA-(valueL-funcX)*(valueL-funcX))*(valueF*valueA*(valueL-funcX))/(6*valueL*valueE*valueI);
+      funcY = -(valueL*valueL-valueA*valueA-(valueL-funcX)*(valueL-funcX))*(valueF*valueA*(valueL-funcX))/(6*valueL*valueE*valueI);
     }
-    let canvY = map(funcY, -calibration, calibration, y-50, y+50, true);
-    vertex(canvX, canvY);
+    vertex(x+funcX, map(funcY, -deflectionCalibration, deflectionCalibration, y-50, y+50, true));
   }
   endShape();
+
   fill(0);
   stroke(0);
-  if (maxDeflectionY >= 0) {
-    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+maxDeflectionX, y+10+maxDeflectionY/133.33);
+  if (scaledMaxDeflectionY > 0) {
+    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+maxDeflectionX, y-10-scaledMaxDeflectionY);
   } else {
-    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+maxDeflectionX, y-10+maxDeflectionY/133.33);
+    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+maxDeflectionX, y+10-scaledMaxDeflectionY);
   }
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
+
 
   // Draws the shear diagram
-  y = 3*height/5;
+  y = heights[2];
   fill(0, 200, 0);
   stroke(0, 100, 0);
   textAlign(CENTER, CENTER);
-  let maxShearA = 0;
-  let maxShearB = 0;
-  if (valueA > 0 && valueA < valueL) {
-    maxShearA = valueF*(valueL-valueA)/valueL;
-    maxShearB = -valueF*valueA/valueL;
-    rect(x, y, x+valueA, y-maxShearA);
-    rect(x+valueA, y, x+valueL, y-maxShearB);
-  }
+
+  let shearCalibration = maxF;
+  let maxShearY1 = valueF*(valueL-valueA)/valueL;
+  let scaledMaxShearY1 = maxShearY1/(abs(shearCalibration)/50);
+  let maxShearY2 = -valueF*valueA/valueL;
+  let scaledMaxShearY2 = maxShearY2/(abs(shearCalibration)/50);
+
+  rect(x, y, x+valueA, y-scaledMaxShearY1);
+  rect(x+valueA, y, x+valueL, y-scaledMaxShearY2);
+
   fill(0);
   stroke(0);
-  if (maxShearA >= 0) {
-    text("V1max = " + maxShearA + "px/m^2", x, y-maxShearA-10);
+  if (scaledMaxShearY1 >= 0) {
+    text("V1max = " + maxShearY1 + "px/m^2", x, y-10-scaledMaxShearY1);
   } else {
-    text("V1max = " + maxShearA + "px/m^2", x, y-maxShearA+10);
+    text("V1max = " + maxShearY1 + "px/m^2", x, y+10-scaledMaxShearY1);
   }
-  if (maxShearB > 0) {
-    text("V2max = " + maxShearB + "px/m^2", x+valueL, y-maxShearB-10);
+  if (scaledMaxShearY2 > 0) {
+    text("V2max = " + maxShearY2 + "px/m^2", x+valueL, y-10-scaledMaxShearY2);
   } else {
-    text("V2max = " + maxShearB + "px/m^2", x+valueL, y-maxShearB+10);
+    text("V2max = " + maxShearY2 + "px/m^2", x+valueL, y+10-scaledMaxShearY2);
   }
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
+
 
   // Draws the moment diagram
-  y = 4*height/5;
+  y = heights[3];
   fill(200, 0, 0);
   stroke(100, 0, 0);
   textAlign(CENTER, CENTER);
-  maxMoment = valueF*valueA*(valueL-valueA)/valueL/100;
-  triangle(x, y, x+valueA, y, x+valueA, y-maxMoment);
-  triangle(x+valueL, y, x+valueA, y, x+valueA, y-maxMoment);
+
+  let momentCalibration = maxF*(maxA/2)*(maxA/2)/maxL;
+  let maxMomentY = valueF*valueA*(valueL-valueA)/valueL;
+  let scaledMaxMomentY = maxMomentY/(abs(momentCalibration)/50);
+
+  triangle(x, y, x+valueA, y, x+valueA, y-scaledMaxMomentY);
+  triangle(x+valueL, y, x+valueA, y, x+valueA, y-scaledMaxMomentY);
+
   fill(0);
   stroke(0);
-  if (maxMoment >= 0) {
-    text("Mmax = " + maxMoment + "pxm", x+valueA, y-maxMoment-10);
+  if (scaledMaxMomentY >= 0) {
+    text("Mmax = " + maxMomentY + "pxm", x+valueA, y-10-scaledMaxMomentY);
   } else {
-    text("Mmax = " + maxMoment + "pxm", x+valueA, y-maxMoment+10);
+    text("Mmax = " + maxMomentY + "pxm", x+valueA, y+10-scaledMaxMomentY);
   }
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
 }
 
-/**
- * This function draws the s-cen-load figures........................................................................................................
- */
- function drawSCENLOAD() {
-  x = leftOffset;
 
+
+
+
+/**
+ * This function draws the s-cen-load figures.
+ * @param {number} x The position of the leftmost portion the figures from the left side of the canvas in pixels.
+ * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
+ */
+ function drawSCenLoad(x, heights) {
   // Draws the free body diagram
-  y = height/5;
-  if (valueF >= 0) {
-    dimensionPosition = 1;
-  } else {
+  let y = heights[0];
+  let dimensionPosition = 1;
+  if (valueF < 0) {
     dimensionPosition = -1;
   }
+
   drawArrow(x, y, valueL/2, valueF, color(200, 0, 0));
   drawDimL(x, y, valueL, dimensionPosition);
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
+
 
   // Draws the deflection diagram
-  y = 2*height/5;
+  y = heights[1];
   fill(0, 0, 200);
   stroke(0, 0, 100);
   textAlign(CENTER, CENTER);
-  let calibration = 6666.666;
-  let maxDeflectionX = valueL/2;
-  let maxDeflectionY = (valueF*valueL*valueL*valueL)/(48*valueE*valueI);
+
+  let deflectionCalibration = -(maxF*maxL*maxL*maxL)/(48*minE*minI);
+  let maxDeflectionY = -(valueF*valueL*valueL*valueL)/(48*valueE*valueI);
+  let scaledMaxDeflectionY = maxDeflectionY/(abs(deflectionCalibration)/50);
+
   noFill();
   beginShape();
-  for (let canvX = x; canvX <= x+valueL; canvX++) {
-    funcX = canvX - x;
+  for (let funcX = 0; funcX <= valueL; funcX++) {
+    let funcY;
     if (funcX <= valueL/2) {
-      funcY = (3*valueL*valueL-4*funcX*funcX)*(valueF*funcX)/(48*valueE*valueI);
+      funcY = -(3*valueL*valueL-4*funcX*funcX)*(valueF*funcX)/(48*valueE*valueI);
     } else {
-      funcY = (3*valueL*valueL-4*(valueL-funcX)*(valueL-funcX))*(valueF*(valueL-funcX))/(48*valueE*valueI);
+      funcY = -(3*valueL*valueL-4*(valueL-funcX)*(valueL-funcX))*(valueF*(valueL-funcX))/(48*valueE*valueI);
     }
-    let canvY = map(funcY, -calibration, calibration, y-50, y+50, true);
-    vertex(canvX, canvY);
+    vertex(x+funcX, map(funcY, -deflectionCalibration, deflectionCalibration, y-50, y+50, true));
   }
   endShape();
+
   fill(0);
   stroke(0);
-  if (maxDeflectionY >= 0) {
-    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+maxDeflectionX, y+10+maxDeflectionY/133.33);
+  if (scaledMaxDeflectionY > 0) {
+    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+valueL/2, y-10-scaledMaxDeflectionY);
   } else {
-    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+maxDeflectionX, y-10+maxDeflectionY/133.33);
+    text("\u03B4max = " + maxDeflectionY + "px/m^2", x+valueL/2, y+10-scaledMaxDeflectionY);
   }
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
+
 
   // Draws the shear diagram
-  y = 3*height/5;
+  y = heights[2];
   fill(0, 200, 0);
   stroke(0, 100, 0);
   textAlign(CENTER, CENTER);
-  let maxShearA = 0;
-  let maxShearB = 0;
-  maxShearA = valueF/2;
-  maxShearB = -valueF/2;
-  rect(x, y, x+valueL/2, y-maxShearA);
-  rect(x+valueL/2, y, x+valueL, y-maxShearB);
+
+  let shearCalibration = maxF;
+  let maxShearY1 = valueF/2;
+  let scaledMaxShearY1 = maxShearY1/(abs(shearCalibration)/50);
+  let maxShearY2 = -valueF/2;
+  let scaledMaxShearY2 = maxShearY2/(abs(shearCalibration)/50);
+
+  rect(x, y, x+valueL/2, y-scaledMaxShearY1);
+  rect(x+valueL/2, y, x+valueL, y-scaledMaxShearY2);
+
   fill(0);
   stroke(0);
-  if (maxShearA >= 0) {
-    text("V1max = " + maxShearA + "px/m^2", x, y-maxShearA-10);
+  if (scaledMaxShearY1 >= 0) {
+    text("V1max = " + maxShearY1 + "px/m^2", x, y-10-scaledMaxShearY1);
   } else {
-    text("V1max = " + maxShearA + "px/m^2", x, y-maxShearA+10);
+    text("V1max = " + maxShearY1 + "px/m^2", x, y+10-scaledMaxShearY1);
   }
-  if (maxShearB > 0) {
-    text("V2max = " + maxShearB + "px/m^2", x+valueL, y-maxShearB-10);
+  if (scaledMaxShearY2 > 0) {
+    text("V2max = " + maxShearY2 + "px/m^2", x+valueL, y-10-scaledMaxShearY2);
   } else {
-    text("V2max = " + maxShearB + "px/m^2", x+valueL, y-maxShearB+10);
+    text("V2max = " + maxShearY2 + "px/m^2", x+valueL, y+10-scaledMaxShearY2);
   }
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
+
 
   // Draws the moment diagram
-  y = 4*height/5;
+  y = heights[3];
   fill(200, 0, 0);
   stroke(100, 0, 0);
   textAlign(CENTER, CENTER);
-  maxMoment = valueF*valueL/400;
-  triangle(x, y, x+valueL/2, y, x+valueL/2, y-maxMoment);
-  triangle(x+valueL, y, x+valueL/2, y, x+valueL/2, y-maxMoment);
+
+  let momentCalibration = maxF*maxL/4;
+  let maxMomentY = valueF*valueL/4;
+  let scaledMaxMomentY = maxMomentY/(abs(momentCalibration)/50);
+
+  triangle(x, y, x+valueL/2, y, x+valueL/2, y-scaledMaxMomentY);
+  triangle(x+valueL, y, x+valueL/2, y, x+valueL/2, y-scaledMaxMomentY);
+
   fill(0);
   stroke(0);
-  if (maxMoment >= 0) {
-    text("Mmax = " + maxMoment + "pxm", x+valueL/2, y-maxMoment-10);
+  if (scaledMaxMomentY >= 0) {
+    text("Mmax = " + maxMomentY + "pxm", x+valueL/2, y-10-scaledMaxMomentY);
   } else {
-    text("Mmax = " + maxMoment + "pxm", x+valueL/2, y-maxMoment+10);
+    text("Mmax = " + maxMomentY + "pxm", x+valueL/2, y+10-scaledMaxMomentY);
   }
-  fill(0);
-  stroke(0);
-  line(x, y, x + parseFloat(valueL), y);
 }
+
+
+
+
 
 /**
  * This function draws an arrow for a force.
@@ -411,19 +577,61 @@ function drawCINTLOAD() {
  * @param {number} forceMagnitude The magnitude of the force.
  * @param {number} colour The colour of the arrow.
  */
-function drawArrow(x, y, forcePosition, forceMagnitude, colour = color(255)) {
+function drawArrow(x, y, forcePosition, forceMagnitude, colour = color(255), label = true) {
   fill(colour);
   stroke(colour);
   triangle(x+forcePosition, y, x+forcePosition-forceMagnitude/6, y-forceMagnitude/3, x+forcePosition+forceMagnitude/6, y-forceMagnitude/3);
   rect(x+forcePosition-forceMagnitude/18, y-forceMagnitude/3, x+forcePosition+forceMagnitude/18, y-forceMagnitude);
 
-  fill(0);
-  stroke(0);
-  textAlign(CENTER, CENTER);
-  if (forceMagnitude == 0) {
-    text("F = " + forceMagnitude + "px", x+forcePosition, y-10);
-  } else {
-    text("F = " + forceMagnitude + "px", x+forcePosition, y-forceMagnitude-Math.sign(forceMagnitude)*10);
+  if (label) {
+    fill(0);
+    stroke(0);
+    textAlign(CENTER, CENTER);
+    if (forceMagnitude == 0) {
+      text("F = " + forceMagnitude + "px", x+forcePosition, y-10);
+    } else {
+      text("F = " + forceMagnitude + "px", x+forcePosition, y-forceMagnitude-Math.sign(forceMagnitude)*10);
+    }
+  }
+}
+
+/**
+ * This function draws an arrow for a force.
+ * @param {number} x The position of the leftmost portion the figure from the left side of the canvas in pixels.
+ * @param {number} y The position of the figure from the top of the canvas in pixels.
+ * @param {number} lenX The horizontal length of the figure in pixels.
+ * @param {number} forceMagnitude The magnitude of the force.
+ * @param {number} colour The colour of the arrow.
+ */
+ function drawUniArrow(x, y, lenX, forceMagnitude, colour = color(255), label = true) {
+  fill(colour);
+  stroke(colour);
+
+  let arrowCount = round(lenX/abs(forceMagnitude));
+  if (arrowCount > 10) {
+    arrowCount = 10;
+  }
+  else if (arrowCount < 2) {
+    arrowCount = 2;
+  }
+  
+  let arrowSpacing = lenX/arrowCount;
+  for (let i=arrowSpacing; i < lenX-1; i+=arrowSpacing) {
+    drawArrow(x, y, i, forceMagnitude, colour, false);
+  }
+  drawArrow(x, y, 0, forceMagnitude, colour, false);
+  drawArrow(x, y, lenX, forceMagnitude, colour, false);
+  line(x, y-forceMagnitude, x+lenX, y-forceMagnitude);
+
+  if (label) {
+    fill(0);
+    stroke(0);
+    textAlign(CENTER, CENTER);
+    if (forceMagnitude == 0) {
+      text("W = " + forceMagnitude + "px", x+lenX/2, y-10);
+    } else {
+      text("W = " + forceMagnitude + "px", x+lenX/2, y-forceMagnitude-Math.sign(forceMagnitude)*10);
+    }
   }
 }
 
@@ -432,10 +640,10 @@ function drawArrow(x, y, forcePosition, forceMagnitude, colour = color(255)) {
  * @param {number} x The position of the figure from the left side of the canvas in pixels.
  * @param {number} y The position of the figure from the top of the canvas in pixels.
  * @param {number} lenX The horizontal length of the figure in pixels.
- * @param {number} position If equals 1, puts dimension below figure. If equals -1, puts dimension abown figure.
+ * @param {number} position If equals 1, puts dimension below figure. If equals -1, puts dimension above figure.
  * @param {number} spacing The spacing between the figure and the dimension in pixels.
  */
-function drawDimL(x, y, lenX, position = 1, spacing = 10, colour = color(120, 60, 120)) {
+function drawDimL(x, y, lenX, position = 1, spacing = 20, colour = color(120, 60, 120)) {
   fill(colour);
   stroke(colour);
   let textL = "L = " + lenX + "px";
@@ -462,10 +670,10 @@ function drawDimL(x, y, lenX, position = 1, spacing = 10, colour = color(120, 60
  * @param {number} y The position of the figure from the top of the canvas in pixels.
  * @param {number} lenX The horizontal length of the figure in pixels.
  * @param {number} lenA The horizontal length of the "A" portion of the figure in pixels.
- * @param {number} position If equals 1, puts dimension below figure. If equals -1, puts dimension abown figure.
+ * @param {number} position If equals 1, puts dimension below figure. If equals -1, puts dimension above figure.
  * @param {number} spacing The spacing between the figure and the dimension in pixels.
  */
-function drawDimAB(x, y, lenX, lenA, position = 1, spacing = 30, colour = color(120, 60, 120)) {
+function drawDimAB(x, y, lenX, lenA, position = 1, spacing = 40, colour = color(120, 60, 120)) {
   fill(colour);
   stroke(colour);
   let lenB = lenX-lenA;

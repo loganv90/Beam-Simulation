@@ -1,10 +1,16 @@
 let inputF, inputW, inputA, inputL, inputM, inputI, inputE;
 let valueF, valueW, valueA, valueL, valueM, valueI, valueE;
+let maxF, maxW, maxA, maxL, maxM, maxI, maxE;
 let beamType;
 
 window.onload = () => {
-  //Prevent right-click on simulation from bringing up the context menu
-  //document.oncontextmenu = function() {if (mouseX > 0 && mouseY > 0 && mouseX < width && mouseY < height) {return false;}}
+  maxF = 50;
+  maxW = 50;
+  maxA = 400;
+  maxL = 400;
+  maxM = 50;
+  minI = 100;
+  minE = 100;
 
   inputF = document.querySelector("#input-F");
   inputW = document.querySelector("#input-W");
@@ -23,31 +29,31 @@ window.onload = () => {
   beamType = document.querySelector("#beam-select");
 
   inputF.onchange = () => {
-    inputF.value = validateInput(inputF.value, -50, 50);
+    inputF.value = validateInput(inputF.value, -maxF, maxF);
     valueF = parseFloat(inputF.value);
   }
   inputW.onchange = () => {
-    inputW.value = validateInput(inputW.value);
+    inputW.value = validateInput(inputW.value, -maxW, maxW);
     valueW = parseFloat(inputW.value);
   }
   inputA.onchange = () => {
-    inputA.value = validateInput(inputA.value, 0, 400, 0);
+    inputA.value = validateInput(inputA.value, 0, maxA);
     valueA = parseFloat(inputA.value);
   }
   inputL.onchange = () => {
-    inputL.value = validateInput(inputL.value, 0, 400, 0);
+    inputL.value = validateInput(inputL.value, 0, maxL);
     valueL = parseFloat(inputL.value);
   }
   inputM.onchange = () => {
-    inputM.value = validateInput(inputM.value);
+    inputM.value = validateInput(inputM.value, -maxM, maxM);
     valueM = parseFloat(inputM.value);
   }
   inputI.onchange = () => {
-    inputI.value = validateInput(inputI.value, 0, 400, 0);
+    inputI.value = validateInput(inputI.value, minI, 500);
     valueI = parseFloat(inputI.value);
   }
   inputE.onchange = () => {
-    inputE.value = validateInput(inputE.value, 0, 400, 0);
+    inputE.value = validateInput(inputE.value, minE, 500);
     valueE = parseFloat(inputE.value);
   }
 }

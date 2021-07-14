@@ -99,7 +99,7 @@ function drawCEndLoad(x, heights) {
   let maxForceY = valueF;
   let scaledMaxForceY = maxForceY/(abs(forceCalibration)/50);
 
-  drawArrow(x, heights[0], valueLPX, scaledMaxForceY);
+  drawArrow(x+valueLPX, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawValue(x+valueLPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
 
@@ -114,7 +114,7 @@ function drawCEndLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX++) {
     let funcY = -(3*valueL-funcX)*(valueF*funcX*funcX)/(6*valueE*valueI);
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -157,7 +157,7 @@ function drawCIntLoad(x, heights) {
   let maxForceY = valueF;
   let scaledMaxForceY = maxForceY/(abs(forceCalibration)/50);
 
-  drawArrow(x, heights[0], valueAPX, scaledMaxForceY);
+  drawArrow(x+valueAPX, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawDimAB(x, heights[0], valueLPX, valueAPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL, valueA);
   drawValue(x+valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
@@ -178,7 +178,7 @@ function drawCIntLoad(x, heights) {
     } else {
       funcY = -(3*funcX-valueA)*(valueF*valueA*valueA)/(6*valueE*valueI);
     }
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -236,7 +236,7 @@ function drawCUniLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX++) {
     let funcY = -(6*valueL*valueL-4*valueL*funcX+funcX*funcX)*(valueW*funcX*funcX)/(24*valueE*valueI);
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -263,7 +263,7 @@ function drawCUniLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX++) {
     let funcY = -valueW*(valueL-funcX)*(valueL-funcX)/2;
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -momentCalibration, momentCalibration, heights[3]-50, heights[3]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-50, heights[3]+50, true));
   }
   vertex(x, heights[3]);
   vertex(x, heights[3]-scaledMaxMomentY);
@@ -301,7 +301,7 @@ function drawCTriLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX++) {
     let funcY = -(10*valueL*valueL*valueL-10*valueL*valueL*funcX+5*valueL*funcX*funcX-funcX*funcX*funcX)*(valueW*funcX*funcX)/(120*valueL*valueE*valueI);
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -317,7 +317,7 @@ function drawCTriLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX++) {
     let funcY = (valueW-valueW*(funcX/valueL))*(valueL-funcX)/2;
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, shearCalibration, -shearCalibration, heights[2]-50, heights[2]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, shearCalibration, -shearCalibration, heights[2]-50, heights[2]+50, true));
   }
   vertex(x, heights[2]);
   vertex(x, heights[2]-scaledMaxShearY);
@@ -335,7 +335,7 @@ function drawCTriLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX++) {
     let funcY = -(valueW-valueW*(funcX/valueL))*(valueL-funcX)*(valueL-funcX)/6;
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -momentCalibration, momentCalibration, heights[3]-50, heights[3]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-50, heights[3]+50, true));
   }
   vertex(x, heights[3]);
   vertex(x, heights[3]-scaledMaxMomentY);
@@ -373,7 +373,7 @@ function drawCEndMome(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX++) {
     let funcY = -(valueM*funcX*funcX)/(2*valueE*valueI);
-    vertex(x+map(funcX, 0 ,3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -415,7 +415,7 @@ function drawSIntLoad(x, heights) {
   let maxForceY = valueF;
   let scaledMaxForceY = maxForceY/(abs(forceCalibration)/50);
 
-  drawArrow(x, heights[0], valueAPX, scaledMaxForceY);
+  drawArrow(x+valueAPX, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawDimAB(x, heights[0], valueLPX, valueAPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL, valueA);
   drawValue(x+valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
@@ -444,7 +444,7 @@ function drawSIntLoad(x, heights) {
     } else {
       funcY = -(valueL*valueL-valueA*valueA-(valueL-funcX)*(valueL-funcX))*(valueF*valueA*(valueL-funcX))/(6*valueL*valueE*valueI);
     }
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -492,7 +492,7 @@ function drawSCenLoad(x, heights) {
   let maxForceY = valueF;
   let scaledMaxForceY = maxForceY/(abs(forceCalibration)/50);
 
-  drawArrow(x, heights[0], valueLPX/2, scaledMaxForceY);
+  drawArrow(x+valueLPX/2, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
 
@@ -512,7 +512,7 @@ function drawSCenLoad(x, heights) {
     } else {
       funcY = -(3*valueL*valueL-4*(valueL-funcX)*(valueL-funcX))*(valueF*(valueL-funcX))/(48*valueE*valueI);
     }
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -567,8 +567,8 @@ function drawSTwoLoad(x, heights) {
   let maxForceY = valueF;
   let scaledMaxForceY = maxForceY/(abs(forceCalibration)/50);
 
-  drawArrow(x, heights[0], valueAPX, scaledMaxForceY);
-  drawArrow(x, heights[0], valueLPX-valueAPX, scaledMaxForceY);
+  drawArrow(x+valueAPX, heights[0], scaledMaxForceY);
+  drawArrow(x+valueLPX-valueAPX, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawDimAA(x, heights[0], valueLPX, valueAPX, (scaledMaxForceY >= 0) ? 1 : -1, valueA);
   drawValue(x+valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
@@ -594,7 +594,7 @@ function drawSTwoLoad(x, heights) {
     else {
       funcY = -(3*valueL*funcX-3*funcX*funcX-valueA*valueA)*(valueF*valueA)/(6*valueE*valueI);
     }
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -629,7 +629,7 @@ function drawSTwoLoad(x, heights) {
 
 
   valueA = parseFloat(inputA.value);
-  valueAPX = map(valueA, 0, 3000, 0, 400);
+  valueAPX = map(valueA, 0, valueL, 0, valueLPX);
 }
 
 
@@ -662,7 +662,7 @@ function drawSUniLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX++) {
     let funcY = -(valueL*valueL*valueL-2*valueL*funcX*funcX+funcX*funcX*funcX)*(valueW*funcX)/(24*valueE*valueI);
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -693,7 +693,7 @@ function drawSUniLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX++) {
     let funcY = -(valueL*funcX-funcX*funcX)*valueW/2;
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -momentCalibration, momentCalibration, heights[3]-50, heights[3]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-50, heights[3]+50, true));
   }
   vertex(x+valueLPX, heights[3]);
   vertex(x, heights[3]);
@@ -733,7 +733,7 @@ function drawSTwoMome(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX++) {
     let funcY = -(valueL-funcX)*(valueM*funcX)/(2*valueE*valueI);
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -791,7 +791,7 @@ function drawSOneMome(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX++) {
     let funcY = -(2*valueL*valueL-3*valueL*funcX+funcX*funcX)*(valueM*funcX)/(6*valueL*valueE*valueI);
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -855,7 +855,7 @@ function drawSCenMome(x, heights) {
     } else {
       funcY = (valueL*valueL-4*(valueL-funcX)*(valueL-funcX))*(valueM*(valueL-funcX))/(24*valueL*valueE*valueI);
     }
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -899,7 +899,7 @@ function drawFCenLoad(x, heights) {
   let maxForceY = valueF;
   let scaledMaxForceY = maxForceY/(abs(forceCalibration)/50);
 
-  drawArrow(x, heights[0], valueLPX/2, scaledMaxForceY);
+  drawArrow(x+valueLPX/2, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N/m");
 
@@ -920,7 +920,7 @@ function drawFCenLoad(x, heights) {
     } else {
       funcY = -(3*valueL-4*(valueL-funcX))*(valueF*(valueL-funcX)*(valueL-funcX))/(48*valueE*valueI);
     }
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -989,7 +989,7 @@ function drawFUniLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX++) {
     let funcY = -(valueL-funcX)*(valueL-funcX)*(valueW*funcX*funcX)/(24*valueE*valueI);
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
   drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
@@ -1022,7 +1022,7 @@ function drawFUniLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX++) {
     let funcY = -(6*valueL*funcX-6*funcX*funcX-valueL*valueL)*valueW/12;
-    vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -momentCalibration, momentCalibration, heights[3]-50, heights[3]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-50, heights[3]+50, true));
   }
   vertex(x+valueLPX, heights[3]-scaledMaxMomentY1);
   vertex(x+valueLPX, heights[3]);
@@ -1040,17 +1040,16 @@ function drawFUniLoad(x, heights) {
 
 /**
  * This function draws an arrow for a force.
- * @param {number} x The position of the leftmost portion the figure from the left side of the canvas in pixels.
- * @param {number} y The position of the figure from the top of the canvas in pixels.
- * @param {number} forcePosition The position of the arrow from the left side of the figure in pixels.
+ * @param {number} x The position of the arrow from the left side of the canvas in pixels.
+ * @param {number} y The position of the arrow from the top of the canvas in pixels.
  * @param {number} forceMagnitude The magnitude of the force.
  * @param {number} colour The colour of the arrow.
  */
-function drawArrow(x, y, forcePosition, forceMagnitude, colour = color(200, 0, 0)) {
+function drawArrow(x, y, forceMagnitude, colour = color(200, 0, 0)) {
   fill(colour);
   stroke(colour);
-  triangle(x+forcePosition, y, x+forcePosition-forceMagnitude/6, y-forceMagnitude/3, x+forcePosition+forceMagnitude/6, y-forceMagnitude/3);
-  rect(x+forcePosition-forceMagnitude/18, y-forceMagnitude/3, x+forcePosition+forceMagnitude/18, y-forceMagnitude);
+  triangle(x, y, x-forceMagnitude/6, y-forceMagnitude/3, x+forceMagnitude/6, y-forceMagnitude/3);
+  rect(x-forceMagnitude/18, y-forceMagnitude/3, x+forceMagnitude/18, y-forceMagnitude);
 }
 
 /**

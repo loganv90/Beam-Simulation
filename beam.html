@@ -51,15 +51,7 @@
           <div class="input-container">
             <div class="box-border" id="input">
 
-              <label for="input-F">F (kN): </label><input type="text" value="500" id="input-F"><br></br>
-              <label for="input-W">W (kN/m): </label><input type="text" value="1500" id="input-W"><br></br>
-              <label for="input-A">A (m): </label><input type="text" value="2100" id="input-A"><br></br>
-              <label for="input-L">L (m): </label><input type="text" value="3000" id="input-L"><br></br>
-              <label for="input-M">M (kN*m): </label><input type="text" value="1000000" id="input-M"><br></br>
-              <label for="input-I">I (mm^4): </label><input type="text" value="100000" id="input-I"><br></br>
-              <label for="input-E">E (GPa): </label><input type="text" value="100" id="input-E"><br></br>
-
-              <label for="beam-select">Beam Type:</label>
+              <label for="beam-select">Beam Type:</label><br>
               <select id="beam-select">
                 <option value="c-end-load">Cantilever End Load</option>
                 <option value="c-int-load">Cantilever Intermediate Load</option>
@@ -76,6 +68,34 @@
                 <option value="f-cen-load">Fixed-Fixed Center Load</option>
                 <option value="f-uni-load">Fixed-Fixed Uniform Distributed Load</option>
               </select>
+
+              <br></br><br></br>
+
+              <label for="input-F">F (kN): </label><br>
+              <input type="text" value="500" id="input-F"><br></br>
+              <label for="input-W">W (kN/m): </label><br>
+              <input type="text" value="1500" id="input-W"><br></br>
+              <label for="input-A">A (m): </label><br>
+              <input type="text" value="2100" id="input-A"><br></br>
+              <label for="input-L">L (m): </label><br>
+              <input type="text" value="3000" id="input-L"><br></br>
+              <label for="input-M">M (kN*m): </label><br>
+              <input type="text" value="1000000" id="input-M"><br></br>
+              <label for="input-I">I (mm^4): </label><br>
+              <input type="text" value="100000" id="input-I"><br></br>
+              <label for="input-E">E (GPa): </label><br>
+              <input type="text" value="100" id="input-E">
+
+              <br></br><br></br>
+
+              <label for="zoom-F">Zoom for Free Body Diagram (%): </label><br>
+              <input type="text" value="100" id="zoom-F"><br></br>
+              <label for="zoom-D">Zoom for Deflection Diagram (%): </label><br>
+              <input type="text" value="100" id="zoom-D"><br></br>
+              <label for="zoom-S">Zoom for Shear Diagram (%): </label><br>
+              <input type="text" value="100" id="zoom-S"><br></br>
+              <label for="zoom-M">Zoom for Moment Diagram (%): </label><br>
+              <input type="text" value="100" id="zoom-M">
 
             </div>
           </div>

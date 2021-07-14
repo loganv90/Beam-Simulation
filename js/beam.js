@@ -101,7 +101,7 @@ function drawCEndLoad(x, heights) {
 
   drawArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY.toExponential(2), " N");
+  drawValue(x+valueLPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
 
 
   // Draws the deflection diagram
@@ -117,7 +117,7 @@ function drawCEndLoad(x, heights) {
     vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -128,7 +128,7 @@ function drawCEndLoad(x, heights) {
   fill(0, 200, 0);
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueLPX, heights[2]-scaledMaxShearY);
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY.toExponential(2), " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY, " N/m^2");
 
 
   // Draws the moment diagram
@@ -139,7 +139,7 @@ function drawCEndLoad(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   triangle(x, heights[3], x+valueLPX, heights[3], x, heights[3]-scaledMaxMomentY);
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY.toExponential(2), " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
 }
 
 
@@ -160,7 +160,7 @@ function drawCIntLoad(x, heights) {
   drawArrow(x, heights[0], valueAPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawDimAB(x, heights[0], valueLPX, valueAPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL, valueA);
-  drawValue(x+valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY.toExponential(2), " N");
+  drawValue(x+valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
 
 
   // Draws the deflection diagram
@@ -181,7 +181,7 @@ function drawCIntLoad(x, heights) {
     vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -192,7 +192,7 @@ function drawCIntLoad(x, heights) {
   fill(0, 200, 0);
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueAPX, heights[2]-scaledMaxShearY);
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY.toExponential(2), " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY, " N/m^2");
 
 
   // Draws the moment diagram
@@ -203,7 +203,7 @@ function drawCIntLoad(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   triangle(x, heights[3], x+valueAPX, heights[3], x, heights[3]-scaledMaxMomentY);
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY.toExponential(2), " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
 }
 
 
@@ -223,7 +223,7 @@ function drawCUniLoad(x, heights) {
 
   drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "F = ", maxForceY.toExponential(2), " N/m");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N/m");
 
 
   // Draws the deflection diagram
@@ -239,7 +239,7 @@ function drawCUniLoad(x, heights) {
     vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -250,7 +250,7 @@ function drawCUniLoad(x, heights) {
   fill(0, 200, 0);
   stroke(0, 100, 0);
   triangle(x, heights[2], x+valueLPX, heights[2], x, heights[2]-scaledMaxShearY);
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY.toExponential(2), " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY, " N/m^2");
 
 
   // Draws the moment diagram
@@ -268,7 +268,7 @@ function drawCUniLoad(x, heights) {
   vertex(x, heights[3]);
   vertex(x, heights[3]-scaledMaxMomentY);
   endShape();
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY.toExponential(2), " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
 }
 
 
@@ -288,7 +288,7 @@ function drawCTriLoad(x, heights) {
 
   drawTriArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x, heights[0], scaledMaxForceY, 10, "F = ", maxForceY.toExponential(2), " N");
+  drawValue(x, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
 
 
   // Draws the deflection diagram
@@ -304,7 +304,7 @@ function drawCTriLoad(x, heights) {
     vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -322,7 +322,7 @@ function drawCTriLoad(x, heights) {
   vertex(x, heights[2]);
   vertex(x, heights[2]-scaledMaxShearY);
   endShape();
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY.toExponential(2), " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY, " N/m^2");
 
 
   // Draws the moment diagram
@@ -340,7 +340,7 @@ function drawCTriLoad(x, heights) {
   vertex(x, heights[3]);
   vertex(x, heights[3]-scaledMaxMomentY);
   endShape();
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY.toExponential(2), " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
 }
 
 
@@ -360,7 +360,7 @@ function drawCEndMome(x, heights) {
 
   drawMoment(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
-  drawValue(x+valueLPX, heights[0], scaledMaxForceY, 10, "M = ", maxForceY.toExponential(2), " N*m");
+  drawValue(x+valueLPX, heights[0], scaledMaxForceY, 10, "M = ", maxForceY, " N*m");
 
 
   // Draws the deflection diagram
@@ -376,7 +376,7 @@ function drawCEndMome(x, heights) {
     vertex(x+map(funcX, 0 ,3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -397,7 +397,7 @@ function drawCEndMome(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   rect(x, heights[3], x+valueLPX, heights[3]-scaledMaxMomentY);
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY.toExponential(2), " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
 }
 
 
@@ -418,7 +418,7 @@ function drawSIntLoad(x, heights) {
   drawArrow(x, heights[0], valueAPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawDimAB(x, heights[0], valueLPX, valueAPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL, valueA);
-  drawValue(x+valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY.toExponential(2), " N");
+  drawValue(x+valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
 
 
   // Draws the deflection diagram
@@ -447,7 +447,7 @@ function drawSIntLoad(x, heights) {
     vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -461,8 +461,8 @@ function drawSIntLoad(x, heights) {
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueAPX, heights[2]-scaledMaxShearY1);
   rect(x+valueAPX, heights[2], x+valueLPX, heights[2]-scaledMaxShearY2);
-  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1.toExponential(2), " N/m^2");
-  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2.toExponential(2), " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1, " N/m^2");
+  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2, " N/m^2");
 
 
   // Draws the moment diagram
@@ -474,7 +474,7 @@ function drawSIntLoad(x, heights) {
   stroke(100, 0, 0);
   triangle(x, heights[3], x+valueAPX, heights[3], x+valueAPX, heights[3]-scaledMaxMomentY);
   triangle(x+valueLPX, heights[3], x+valueAPX, heights[3], x+valueAPX, heights[3]-scaledMaxMomentY);
-  drawValue(x+valueAPX, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY.toExponential(2), " N*m");
+  drawValue(x+valueAPX, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
 }
 
 
@@ -494,7 +494,7 @@ function drawSCenLoad(x, heights) {
 
   drawArrow(x, heights[0], valueLPX/2, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "F = ", maxForceY.toExponential(2), " N");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
 
 
   // Draws the deflection diagram
@@ -515,7 +515,7 @@ function drawSCenLoad(x, heights) {
     vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -529,8 +529,8 @@ function drawSCenLoad(x, heights) {
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueLPX/2, heights[2]-scaledMaxShearY1);
   rect(x+valueLPX/2, heights[2], x+valueLPX, heights[2]-scaledMaxShearY2);
-  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1.toExponential(2), " N/m^2");
-  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2.toExponential(2), " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1, " N/m^2");
+  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2, " N/m^2");
 
 
   // Draws the moment diagram
@@ -542,7 +542,7 @@ function drawSCenLoad(x, heights) {
   stroke(100, 0, 0);
   triangle(x, heights[3], x+valueLPX/2, heights[3], x+valueLPX/2, heights[3]-scaledMaxMomentY);
   triangle(x+valueLPX, heights[3], x+valueLPX/2, heights[3], x+valueLPX/2, heights[3]-scaledMaxMomentY);
-  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY.toExponential(2), " N*m");
+  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
 }
 
 
@@ -571,8 +571,8 @@ function drawSTwoLoad(x, heights) {
   drawArrow(x, heights[0], valueLPX-valueAPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawDimAA(x, heights[0], valueLPX, valueAPX, (scaledMaxForceY >= 0) ? 1 : -1, valueA);
-  drawValue(x+valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY.toExponential(2), " N");
-  drawValue(x+valueLPX-valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY.toExponential(2), " N");
+  drawValue(x+valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
+  drawValue(x+valueLPX-valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
 
 
   // Draws the deflection diagram
@@ -597,7 +597,7 @@ function drawSTwoLoad(x, heights) {
     vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -611,8 +611,8 @@ function drawSTwoLoad(x, heights) {
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueAPX, heights[2]-scaledMaxShearY1);
   rect(x+valueLPX-valueAPX, heights[2], x+valueLPX, heights[2]-scaledMaxShearY2);
-  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1.toExponential(2), " N/m^2");
-  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2.toExponential(2), " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1, " N/m^2");
+  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2, " N/m^2");
 
 
   // Draws the moment diagram
@@ -625,7 +625,7 @@ function drawSTwoLoad(x, heights) {
   triangle(x, heights[3], x+valueAPX, heights[3], x+valueAPX, heights[3]-scaledMaxMomentY);
   triangle(x+valueLPX, heights[3], x+valueLPX-valueAPX, heights[3], x+valueLPX-valueAPX, heights[3]-scaledMaxMomentY);
   rect(x+valueAPX, heights[3], x+valueLPX-valueAPX, heights[3]-scaledMaxMomentY);
-  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY.toExponential(2), " N*m");
+  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
 
 
   valueA = parseFloat(inputA.value);
@@ -649,7 +649,7 @@ function drawSUniLoad(x, heights) {
 
   drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "W = ", maxForceY.toExponential(2), " N/m");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "W = ", maxForceY, " N/m");
 
 
   // Draws the deflection diagram
@@ -665,7 +665,7 @@ function drawSUniLoad(x, heights) {
     vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -679,8 +679,8 @@ function drawSUniLoad(x, heights) {
   stroke(0, 100, 0);
   triangle(x, heights[2], x+valueLPX/2, heights[2], x, heights[2]-scaledMaxShearY1);
   triangle(x+valueLPX, heights[2], x+valueLPX/2, heights[2], x+valueLPX, heights[2]+scaledMaxShearY1);
-  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1.toExponential(2), " N/m^2");
-  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2.toExponential(2), " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1, " N/m^2");
+  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2, " N/m^2");
 
 
   // Draws the moment diagram
@@ -698,7 +698,7 @@ function drawSUniLoad(x, heights) {
   vertex(x+valueLPX, heights[3]);
   vertex(x, heights[3]);
   endShape();
-  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY.toExponential(2), " N*m");
+  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
 }
 
 
@@ -719,8 +719,8 @@ function drawSTwoMome(x, heights) {
   drawMoment(x, heights[0], 0, scaledMaxForceY);
   drawMoment(x, heights[0], valueLPX, -scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
-  drawValue(x, heights[0], scaledMaxForceY, 10, "W1 = ", maxForceY.toExponential(2), " N/m");
-  drawValue(x+valueLPX, heights[0], -scaledMaxForceY, 10, "W2 = ", (-maxForceY).toExponential(2), " N/m");
+  drawValue(x, heights[0], scaledMaxForceY, 10, "W1 = ", maxForceY, " N/m");
+  drawValue(x+valueLPX, heights[0], -scaledMaxForceY, 10, "W2 = ", -maxForceY, " N/m");
 
 
   // Draws the deflection diagram
@@ -736,7 +736,7 @@ function drawSTwoMome(x, heights) {
     vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -757,7 +757,7 @@ function drawSTwoMome(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   rect(x, heights[3], x+valueLPX, heights[3]-scaledMaxMomentY);
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY.toExponential(2), " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
 }
 
 
@@ -777,7 +777,7 @@ function drawSOneMome(x, heights) {
 
   drawMoment(x, heights[0], 0, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
-  drawValue(x, heights[0], scaledMaxForceY, 10, "M = ", maxForceY.toExponential(2), " N/m");
+  drawValue(x, heights[0], scaledMaxForceY, 10, "M = ", maxForceY, " N/m");
 
 
   // Draws the deflection diagram
@@ -794,7 +794,7 @@ function drawSOneMome(x, heights) {
     vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -805,7 +805,7 @@ function drawSOneMome(x, heights) {
   fill(0, 200, 0);
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueLPX, heights[2]-scaledMaxShearY);
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY.toExponential(2), " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY, " N/m^2");
 
 
   // Draws the moment diagram
@@ -816,7 +816,7 @@ function drawSOneMome(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   triangle(x, heights[3], x+valueLPX, heights[3], x, heights[3]-scaledMaxMomentY);
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY.toExponential(2), " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
 }
 
 
@@ -836,7 +836,7 @@ function drawSCenMome(x, heights) {
   
   drawMoment(x, heights[0], valueLPX/2, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "M = ", maxForceY.toExponential(2), " N/m");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "M = ", maxForceY, " N/m");
 
 
   // Draws the deflection diagram
@@ -858,7 +858,7 @@ function drawSCenMome(x, heights) {
     vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -869,7 +869,7 @@ function drawSCenMome(x, heights) {
   fill(0, 200, 0);
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueLPX, heights[2]-scaledMaxShearY);
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY.toExponential(2), " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY, " N/m^2");
 
 
   // Draws the moment diagram
@@ -881,7 +881,7 @@ function drawSCenMome(x, heights) {
   stroke(100, 0, 0);
   triangle(x, heights[3], x+valueLPX/2, heights[3], x+valueLPX/2, heights[3]-scaledMaxMomentY);
   triangle(x+valueLPX, heights[3], x+valueLPX/2, heights[3], x+valueLPX/2, heights[3]+scaledMaxMomentY);
-  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY.toExponential(2), " N*m");
+  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
 }
 
 
@@ -901,7 +901,7 @@ function drawFCenLoad(x, heights) {
 
   drawArrow(x, heights[0], valueLPX/2, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "F = ", maxForceY.toExponential(2), " N/m");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N/m");
 
 
 
@@ -923,7 +923,7 @@ function drawFCenLoad(x, heights) {
     vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -937,8 +937,8 @@ function drawFCenLoad(x, heights) {
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueLPX/2, heights[2]-scaledMaxShearY1);
   rect(x+valueLPX/2, heights[2], x+valueLPX, heights[2]-scaledMaxShearY2);
-  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1.toExponential(2), " N/m^2");
-  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2.toExponential(2), " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1, " N/m^2");
+  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2, " N/m^2");
 
 
   // Draws the moment diagram
@@ -954,9 +954,9 @@ function drawFCenLoad(x, heights) {
   triangle(x+valueLPX/4, heights[3], x+valueLPX/2, heights[3], x+valueLPX/2, heights[3]-scaledMaxMomentY2);
   triangle(x+valueLPX/2, heights[3], x+3*valueLPX/4, heights[3], x+valueLPX/2, heights[3]-scaledMaxMomentY2);
   triangle(x+3*valueLPX/4, heights[3], x+valueLPX, heights[3], x+valueLPX, heights[3]-scaledMaxMomentY1);
-  drawValue(x, heights[3], scaledMaxMomentY1, 10, "M1max =  ", maxMomentY1.toExponential(2), " N*m");
-  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY2, 10, "M2max =  ", maxMomentY2.toExponential(2), " N*m");
-  drawValue(x+valueLPX, heights[3], scaledMaxMomentY1, 10, "M3max =  ", maxMomentY1.toExponential(2), " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY1, 10, "M1max =  ", maxMomentY1, " N*m");
+  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY2, 10, "M2max =  ", maxMomentY2, " N*m");
+  drawValue(x+valueLPX, heights[3], scaledMaxMomentY1, 10, "M3max =  ", maxMomentY1, " N*m");
 }
 
 
@@ -976,7 +976,7 @@ function drawFUniLoad(x, heights) {
 
   drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "W = ", maxForceY.toExponential(2), " N/m");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "W = ", maxForceY, " N/m");
 
 
   // Draws the deflection diagram
@@ -992,7 +992,7 @@ function drawFUniLoad(x, heights) {
     vertex(x+map(funcX, 0, 3000, 0, 400), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY.toExponential(2), " m");
+  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
 
 
   // Draws the shear diagram
@@ -1006,8 +1006,8 @@ function drawFUniLoad(x, heights) {
   stroke(0, 100, 0);
   triangle(x, heights[2], x+valueLPX/2, heights[2], x, heights[2]-scaledMaxShearY1);
   triangle(x+valueLPX, heights[2], x+valueLPX/2, heights[2], x+valueLPX, heights[2]+scaledMaxShearY1);
-  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1.toExponential(2), " N/m^2");
-  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2.toExponential(2), " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1, " N/m^2");
+  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2, " N/m^2");
 
 
   // Draws the moment diagram
@@ -1029,9 +1029,9 @@ function drawFUniLoad(x, heights) {
   vertex(x, heights[3]);
   vertex(x, heights[3]-scaledMaxMomentY1);
   endShape();
-  drawValue(x, heights[3], scaledMaxMomentY1, 10, "M1max =  ", maxMomentY1.toExponential(2), " N*m");
-  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY2, 10, "M2max =  ", maxMomentY2.toExponential(2), " N*m");
-  drawValue(x+valueLPX, heights[3], scaledMaxMomentY1, 10, "M3max =  ", maxMomentY1.toExponential(2), " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY1, 10, "M1max =  ", maxMomentY1, " N*m");
+  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY2, 10, "M2max =  ", maxMomentY2, " N*m");
+  drawValue(x+valueLPX, heights[3], scaledMaxMomentY1, 10, "M3max =  ", maxMomentY1, " N*m");
 }
 
 
@@ -1332,8 +1332,8 @@ function drawValue(x, y, yOffset, yExtension, name, value, unit) {
   textAlign(CENTER, CENTER);
 
   if (yOffset >= 0) {
-    text(name + value + unit, x, y-yOffset-yExtension);
+    text(name + value.toExponential(2) + unit, x, y-yOffset-yExtension);
   } else {
-    text(name + value + unit, x, y-yOffset+yExtension);
+    text(name + value.toExponential(2) + unit, x, y-yOffset+yExtension);
   }
 }

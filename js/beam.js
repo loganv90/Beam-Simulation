@@ -601,11 +601,10 @@ function drawSCenLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawSTwoLoad(x, heights) {
-  if (valueAPX > valueLPX/2) {
-    valueAPX = valueLPX - valueAPX;
-  }
   if (valueA > valueL/2) {
+    valueAPX = valueLPX - valueAPX;
     valueA = valueL - valueA;
+    inputA.value = valueA;
   }
   
   // Draws the free body diagram
@@ -677,10 +676,6 @@ function drawSTwoLoad(x, heights) {
   triangle(x+valueLPX, heights[3], x+valueLPX-valueAPX, heights[3], x+valueLPX-valueAPX, heights[3]-scaledMaxMomentY);
   rect(x+valueAPX, heights[3], x+valueLPX-valueAPX, heights[3]-scaledMaxMomentY);
   drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
-
-
-  valueA = parseFloat(inputA.value);
-  valueAPX = map(valueA, 0, valueL, 0, valueLPX);
 }
 
 

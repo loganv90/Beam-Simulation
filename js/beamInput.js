@@ -37,6 +37,14 @@ let zoomD, scaleD;
 let zoomS, scaleS;
 let zoomM, scaleM;
 
+// limits for the zoom variables
+let maxZ, minZ;
+
+// used for setting the scale variables
+let buttonA;
+let autoScale;
+
+
 window.onload = () => {
   maxF = 1000000;
   minF = -1000000;
@@ -72,7 +80,7 @@ window.onload = () => {
   valueA = parseFloat(inputA.value);
   valueL = parseFloat(inputL.value);
   valueM = parseFloat(inputM.value)*1000;
-  valueI = parseFloat(inputI.value)/1000000000000;
+  valueI = parseFloat(inputI.value)*0.000000000001;
   valueE = parseFloat(inputE.value)*1000000000;
 
   beamType = document.querySelector("#beam-select");
@@ -86,10 +94,17 @@ window.onload = () => {
   zoomS = document.querySelector("#zoom-S");
   zoomM = document.querySelector("#zoom-M");
 
-  scaleF = parseFloat(zoomF.value);
-  scaleD = parseFloat(zoomD.value);
-  scaleS = parseFloat(zoomS.value);
-  scaleM = parseFloat(zoomM.value);
+  scaleF = parseFloat(zoomF.value)*0.01;
+  scaleD = parseFloat(zoomD.value)*0.01;
+  scaleS = parseFloat(zoomS.value)*0.01;
+  scaleM = parseFloat(zoomM.value)*0.01;
+
+  maxZ = 100000000000000;
+  minZ = 1;
+
+  buttonA = document.querySelector("#button-A");
+  autoScale = false;
+  
 
   inputF.onchange = () => {
     inputF.value = validateInput(inputF.value, minF/1000, maxF/1000);
@@ -130,23 +145,32 @@ window.onload = () => {
     valueE = parseFloat(inputE.value)*1000000000;
   }
 
+  beamType.onchange = () => {
+    document.getElementById("calculations-pic").src = "styles/design/" + beamType.value + "-pic.png";
+  }
+
   zoomF.onchange = () => {
-    zoomF.value = validateInput(zoomF.value, 1, 1000);
-    scaleF = parseFloat(zoomF.value);
+    zoomF.value = Math.floor(validateInput(zoomF.value, minZ, maxZ));
+    scaleF = parseFloat(zoomF.value)*0.01;
   }
   zoomD.onchange = () => {
-    zoomD.value = validateInput(zoomD.value, 1, 1000);
-    scaleD = parseFloat(zoomD.value);
+    zoomD.value = Math.floor(validateInput(zoomD.value, minZ, maxZ));
+    scaleD = parseFloat(zoomD.value)*0.01;
   }
   zoomS.onchange = () => {
-    zoomS.value = validateInput(zoomS.value, 1, 1000);
-    scaleS = parseFloat(zoomS.value);
+    zoomS.value = Math.floor(validateInput(zoomS.value, minZ, maxZ));
+    scaleS = parseFloat(zoomS.value)*0.01;
   }
   zoomM.onchange = () => {
-    zoomM.value = validateInput(zoomM.value, 1, 1000);
-    scaleM = parseFloat(zoomM.value);
+    zoomM.value = Math.floor(validateInput(zoomM.value, minZ, maxZ));
+    scaleM = parseFloat(zoomM.value)*0.01;
+  }
+
+  buttonA.onclick = () => {
+    autoScale = true;
   }
 }
+
 
 function validateInput(input, min, max) {
   if (isNaN(input) || input == "") {

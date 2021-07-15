@@ -44,67 +44,71 @@
         This page requires javascript to be enabled or a javascript able browser.
       </noscript>
 
-      <div id="content_inner"><br></br>
+      <div id="content-inner"><br></br>
         <div id="simulation">
-          <div id="container"></div>
+          <div id="p5-container"></div>
 
-          <div class="input-container">
-            <div class="box-border" id="input">
+          <div id="input-container">
+            <p><b>INPUT:</b></p><br></br>
 
-              <label for="beam-select">Beam Type:</label><br>
-              <select id="beam-select">
-                <option value="c-end-load">Cantilever End Load</option>
-                <option value="c-int-load">Cantilever Intermediate Load</option>
-                <option value="c-uni-load">Cantilever Uniform Distrubuted Load</option>
-                <option value="c-tri-load">Cantilever Triangular Distrubuted Load</option>
-                <option value="c-end-mome">Cantilever End Moment</option>
-                <option value="s-int-load">Simply Supported Intermediate Load</option>
-                <option value="s-cen-load">Simply Supported Center Load</option>
-                <option value="s-two-load">Simply Supported Equidistant Loads</option>
-                <option value="s-uni-load">Simply Supported Uniform Distrubuted Load</option>
-                <option value="s-two-mome">Simply Supported Moment at Each Support</option>
-                <option value="s-one-mome">Simply Supported Moment at One Support</option>
-                <option value="s-cen-mome">Simply Supported Center Moment</option>
-                <option value="f-cen-load">Fixed-Fixed Center Load</option>
-                <option value="f-uni-load">Fixed-Fixed Uniform Distributed Load</option>
-              </select>
+            <label for="beam-select">Beam Type:</label><br>
+            <select id="beam-select">
+              <option value="c-end-load">Cantilever End Load</option>
+              <option value="c-int-load">Cantilever Intermediate Load</option>
+              <option value="c-uni-load">Cantilever Uniform Distrubuted Load</option>
+              <option value="c-tri-load">Cantilever Triangular Distrubuted Load</option>
+              <option value="c-end-mome">Cantilever End Moment</option>
+              <option value="s-int-load">Simply Supported Intermediate Load</option>
+              <option value="s-cen-load">Simply Supported Center Load</option>
+              <option value="s-two-load">Simply Supported Equidistant Loads</option>
+              <option value="s-uni-load">Simply Supported Uniform Distrubuted Load</option>
+              <option value="s-two-mome">Simply Supported Moment at Each Support</option>
+              <option value="s-one-mome">Simply Supported Moment at One Support</option>
+              <option value="s-cen-mome">Simply Supported Center Moment</option>
+              <option value="f-cen-load">Fixed-Fixed Center Load</option>
+              <option value="f-uni-load">Fixed-Fixed Uniform Distributed Load</option>
+            </select>
 
-              <br></br><br></br>
+            <br></br><br></br>
 
-              <label for="input-F">F (kN): </label><br>
-              <input type="text" value="500" id="input-F"><br></br>
-              <label for="input-W">W (kN/m): </label><br>
-              <input type="text" value="1500" id="input-W"><br></br>
-              <label for="input-A">A (m): </label><br>
-              <input type="text" value="2100" id="input-A"><br></br>
-              <label for="input-L">L (m): </label><br>
-              <input type="text" value="3000" id="input-L"><br></br>
-              <label for="input-M">M (kN*m): </label><br>
-              <input type="text" value="1000000" id="input-M"><br></br>
-              <label for="input-I">I (mm^4): </label><br>
-              <input type="text" value="100000" id="input-I"><br></br>
-              <label for="input-E">E (GPa): </label><br>
-              <input type="text" value="100" id="input-E">
+            <label for="input-F">F (kN): </label><br>
+            <input type="text" value="500" id="input-F"><br></br>
+            <label for="input-W">W (kN/m): </label><br>
+            <input type="text" value="1500" id="input-W"><br></br>
+            <label for="input-A">A (m): </label><br>
+            <input type="text" value="2100" id="input-A"><br></br>
+            <label for="input-L">L (m): </label><br>
+            <input type="text" value="3000" id="input-L"><br></br>
+            <label for="input-M">M (kN*m): </label><br>
+            <input type="text" value="1000000" id="input-M"><br></br>
+            <label for="input-I">I (mm^4): </label><br>
+            <input type="text" value="100000" id="input-I"><br></br>
+            <label for="input-E">E (GPa): </label><br>
+            <input type="text" value="100" id="input-E">
 
-              <br></br><br></br>
+            <br></br><br></br>
 
-              <input type="button" value="Auto-Scale" id="button-A">
+            <input type="button" value="Auto-Scale" id="button-A">
 
-              <br></br><br></br>
+            <br></br><br></br>
 
-              <label for="zoom-F">Zoom for Free Body Diagram (%): </label><br>
-              <input type="text" value="100" id="zoom-F"><br></br>
-              <label for="zoom-D">Zoom for Deflection Diagram (%): </label><br>
-              <input type="text" value="100" id="zoom-D"><br></br>
-              <label for="zoom-S">Zoom for Shear Diagram (%): </label><br>
-              <input type="text" value="100" id="zoom-S"><br></br>
-              <label for="zoom-M">Zoom for Moment Diagram (%): </label><br>
-              <input type="text" value="100" id="zoom-M">
-
-            </div>
+            <label for="zoom-F">Zoom for Free Body Diagram (%): </label><br>
+            <input type="text" value="100" id="zoom-F"><br></br>
+            <label for="zoom-D">Zoom for Deflection Diagram (%): </label><br>
+            <input type="text" value="100" id="zoom-D"><br></br>
+            <label for="zoom-S">Zoom for Shear Diagram (%): </label><br>
+            <input type="text" value="100" id="zoom-S"><br></br>
+            <label for="zoom-M">Zoom for Moment Diagram (%): </label><br>
+            <input type="text" value="100" id="zoom-M">
           </div>
 
-          <img id="calculations-pic" src="styles/design/c-end-load-pic.png">
+          <div id="output-container">
+            <p><b>CALCULATIONS:</b></p><br></br>
+            
+            <div id="output-calculations">
+              
+            </div>
+          </div>
         </div>
       <br></br></div>
 

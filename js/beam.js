@@ -1,6 +1,6 @@
 function setup() {
   let canvas = createCanvas(600, 800);
-  canvas.parent("container");
+  canvas.parent("p5-container");
   frameRate(60);
 
   rectMode(CORNERS);
@@ -248,7 +248,7 @@ function drawCUniLoad(x, heights) {
 
   drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N/m");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "W = ", maxForceY, " N/m");
 
 
   // Draws the deflection diagram
@@ -317,7 +317,7 @@ function drawCTriLoad(x, heights) {
 
   drawTriArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
+  drawValue(x, heights[0], scaledMaxForceY, 10, "W = ", maxForceY, " N");
 
 
   // Draws the deflection diagram
@@ -771,8 +771,8 @@ function drawSTwoMome(x, heights) {
   drawMoment(x, heights[0], 0, scaledMaxForceY);
   drawMoment(x, heights[0], valueLPX, -scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
-  drawValue(x, heights[0], scaledMaxForceY, 10, "W1 = ", maxForceY, " N/m");
-  drawValue(x+valueLPX, heights[0], -scaledMaxForceY, 10, "W2 = ", -maxForceY, " N/m");
+  drawValue(x, heights[0], scaledMaxForceY, 10, "M1 = ", maxForceY, " N/m");
+  drawValue(x+valueLPX, heights[0], -scaledMaxForceY, 10, "M2 = ", -maxForceY, " N/m");
 
 
   // Draws the deflection diagram

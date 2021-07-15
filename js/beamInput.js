@@ -145,10 +145,6 @@ window.onload = () => {
     valueE = parseFloat(inputE.value)*1000000000;
   }
 
-  beamType.onchange = () => {
-    document.getElementById("calculations-pic").src = "styles/design/" + beamType.value + "-pic.png";
-  }
-
   zoomF.onchange = () => {
     zoomF.value = Math.floor(validateInput(zoomF.value, minZ, maxZ));
     scaleF = parseFloat(zoomF.value)*0.01;
@@ -168,6 +164,53 @@ window.onload = () => {
 
   buttonA.onclick = () => {
     autoScale = true;
+  }
+
+  beamType.onchange = () => {
+    let textArea = document.querySelector("#output-calculations");
+
+    if (beamType.value == "c-end-load") {
+
+    }
+    else if (beamType.value == "c-int-load") {
+
+    }
+    else if (beamType.value == "c-uni-load") {
+
+    }
+    else if (beamType.value == "c-tri-load") {
+
+    }
+    else if (beamType.value == "c-end-mome") {
+
+    }
+    else if (beamType.value == "s-int-load") {
+
+    }
+    else if (beamType.value == "s-cen-load") {
+
+    }
+    else if (beamType.value == "s-two-load") {
+
+    }
+    else if (beamType.value == "s-uni-load") {
+
+    }
+    else if (beamType.value == "s-two-mome") {
+
+    }
+    else if (beamType.value == "s-one-mome") {
+
+    }
+    else if (beamType.value == "s-cen-mome") {
+
+    }
+    else if (beamType.value == "f-cen-load") {
+
+    }
+    else if (beamType.value == "f-uni-load") {
+
+    }
   }
 }
 

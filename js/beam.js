@@ -147,7 +147,7 @@ function drawCEndLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
     let funcY = -(3*valueL-funcX)*(valueF*funcX*funcX)/(6*valueE*valueI);
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -215,7 +215,7 @@ function drawCIntLoad(x, heights) {
     } else {
       funcY = -(3*funcX-valueA)*(valueF*valueA*valueA)/(6*valueE*valueI);
     }
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -277,7 +277,7 @@ function drawCUniLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
     let funcY = -(6*valueL*valueL-4*valueL*funcX+funcX*funcX)*(valueW*funcX*funcX)/(24*valueE*valueI);
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -306,7 +306,7 @@ function drawCUniLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
     let funcY = -valueW*(valueL-funcX)*(valueL-funcX)/2;
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-50, heights[3]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-heightPX, heights[3]+heightPX, true));
   }
   vertex(x, heights[3]);
   vertex(x, heights[3]-scaledMaxMomentY);
@@ -346,7 +346,7 @@ function drawCTriLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
     let funcY = -(10*valueL*valueL*valueL-10*valueL*valueL*funcX+5*valueL*funcX*funcX-funcX*funcX*funcX)*(valueW*funcX*funcX)/(120*valueL*valueE*valueI);
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -363,7 +363,7 @@ function drawCTriLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
     let funcY = (valueW-valueW*(funcX/valueL))*(valueL-funcX)/2;
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, shearCalibration, -shearCalibration, heights[2]-50, heights[2]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, shearCalibration, -shearCalibration, heights[2]-heightPX, heights[2]+heightPX, true));
   }
   vertex(x, heights[2]);
   vertex(x, heights[2]-scaledMaxShearY);
@@ -382,7 +382,7 @@ function drawCTriLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
     let funcY = -(valueW-valueW*(funcX/valueL))*(valueL-funcX)*(valueL-funcX)/6;
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-50, heights[3]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-heightPX, heights[3]+heightPX, true));
   }
   vertex(x, heights[3]);
   vertex(x, heights[3]-scaledMaxMomentY);
@@ -422,7 +422,7 @@ function drawCEndMome(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
     let funcY = -(valueM*funcX*funcX)/(2*valueE*valueI);
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -497,7 +497,7 @@ function drawSIntLoad(x, heights) {
     } else {
       funcY = -(valueL*valueL-valueA*valueA-(valueL-funcX)*(valueL-funcX))*(valueF*valueA*(valueL-funcX))/(6*valueL*valueE*valueI);
     }
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -570,7 +570,7 @@ function drawSCenLoad(x, heights) {
     } else {
       funcY = -(3*valueL*valueL-4*(valueL-funcX)*(valueL-funcX))*(valueF*(valueL-funcX))/(48*valueE*valueI);
     }
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -660,7 +660,7 @@ function drawSTwoLoad(x, heights) {
     else {
       funcY = -(3*valueL*funcX-3*funcX*funcX-valueA*valueA)*(valueF*valueA)/(6*valueE*valueI);
     }
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -729,7 +729,7 @@ function drawSUniLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
     let funcY = -(valueL*valueL*valueL-2*valueL*funcX*funcX+funcX*funcX*funcX)*(valueW*funcX)/(24*valueE*valueI);
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -763,7 +763,7 @@ function drawSUniLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
     let funcY = -(valueL*funcX-funcX*funcX)*valueW/2;
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-50, heights[3]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-heightPX, heights[3]+heightPX, true));
   }
   vertex(x+valueLPX, heights[3]);
   vertex(x, heights[3]);
@@ -805,7 +805,7 @@ function drawSTwoMome(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
     let funcY = -(valueL-funcX)*(valueM*funcX)/(2*valueE*valueI);
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -867,7 +867,7 @@ function drawSOneMome(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
     let funcY = -(2*valueL*valueL-3*valueL*funcX+funcX*funcX)*(valueM*funcX)/(6*valueL*valueE*valueI);
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -935,7 +935,7 @@ function drawSCenMome(x, heights) {
     } else {
       funcY = (valueL*valueL-4*(valueL-funcX)*(valueL-funcX))*(valueM*(valueL-funcX))/(24*valueL*valueE*valueI);
     }
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -1003,7 +1003,7 @@ function drawFCenLoad(x, heights) {
     } else {
       funcY = -(3*valueL-4*(valueL-funcX))*(valueF*(valueL-funcX)*(valueL-funcX))/(48*valueE*valueI);
     }
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -1078,7 +1078,7 @@ function drawFUniLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
     let funcY = -(valueL-funcX)*(valueL-funcX)*(valueW*funcX*funcX)/(24*valueE*valueI);
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
   endShape();
   drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
@@ -1115,7 +1115,7 @@ function drawFUniLoad(x, heights) {
   beginShape();
   for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
     let funcY = -(6*valueL*funcX-6*funcX*funcX-valueL*valueL)*valueW/12;
-    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-50, heights[3]+50, true));
+    vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-heightPX, heights[3]+heightPX, true));
   }
   vertex(x+valueLPX, heights[3]-scaledMaxMomentY1);
   vertex(x+valueLPX, heights[3]);

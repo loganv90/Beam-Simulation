@@ -3,7 +3,9 @@ function setup() {
   canvas.parent("p5-container");
   frameRate(60);
   rectMode(CORNERS);
-  document.getElementById("output-calculations").innerHTML = `\\[\\begin{aligned}[t]& \u03B4 = -\\frac{Fx^2}{6EI}(3L-x) \\\\& \\\\& \u03B4_{max} = \\frac{FL^3}{3EI}, \\quad x = L \\\\\\end{aligned}\\qquad\\qquad\\begin{aligned}[t]& V_{max} = F \\\\\\end{aligned}\\qquad\\qquad\\begin{aligned}[t]& M = -F(L-x) \\\\& \\\\& M_{max} = -FL, \\quad x = 0 \\\\\\end{aligned}\\]`;
+  textFont('TimesNewRoman');
+
+  document.getElementById("output-calculations").innerHTML = `\\[\\begin{aligned}[t]& \\text{Deflection:} \\\\& \\\\& \\\\& \u03B4 = -\\frac{Fx^2}{6EI}(3L-x) \\\\& \\\\& \u03B4_{max} = \\frac{FL^3}{3EI}, \\quad x = L \\\\\\end{aligned}\\qquad\\qquad\\qquad\\qquad\\begin{aligned}[t]& \\text{Shear:} \\\\& \\\\& \\\\& V_{max} = F \\\\\\end{aligned}\\qquad\\qquad\\qquad\\qquad\\begin{aligned}[t]& \\text{Moment:} \\\\& \\\\& \\\\& M = -F(L-x) \\\\& \\\\& M_{max} = -FL, \\quad x = 0 \\\\\\end{aligned}\\]`;
   MathJax.typeset();
 }
 
@@ -11,6 +13,18 @@ function draw() {
   background(200);
   let leftOffset = 100;
   let heights = [height/5, 2*height/5, 3*height/5, 4*height/5];
+
+  textFont('Helvetica');
+  textAlign(LEFT, BOTTOM);
+  textStyle(BOLD);
+  textSize(70);
+  fill(190);
+  noStroke();
+  text("Free Body", leftOffset+10, heights[0]);
+  text("Deflection", leftOffset+10, heights[1]);
+  text("Shear", leftOffset+10, heights[2]);
+  text("Moment", leftOffset+10, heights[3]);
+  textFont('TimesNewRoman');
 
   if (beamType.value == "c-end-load") {
     drawCEndLoad(leftOffset, heights);
@@ -119,7 +133,7 @@ function drawCEndLoad(x, heights) {
 
   drawArrow(x+valueLPX, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
+  drawValue(x+valueLPX, heights[0], scaledMaxForceY, "F", "", maxForceY, "F");
 
 
   // Draws the deflection diagram
@@ -136,7 +150,7 @@ function drawCEndLoad(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -148,7 +162,7 @@ function drawCEndLoad(x, heights) {
   fill(0, 200, 0);
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueLPX, heights[2]-scaledMaxShearY);
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, "V", "max", maxShearY, "S");
 
 
   // Draws the moment diagram
@@ -160,7 +174,7 @@ function drawCEndLoad(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   triangle(x, heights[3], x+valueLPX, heights[3], x, heights[3]-scaledMaxMomentY);
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, "M", "max", maxMomentY, "M");
 }
 
 
@@ -182,7 +196,7 @@ function drawCIntLoad(x, heights) {
   drawArrow(x+valueAPX, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawDimAB(x, heights[0], valueLPX, valueAPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL, valueA);
-  drawValue(x+valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
+  drawValue(x+valueAPX, heights[0], scaledMaxForceY, "F", "", maxForceY, "F");
 
 
   // Draws the deflection diagram
@@ -204,7 +218,7 @@ function drawCIntLoad(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -216,7 +230,7 @@ function drawCIntLoad(x, heights) {
   fill(0, 200, 0);
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueAPX, heights[2]-scaledMaxShearY);
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, "V", "max", maxShearY, "S");
 
 
   // Draws the moment diagram
@@ -228,7 +242,7 @@ function drawCIntLoad(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   triangle(x, heights[3], x+valueAPX, heights[3], x, heights[3]-scaledMaxMomentY);
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, "M", "max", maxMomentY, "M");
 }
 
 
@@ -249,7 +263,7 @@ function drawCUniLoad(x, heights) {
 
   drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "W = ", maxForceY, " N/m");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "W", "", maxForceY, "W");
 
 
   // Draws the deflection diagram
@@ -266,7 +280,7 @@ function drawCUniLoad(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -278,7 +292,7 @@ function drawCUniLoad(x, heights) {
   fill(0, 200, 0);
   stroke(0, 100, 0);
   triangle(x, heights[2], x+valueLPX, heights[2], x, heights[2]-scaledMaxShearY);
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, "V", "max", maxShearY, "S");
 
 
   // Draws the moment diagram
@@ -297,7 +311,7 @@ function drawCUniLoad(x, heights) {
   vertex(x, heights[3]);
   vertex(x, heights[3]-scaledMaxMomentY);
   endShape();
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, "M", "max", maxMomentY, "M");
 }
 
 
@@ -318,7 +332,7 @@ function drawCTriLoad(x, heights) {
 
   drawTriArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x, heights[0], scaledMaxForceY, 10, "W = ", maxForceY, " N");
+  drawValue(x, heights[0], scaledMaxForceY, "W", "", maxForceY, "W");
 
 
   // Draws the deflection diagram
@@ -335,7 +349,7 @@ function drawCTriLoad(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -354,7 +368,7 @@ function drawCTriLoad(x, heights) {
   vertex(x, heights[2]);
   vertex(x, heights[2]-scaledMaxShearY);
   endShape();
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, "V", "max", maxShearY, "S");
 
 
   // Draws the moment diagram
@@ -373,7 +387,7 @@ function drawCTriLoad(x, heights) {
   vertex(x, heights[3]);
   vertex(x, heights[3]-scaledMaxMomentY);
   endShape();
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, "M", "max", maxMomentY, "M");
 }
 
 
@@ -394,7 +408,7 @@ function drawCEndMome(x, heights) {
 
   drawMoment(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
-  drawValue(x+valueLPX, heights[0], scaledMaxForceY, 10, "M = ", maxForceY, " N*m");
+  drawValue(x+valueLPX, heights[0], scaledMaxForceY, "M", "0", maxForceY, "M");
 
 
   // Draws the deflection diagram
@@ -411,7 +425,7 @@ function drawCEndMome(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -422,7 +436,7 @@ function drawCEndMome(x, heights) {
 
   fill(0, 200, 0);
   stroke(0, 100, 0);
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", 0, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, "V", "max", 0, "S");
 
 
   // Draws the moment diagram
@@ -434,7 +448,7 @@ function drawCEndMome(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   rect(x, heights[3], x+valueLPX, heights[3]-scaledMaxMomentY);
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, "M", "max", maxMomentY, "M");
 }
 
 
@@ -456,7 +470,7 @@ function drawSIntLoad(x, heights) {
   drawArrow(x+valueAPX, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawDimAB(x, heights[0], valueLPX, valueAPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL, valueA);
-  drawValue(x+valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
+  drawValue(x+valueAPX, heights[0], scaledMaxForceY, "F", "", maxForceY, "F");
 
 
   // Draws the deflection diagram
@@ -486,7 +500,7 @@ function drawSIntLoad(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -502,8 +516,8 @@ function drawSIntLoad(x, heights) {
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueAPX, heights[2]-scaledMaxShearY1);
   rect(x+valueAPX, heights[2], x+valueLPX, heights[2]-scaledMaxShearY2);
-  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1, " N/m^2");
-  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY1, "V", "1max", maxShearY1, "S");
+  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, "V", "2max", maxShearY2, "S");
 
 
   // Draws the moment diagram
@@ -516,7 +530,7 @@ function drawSIntLoad(x, heights) {
   stroke(100, 0, 0);
   triangle(x, heights[3], x+valueAPX, heights[3], x+valueAPX, heights[3]-scaledMaxMomentY);
   triangle(x+valueLPX, heights[3], x+valueAPX, heights[3], x+valueAPX, heights[3]-scaledMaxMomentY);
-  drawValue(x+valueAPX, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
+  drawValue(x+valueAPX, heights[3], scaledMaxMomentY, "M", "max", maxMomentY, "M");
 }
 
 
@@ -537,7 +551,7 @@ function drawSCenLoad(x, heights) {
 
   drawArrow(x+valueLPX/2, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "F", "", maxForceY, "F");
 
 
   // Draws the deflection diagram
@@ -559,7 +573,7 @@ function drawSCenLoad(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -575,8 +589,8 @@ function drawSCenLoad(x, heights) {
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueLPX/2, heights[2]-scaledMaxShearY1);
   rect(x+valueLPX/2, heights[2], x+valueLPX, heights[2]-scaledMaxShearY2);
-  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1, " N/m^2");
-  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY1, "V", "1max", maxShearY1, "S");
+  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, "V", "2max", maxShearY2, "S");
 
 
   // Draws the moment diagram
@@ -589,7 +603,7 @@ function drawSCenLoad(x, heights) {
   stroke(100, 0, 0);
   triangle(x, heights[3], x+valueLPX/2, heights[3], x+valueLPX/2, heights[3]-scaledMaxMomentY);
   triangle(x+valueLPX, heights[3], x+valueLPX/2, heights[3], x+valueLPX/2, heights[3]-scaledMaxMomentY);
-  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
+  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, "M", "max", maxMomentY, "M");
 }
 
 
@@ -602,10 +616,14 @@ function drawSCenLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawSTwoLoad(x, heights) {
+  let additionalOffset = 0;
   if (valueA > valueL/2) {
     valueAPX = valueLPX - valueAPX;
     valueA = valueL - valueA;
     inputA.value = valueA;
+  }
+  if (valueA > 3*valueL/8) {
+    additionalOffset = 7;
   }
   
   // Draws the free body diagram
@@ -618,8 +636,8 @@ function drawSTwoLoad(x, heights) {
   drawArrow(x+valueLPX-valueAPX, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawDimAA(x, heights[0], valueLPX, valueAPX, (scaledMaxForceY >= 0) ? 1 : -1, valueA);
-  drawValue(x+valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
-  drawValue(x+valueLPX-valueAPX, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N");
+  drawValue(x+valueAPX, heights[0], scaledMaxForceY, "F", "", maxForceY, "F", additionalOffset);
+  drawValue(x+valueLPX-valueAPX, heights[0], scaledMaxForceY, "F", "", maxForceY, "F", -additionalOffset);
 
 
   // Draws the deflection diagram
@@ -645,7 +663,7 @@ function drawSTwoLoad(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -661,8 +679,8 @@ function drawSTwoLoad(x, heights) {
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueAPX, heights[2]-scaledMaxShearY1);
   rect(x+valueLPX-valueAPX, heights[2], x+valueLPX, heights[2]-scaledMaxShearY2);
-  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1, " N/m^2");
-  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY1, "V", "1max", maxShearY1, "S");
+  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, "V", "2max", maxShearY2, "S");
 
 
   // Draws the moment diagram
@@ -676,7 +694,7 @@ function drawSTwoLoad(x, heights) {
   triangle(x, heights[3], x+valueAPX, heights[3], x+valueAPX, heights[3]-scaledMaxMomentY);
   triangle(x+valueLPX, heights[3], x+valueLPX-valueAPX, heights[3], x+valueLPX-valueAPX, heights[3]-scaledMaxMomentY);
   rect(x+valueAPX, heights[3], x+valueLPX-valueAPX, heights[3]-scaledMaxMomentY);
-  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
+  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, "M", "max", maxMomentY, "M");
 }
 
 
@@ -697,7 +715,7 @@ function drawSUniLoad(x, heights) {
 
   drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "W = ", maxForceY, " N/m");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "W", "", maxForceY, "W");
 
 
   // Draws the deflection diagram
@@ -714,7 +732,7 @@ function drawSUniLoad(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -730,8 +748,8 @@ function drawSUniLoad(x, heights) {
   stroke(0, 100, 0);
   triangle(x, heights[2], x+valueLPX/2, heights[2], x, heights[2]-scaledMaxShearY1);
   triangle(x+valueLPX, heights[2], x+valueLPX/2, heights[2], x+valueLPX, heights[2]+scaledMaxShearY1);
-  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1, " N/m^2");
-  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY1, "V", "1max", maxShearY1, "S");
+  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, "V", "2max", maxShearY2, "S");
 
 
   // Draws the moment diagram
@@ -750,7 +768,7 @@ function drawSUniLoad(x, heights) {
   vertex(x+valueLPX, heights[3]);
   vertex(x, heights[3]);
   endShape();
-  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
+  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, "M", "max", maxMomentY, "M");
 }
 
 
@@ -772,8 +790,8 @@ function drawSTwoMome(x, heights) {
   drawMoment(x, heights[0], 0, scaledMaxForceY);
   drawMoment(x, heights[0], valueLPX, -scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
-  drawValue(x, heights[0], scaledMaxForceY, 10, "M1 = ", maxForceY, " N/m");
-  drawValue(x+valueLPX, heights[0], -scaledMaxForceY, 10, "M2 = ", -maxForceY, " N/m");
+  drawValue(x, heights[0], scaledMaxForceY, "M", "1", maxForceY, "M");
+  drawValue(x+valueLPX, heights[0], -scaledMaxForceY, "M", "2", -maxForceY, "M");
 
 
   // Draws the deflection diagram
@@ -790,7 +808,7 @@ function drawSTwoMome(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -801,7 +819,7 @@ function drawSTwoMome(x, heights) {
 
   fill(0, 200, 0);
   stroke(0, 100, 0);
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", 0, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, "V", "max", 0, "S");
 
 
   // Draws the moment diagram
@@ -813,7 +831,7 @@ function drawSTwoMome(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   rect(x, heights[3], x+valueLPX, heights[3]-scaledMaxMomentY);
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, "M", "max", maxMomentY, "M");
 }
 
 
@@ -834,7 +852,7 @@ function drawSOneMome(x, heights) {
 
   drawMoment(x, heights[0], 0, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
-  drawValue(x, heights[0], scaledMaxForceY, 10, "M = ", maxForceY, " N/m");
+  drawValue(x, heights[0], scaledMaxForceY, "M", "0", maxForceY, "M");
 
 
   // Draws the deflection diagram
@@ -852,7 +870,7 @@ function drawSOneMome(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -864,7 +882,7 @@ function drawSOneMome(x, heights) {
   fill(0, 200, 0);
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueLPX, heights[2]-scaledMaxShearY);
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, "V", "max", maxShearY, "S");
 
 
   // Draws the moment diagram
@@ -876,7 +894,7 @@ function drawSOneMome(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   triangle(x, heights[3], x+valueLPX, heights[3], x, heights[3]-scaledMaxMomentY);
-  drawValue(x, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY, "M", "max", maxMomentY, "M");
 }
 
 
@@ -897,7 +915,7 @@ function drawSCenMome(x, heights) {
   
   drawMoment(x, heights[0], valueLPX/2, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "M = ", maxForceY, " N/m");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "M", "0", maxForceY, "M");
 
 
   // Draws the deflection diagram
@@ -920,7 +938,7 @@ function drawSCenMome(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+maxDeflectionXPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -932,7 +950,7 @@ function drawSCenMome(x, heights) {
   fill(0, 200, 0);
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueLPX, heights[2]-scaledMaxShearY);
-  drawValue(x, heights[2], scaledMaxShearY, 10, "Vmax =  ", maxShearY, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY, "V", "max", maxShearY, "S");
 
 
   // Draws the moment diagram
@@ -945,7 +963,7 @@ function drawSCenMome(x, heights) {
   stroke(100, 0, 0);
   triangle(x, heights[3], x+valueLPX/2, heights[3], x+valueLPX/2, heights[3]-scaledMaxMomentY);
   triangle(x+valueLPX, heights[3], x+valueLPX/2, heights[3], x+valueLPX/2, heights[3]+scaledMaxMomentY);
-  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, 10, "Mmax =  ", maxMomentY, " N*m");
+  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY, "M", "max", maxMomentY, "M");
 }
 
 
@@ -966,7 +984,7 @@ function drawFCenLoad(x, heights) {
 
   drawArrow(x+valueLPX/2, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "F = ", maxForceY, " N/m");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "F", "", maxForceY, "F");
 
 
   // Draws the deflection diagram
@@ -988,7 +1006,7 @@ function drawFCenLoad(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -1004,8 +1022,8 @@ function drawFCenLoad(x, heights) {
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueLPX/2, heights[2]-scaledMaxShearY1);
   rect(x+valueLPX/2, heights[2], x+valueLPX, heights[2]-scaledMaxShearY2);
-  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1, " N/m^2");
-  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY1, "V", "1max", maxShearY1, "S");
+  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, "V", "2max", maxShearY2, "S");
 
 
   // Draws the moment diagram
@@ -1023,9 +1041,9 @@ function drawFCenLoad(x, heights) {
   triangle(x+valueLPX/4, heights[3], x+valueLPX/2, heights[3], x+valueLPX/2, heights[3]-scaledMaxMomentY2);
   triangle(x+valueLPX/2, heights[3], x+3*valueLPX/4, heights[3], x+valueLPX/2, heights[3]-scaledMaxMomentY2);
   triangle(x+3*valueLPX/4, heights[3], x+valueLPX, heights[3], x+valueLPX, heights[3]-scaledMaxMomentY1);
-  drawValue(x, heights[3], scaledMaxMomentY1, 10, "M1max =  ", maxMomentY1, " N*m");
-  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY2, 10, "M2max =  ", maxMomentY2, " N*m");
-  drawValue(x+valueLPX, heights[3], scaledMaxMomentY1, 10, "M3max =  ", maxMomentY1, " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY1, "M", "1max", maxMomentY1, "M");
+  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY2, "M", "2max", maxMomentY2, "M");
+  drawValue(x+valueLPX, heights[3], scaledMaxMomentY1, "M", "3max", maxMomentY1, "M");
 }
 
 
@@ -1046,7 +1064,7 @@ function drawFUniLoad(x, heights) {
 
   drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, 10, "W = ", maxForceY, " N/m");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "W", "", maxForceY, "W");
 
 
   // Draws the deflection diagram
@@ -1063,7 +1081,7 @@ function drawFUniLoad(x, heights) {
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-50, heights[1]+50, true));
   }
   endShape();
-  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, 10, "\u03B4max =  ", maxDeflectionY, " m");
+  drawValue(x+valueLPX/2, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
 
 
   // Draws the shear diagram
@@ -1079,8 +1097,8 @@ function drawFUniLoad(x, heights) {
   stroke(0, 100, 0);
   triangle(x, heights[2], x+valueLPX/2, heights[2], x, heights[2]-scaledMaxShearY1);
   triangle(x+valueLPX, heights[2], x+valueLPX/2, heights[2], x+valueLPX, heights[2]+scaledMaxShearY1);
-  drawValue(x, heights[2], scaledMaxShearY1, 10, "V1max =  ", maxShearY1, " N/m^2");
-  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, 10, "V2max =  ", maxShearY2, " N/m^2");
+  drawValue(x, heights[2], scaledMaxShearY1, "V", "1max", maxShearY1, "S");
+  drawValue(x+valueLPX, heights[2], scaledMaxShearY2, "V", "2max", maxShearY2, "S");
 
 
   // Draws the moment diagram
@@ -1104,9 +1122,9 @@ function drawFUniLoad(x, heights) {
   vertex(x, heights[3]);
   vertex(x, heights[3]-scaledMaxMomentY1);
   endShape();
-  drawValue(x, heights[3], scaledMaxMomentY1, 10, "M1max =  ", maxMomentY1, " N*m");
-  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY2, 10, "M2max =  ", maxMomentY2, " N*m");
-  drawValue(x+valueLPX, heights[3], scaledMaxMomentY1, 10, "M3max =  ", maxMomentY1, " N*m");
+  drawValue(x, heights[3], scaledMaxMomentY1, "M", "1max", maxMomentY1, "M");
+  drawValue(x+valueLPX/2, heights[3], scaledMaxMomentY2, "M", "2max", maxMomentY2, "M");
+  drawValue(x+valueLPX, heights[3], scaledMaxMomentY1, "M", "3max", maxMomentY1, "M");
 }
 
 
@@ -1118,7 +1136,7 @@ function drawFUniLoad(x, heights) {
  * @param {number} x The position of the arrow from the left side of the canvas in pixels.
  * @param {number} y The position of the arrow from the top of the canvas in pixels.
  * @param {number} forceMagnitude The magnitude of the force.
- * @param {number} colour The colour of the arrow.
+ * @param {Color} colour The colour of the arrow.
  */
 function drawArrow(x, y, forceMagnitude, colour = color(200, 0, 0)) {
   fill(colour);
@@ -1133,7 +1151,7 @@ function drawArrow(x, y, forceMagnitude, colour = color(200, 0, 0)) {
  * @param {number} y The position of the figure from the top of the canvas in pixels.
  * @param {number} lenX The horizontal length of the figure in pixels.
  * @param {number} forceMagnitude The magnitude of the force.
- * @param {number} colour The colour of the arrow.
+ * @param {Color} colour The colour of the arrow.
  */
 function drawUniArrow(x, y, lenX, forceMagnitude, colour = color(200, 0, 0)) {
   fill(colour);
@@ -1163,7 +1181,7 @@ function drawUniArrow(x, y, lenX, forceMagnitude, colour = color(200, 0, 0)) {
  * @param {number} y The position of the figure from the top of the canvas in pixels.
  * @param {number} lenX The horizontal length of the figure in pixels.
  * @param {number} forceMagnitude The maximum magnitude of the force.
- * @param {number} colour The colour of the arrow.
+ * @param {Color} colour The colour of the arrow.
  */
 function drawTriArrow(x, y, lenX, forceMagnitude, colour = color(200, 0, 0)) {
   fill(colour);
@@ -1191,7 +1209,7 @@ function drawTriArrow(x, y, lenX, forceMagnitude, colour = color(200, 0, 0)) {
  * @param {number} y The position of the figure from the top of the canvas in pixels.
  * @param {number} momentPosition The position of the center of the arrow's arc from the left side of the figure in pixels.
  * @param {number} momentMagnitude The magnitude of the moment.
- * @param {number} colour The colour of the arrow.
+ * @param {Color} colour The colour of the arrow.
  */
 function drawMoment(x, y, momentPosition, momentMagnitude, colour = color(200, 0, 0)) {
   noFill();
@@ -1220,26 +1238,34 @@ function drawMoment(x, y, momentPosition, momentMagnitude, colour = color(200, 0
  * @param {number} position If equals 1, puts dimension below figure. If equals -1, puts dimension above figure.
  * @param {number} numL The value of the dimension L.
  * @param {number} spacing The spacing between the figure and the dimension in pixels.
+ * @param {Color} colour The colour of the dimension.
  */
-function drawDimL(x, y, lenX, position = 1, numL = 1000, spacing = 20, colour = color(120, 60, 120)) {
+function drawDimL(x, y, lenX, position, numL, spacing = 20, colour = color(120, 60, 120)) {
   fill(colour);
   stroke(colour);
-  let textL = "L = " + numL.toExponential(2) + " m";
-  let middleL = x+lenX/2;
 
+  let valueOfL = valueToString(numL);
+
+  textStyle(NORMAL);
+  textSize(12);
+  let widthT = textWidth("L = " + valueOfL + " m");
+  let middleOffset = widthT/2;
+
+  let middleL = x+lenX/2;
   line(x, y+position*spacing, x, y+position*spacing+position*10); // left vertical bar
   line(x+lenX, y+position*spacing, x+lenX, y+position*spacing+position*10); // right vertical bar
+  line(x, y+position*spacing+position*5, middleL-10-middleOffset, y+position*spacing+position*5); // left horizontal bar
+  line(middleL+10+middleOffset, y+position*spacing+position*5, x+lenX, y+position*spacing+position*5); // right horizontal bar
 
-  if (lenX < 100) {
-    line(x, y+position*spacing+position*5, x+lenX+10, y+position*spacing+position*5); // horizontal bar
-    textAlign(LEFT, CENTER);
-    text(textL, x+lenX+20, y+position*spacing+position*5);
-  } else {
-    line(x, y+position*spacing+position*5, middleL-45, y+position*spacing+position*5); // left horizontal bar
-    line(middleL+45, y+position*spacing+position*5, x+lenX, y+position*spacing+position*5); // right horizontal bar
-    textAlign(CENTER, CENTER);
-    text(textL, middleL, y+position*spacing+position*5);
-  }
+  textAlign(LEFT, CENTER);
+  textStyle(BOLDITALIC);
+  textSize(14);
+  let widthL = textWidth("L");
+  text("L", middleL-middleOffset, y+position*spacing+position*5);
+
+  textStyle(NORMAL);
+  textSize(12);
+  text(" = " + valueOfL + " m", middleL-middleOffset+widthL, y+position*spacing+position*5);
 }
 
 /**
@@ -1252,41 +1278,82 @@ function drawDimL(x, y, lenX, position = 1, numL = 1000, spacing = 20, colour = 
  * @param {number} numL The value of the dimension L.
  * @param {number} numA The value of the dimension A.
  * @param {number} spacing The spacing between the figure and the dimension in pixels.
+ * @param {Color} colour The colour of the dimension.
  */
 function drawDimAB(x, y, lenX, lenA, position = 1, numL = 1000, numA = 1000, spacing = 40, colour = color(120, 60, 120)) {
   fill(colour);
   stroke(colour);
-  let lenB = lenX-lenA;
-  let numB = numL-numA;
-  let textA = "A = " + numA.toExponential(2) + " m";
-  let textB = "B = " + numB.toExponential(2) + " m";;
-  let middleA = x+lenA/2;
-  let middleB = x+lenA+lenB/2;
 
+  let valueOfA = valueToString(numA);
+  let valueOfB = valueToString(numL-numA);
+
+  textStyle(NORMAL);
+  textSize(12);
+  let widthTA = textWidth("a = " + valueOfA + " m");
+  let widthTB = textWidth("b = " + valueOfB + " m");
+  let middleOffsetA = widthTA/2;
+  let middleOffsetB = widthTB/2;
+
+  let middleA = x+lenA/2;
+  let middleB = x+lenA+(lenX-lenA)/2;
   line(x, y+position*spacing, x, y+position*spacing+position*10); // left vertical bar
   line(x+lenX, y+position*spacing, x+lenX, y+position*spacing+position*10); // right vertical bar
   line(x+lenA, y+position*spacing, x+lenA, y+position*spacing+position*10); // middle vertical bar
 
-  if (lenA < 100) {
+  // draws the "a" part of the dimension
+  if (lenA < widthTA+50) {
     line(x-10, y+position*spacing+position*5, x+lenA, y+position*spacing+position*5); // horizontal bar
+    
     textAlign(RIGHT, CENTER);
-    text(textA, x-20, y+position*spacing+position*5);
+    textStyle(NORMAL);
+    textSize(12);
+    let widthA = textWidth(" = " + valueOfA + " m");
+    text(" = " + valueOfA + " m", x-20, y+position*spacing+position*5);
+
+    textStyle(BOLDITALIC);
+    textSize(14);
+    text("a", x-20-widthA, y+position*spacing+position*5);
   } else {
-    line(x, y+position*spacing+position*5, middleA-45, y+position*spacing+position*5); // left horizontal bar
-    line(middleA+45, y+position*spacing+position*5, x+lenA, y+position*spacing+position*5); // right horizontal bar
-    textAlign(CENTER, CENTER);
-    text(textA, middleA, y+position*spacing+position*5);
+    line(x, y+position*spacing+position*5, middleA-10-middleOffsetA, y+position*spacing+position*5); // left horizontal bar
+    line(middleA+10+middleOffsetA, y+position*spacing+position*5, x+lenA, y+position*spacing+position*5); // right horizontal bar
+
+    textAlign(LEFT, CENTER);
+    textStyle(BOLDITALIC);
+    textSize(14);
+    let widthA = textWidth("a");
+    text("a", middleA-middleOffsetA, y+position*spacing+position*5);
+  
+    textStyle(NORMAL);
+    textSize(12);
+    text(" = " + valueOfA + " m", middleA-middleOffsetA+widthA, y+position*spacing+position*5);
   }
 
-  if (lenB < 100) {
+  // draws the "b" part of the dimension
+  if (lenX-lenA < widthTB+50) {
     line(x+lenA, y+position*spacing+position*5, x+lenX+10, y+position*spacing+position*5); // horizontal bar
+
     textAlign(LEFT, CENTER);
-    text(textB, x+lenX+20, y+position*spacing+position*5);
+    textStyle(BOLDITALIC);
+    textSize(14);
+    let widthB = textWidth("b");
+    text("b", x+lenX+20, y+position*spacing+position*5);
+
+    textStyle(NORMAL);
+    textSize(12);
+    text(" = " + valueOfB + " m", x+lenX+20+widthB, y+position*spacing+position*5);
   } else {
-    line(x+lenA, y+position*spacing+position*5, middleB-45, y+position*spacing+position*5); // left horizontal bar
-    line(middleB+45, y+position*spacing+position*5, x+lenX, y+position*spacing+position*5); // right horizontal bar
-    textAlign(CENTER, CENTER);
-    text(textB, middleB, y+position*spacing+position*5);
+    line(x+lenA, y+position*spacing+position*5, middleB-10-middleOffsetB, y+position*spacing+position*5); // left horizontal bar
+    line(middleB+10+middleOffsetB, y+position*spacing+position*5, x+lenX, y+position*spacing+position*5); // right horizontal bar
+
+    textAlign(LEFT, CENTER);
+    textStyle(BOLDITALIC);
+    textSize(14);
+    let widthB = textWidth("a");
+    text("b", middleB-middleOffsetB, y+position*spacing+position*5);
+  
+    textStyle(NORMAL);
+    textSize(12);
+    text(" = " + valueOfB + " m", middleB-middleOffsetB+widthB, y+position*spacing+position*5);
   }
 }
 
@@ -1299,40 +1366,64 @@ function drawDimAB(x, y, lenX, lenA, position = 1, numL = 1000, numA = 1000, spa
  * @param {number} position If equals 1, puts dimension below figure. If equals -1, puts dimension above figure.
  * @param {number} numA The value of the dimension A.
  * @param {number} spacing The spacing between the figure and the dimension in pixels.
+ * @param {Color} colour The colour of the dimension.
  */
  function drawDimAA(x, y, lenX, lenA, position = 1, numA = 1000, spacing = 40, colour = color(120, 60, 120)) {
   fill(colour);
   stroke(colour);
-  let textA = "A = " + numA.toExponential(2) + " m";
-  let middleA = lenA/2;
 
+  let valueOfA = valueToString(numA);
+
+  textStyle(NORMAL);
+  textSize(12);
+  let widthT = textWidth("a = " + valueOfA + " m");
+  let middleOffset = widthT/2;
+
+  let middleA = x+lenA/2;
   line(x, y+position*spacing, x, y+position*spacing+position*10); // left vertical bar
   line(x+lenX, y+position*spacing, x+lenX, y+position*spacing+position*10); // right vertical bar
   line(x+lenA, y+position*spacing, x+lenA, y+position*spacing+position*10); // left middle vertical bar
   line(x+lenX-lenA, y+position*spacing, x+lenX-lenA, y+position*spacing+position*10); // right middle vertical bar
 
-  if (lenA < 100) {
+  if (lenA < widthT+50) {
     // left side
     line(x-10, y+position*spacing+position*5, x+lenA, y+position*spacing+position*5); // horizontal bar
     textAlign(RIGHT, CENTER);
-    text(textA, x-20, y+position*spacing+position*5);
+    textStyle(NORMAL);
+    textSize(12);
+    let widthL = textWidth(" = " + valueOfA + " m");
+    text(" = " + valueOfA + " m", x-20, y+position*spacing+position*5);
+    textStyle(BOLDITALIC);
+    textSize(14);
+    text("a", x-20-widthL, y+position*spacing+position*5);
 
     // right side
     line(x+lenX-lenA, y+position*spacing+position*5, x+lenX+10, y+position*spacing+position*5); // horizontal bar
     textAlign(LEFT, CENTER);
-    text(textA, x+lenX+20, y+position*spacing+position*5);
+    textStyle(BOLDITALIC);
+    textSize(14);
+    let widthR = textWidth("a");
+    text("a", x+lenX+20, y+position*spacing+position*5);
+    textStyle(NORMAL);
+    textSize(12);
+    text(" = " + valueOfA + " m", x+lenX+20+widthR, y+position*spacing+position*5);
   } else {
-    // left side
-    line(x, y+position*spacing+position*5, x+middleA-45, y+position*spacing+position*5); // left horizontal bar
-    line(x+middleA+45, y+position*spacing+position*5, x+lenA, y+position*spacing+position*5); // right horizontal bar
-    textAlign(CENTER, CENTER);
-    text(textA, x+middleA, y+position*spacing+position*5);
+    line(x, y+position*spacing+position*5, middleA-10-middleOffset, y+position*spacing+position*5); // left horizontal bar
+    line(middleA+10+middleOffset, y+position*spacing+position*5, x+lenA, y+position*spacing+position*5); // right horizontal bar
+    line(x+lenX-lenA, y+position*spacing+position*5, middleA-10-middleOffset+lenX-lenA, y+position*spacing+position*5); // left horizontal bar
+    line(middleA+10+middleOffset+lenX-lenA, y+position*spacing+position*5, x+lenX, y+position*spacing+position*5); // right horizontal bar
 
-    // right side
-    line(x+lenX-lenA, y+position*spacing+position*5, x+lenX-lenA+middleA-45, y+position*spacing+position*5); // left horizontal bar
-    line(x+lenX-lenA+middleA+45, y+position*spacing+position*5, x+lenX, y+position*spacing+position*5); // right horizontal bar
-    textAlign(CENTER, CENTER);
-    text(textA, x+lenX-lenA+middleA, y+position*spacing+position*5);
+    textAlign(LEFT, CENTER);
+    textStyle(BOLDITALIC);
+    textSize(14);
+    let widthA = textWidth("a");
+    text("a", middleA-middleOffset, y+position*spacing+position*5);
+    text("a", middleA-middleOffset+lenX-lenA, y+position*spacing+position*5);
+  
+    textStyle(NORMAL);
+    textSize(12);
+    text(" = " + valueOfA + " m", middleA-middleOffset+widthA, y+position*spacing+position*5);
+    text(" = " + valueOfA + " m", middleA-middleOffset+widthA+lenX-lenA, y+position*spacing+position*5);
   }
 }
 
@@ -1400,15 +1491,54 @@ function drawSupportedEnd(x, y) {
  * @param {number} value The value itself.
  * @param {string} unit The unit of the value.
  */
-function drawValue(x, y, yOffset, yExtension, name, value, unit) {
+function drawValue(x, y, yOffset, name, subscript, value, type, additionalOffset = 0) {
   fill(0);
-  stroke(0);
+  noStroke(0);
+
+  let valueToDraw = valueToString(value);
+  
+  let yPosition;
+  if (yOffset >= 0) {
+    yPosition = y-yOffset-15-additionalOffset;
+  } else {
+    yPosition = y-yOffset+15+additionalOffset;
+  }
+  
+  textStyle(BOLDITALIC);
+  textAlign(RIGHT, CENTER);
+
+  textSize(10);
+  text(subscript, x-10, yPosition+3);
+
+  let subscriptOffset = textWidth(subscript);
+  textSize(14);
+  text(name, x-10-subscriptOffset, yPosition);
+
+  textStyle(NORMAL);
   textAlign(CENTER, CENTER);
 
-  if (yOffset >= 0) {
-    text(name + value.toExponential(2) + unit, x, y-yOffset-yExtension);
-  } else {
-    text(name + value.toExponential(2) + unit, x, y-yOffset+yExtension);
+  textSize(12);
+  text("=", x, yPosition);
+
+  textAlign(LEFT, CENTER);
+  text(valueToDraw, x+10, yPosition);
+
+  let xOffset = textWidth(valueToDraw);
+  if (type == "F") {
+    text("N", x+15+xOffset, yPosition);
+  } else if (type == "W") {
+    text("N/m", x+15+xOffset, yPosition);
+  } else if (type == "M") {
+    text("Nm", x+15+xOffset, yPosition);
+  } else if (type == "D") {
+    text("m", x+15+xOffset, yPosition);
+  } else if (type == "S") {
+    text("N/m", x+15+xOffset, yPosition);
+    let unitOffset = textWidth("N/m");
+    textSize(10);
+    text("2", x+15+xOffset+unitOffset, yPosition-3);
+  } else if (type == "M") {
+    text("Nm", x+15+xOffset, yPosition);
   }
 }
 
@@ -1456,4 +1586,19 @@ function limitValue(max, calibration, type = "N/A", limit = heightPX) {
     return -limit;
   }
   return num;
+}
+
+/**
+ * This function converts a number into a string depending on its format.
+ * @param {number} value The number being converted into a string.
+ * @returns {string} The converted number.
+ */
+function valueToString(value) {
+  value = Math.round(value*1000)/1000;
+  valueStr = value.toString().replace("-", "").replace(".", "");
+  
+  if (valueStr.length > 5) {
+    return value.toExponential(2).toString();
+  }
+  return value.toString();
 }

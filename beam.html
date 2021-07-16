@@ -52,7 +52,7 @@
           <div id="input-container">
             <p><b>INPUT:</b></p><br></br>
 
-            <label for="beam-select">Beam Type:</label><br>
+            <label class="input-label" for="beam-select">Beam Type:</label><br>
             <select id="beam-select">
               <option value="c-end-load">Cantilever End Load</option>
               <option value="c-int-load">Cantilever Intermediate Load</option>
@@ -72,19 +72,19 @@
 
             <br></br><br></br>
 
-            <label class="input-label" for="input-F"><b><i>F</i></b> (kN): </label><br>
+            <label class="input-label" for="input-F">Load (<b><i>F</i></b>) (kN): </label><br>
             <input type="text" value="50" id="input-F"><br></br>
-            <label class="input-label" for="input-W"><b><i>W</i></b> (kN/m): </label><br>
+            <label class="input-label" for="input-W">Distrubuted Load (<b><i>W</i></b>) (kN/m): </label><br>
             <input type="text" value="50" id="input-W"><br></br>
-            <label class="input-label" for="input-A"><b><i>a</i></b> (m): </label><br>
-            <input type="text" value="60" id="input-A"><br></br>
-            <label class="input-label" for="input-L"><b><i>L</i></b> (m): </label><br>
-            <input type="text" value="100" id="input-L"><br></br>
-            <label class="input-label" for="input-M"><b><i>M</i></b> (kN*m): </label><br>
+            <label class="input-label" for="input-M">Moment (<b><i>M<sub>0</sub></i></b>, <b><i>M<sub>1</sub></i></b>) (kN*m): </label><br>
             <input type="text" value="50" id="input-M"><br></br>
-            <label class="input-label" for="input-I"><b><i>I</i></b> (mm<sup>4</sup>): </label><br>
+            <label class="input-label" for="input-A">Load Position (<b><i>a</i></b>) (m): </label><br>
+            <input type="text" value="60" id="input-A"><br></br>
+            <label class="input-label" for="input-L">Beam Length (<b><i>L</i></b>) (m): </label><br>
+            <input type="text" value="100" id="input-L"><br></br>
+            <label class="input-label" for="input-I">Moment of Inertia (<b><i>I</i></b>) (mm<sup>4</sup>): </label><br>
             <input type="text" value="1000000" id="input-I"><br></br>
-            <label class="input-label" for="input-E"><b><i>E</i></b> (GPa): </label><br>
+            <label class="input-label" for="input-E">Young's Modulus (<b><i>E</i></b>) (GPa): </label><br>
             <input type="text" value="200" id="input-E">
 
             <br></br><br></br>
@@ -93,20 +93,20 @@
 
             <br></br><br></br>
 
-            <label for="zoom-F">Zoom for Free Body Diagram (%): </label><br>
+            <label class="input-label" for="zoom-F">Zoom for Free Body Diagram (%): </label><br>
             <input type="text" value="100" id="zoom-F"><br></br>
-            <label for="zoom-D">Zoom for Deflection Diagram (%): </label><br>
+            <label class="input-label" for="zoom-D">Zoom for Deflection Diagram (%): </label><br>
             <input type="text" value="100" id="zoom-D"><br></br>
-            <label for="zoom-S">Zoom for Shear Diagram (%): </label><br>
+            <label class="input-label" for="zoom-S">Zoom for Shear Diagram (%): </label><br>
             <input type="text" value="100" id="zoom-S"><br></br>
-            <label for="zoom-M">Zoom for Moment Diagram (%): </label><br>
+            <label class="input-label" for="zoom-M">Zoom for Moment Diagram (%): </label><br>
             <input type="text" value="100" id="zoom-M">
           </div>
 
           <div id="output-container">
             <p><b>EQUATIONS:</b></p><br></br>
             
-            <div id="output-calculations"></div>
+            <div id="output-calculations" style="font-size: 12px"></div>
           </div>
         </div>
       <br></br></div>

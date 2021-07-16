@@ -54,6 +54,11 @@
     font-size: 10pt;
     border: 3px solid var(--black);
   }
+
+  /* --LABELS-- */
+  .input-label {
+    font-family: "Times New Roman", Times, serif;
+  }
   
   /* --MULTIPLE CHOICE-- */
   .question {

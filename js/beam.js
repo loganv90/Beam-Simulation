@@ -2,8 +2,9 @@ function setup() {
   let canvas = createCanvas(600, 800);
   canvas.parent("p5-container");
   frameRate(60);
-
   rectMode(CORNERS);
+  document.getElementById("output-calculations").innerHTML = `\\[\\begin{aligned}[t]& \u03B4 = -\\frac{Fx^2}{6EI}(3L-x) \\\\& \\\\& \u03B4_{max} = \\frac{FL^3}{3EI}, \\quad x = L \\\\\\end{aligned}\\qquad\\qquad\\begin{aligned}[t]& V_{max} = F \\\\\\end{aligned}\\qquad\\qquad\\begin{aligned}[t]& M = -F(L-x) \\\\& \\\\& M_{max} = -FL, \\quad x = 0 \\\\\\end{aligned}\\]`;
+  MathJax.typeset();
 }
 
 function draw() {

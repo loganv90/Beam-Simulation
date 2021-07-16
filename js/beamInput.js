@@ -46,25 +46,25 @@ let autoScale;
 
 
 window.onload = () => {
-  maxF = 1000000;
-  minF = -1000000;
+  maxF = 100000;
+  minF = -100000;
 
-  maxW = 3000000;
-  minW = -3000000;
+  maxW = 100000;
+  minW = -100000;
 
-  maxA = 3000;
-  minA = 0;
+  maxA = 1000;
+  minA = 0.001;
 
-  maxL = 3000;
-  minL = 0;
+  maxL = 1000;
+  minL = 0.001;
 
-  maxM = 2000000000;
-  minM = -2000000000;
+  maxM = 100000;
+  minM = -100000;
 
   maxI = 0.001;
   minI = 0.0000001;
 
-  maxE = 500000000000;
+  maxE = 1000000000000;
   minE = 10000000000;
 
   inputF = document.querySelector("#input-F");

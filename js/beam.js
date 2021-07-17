@@ -725,13 +725,13 @@ function drawSUniLoad(x, heights) {
 
 
   // Draws the shear diagram
-  let shearCalibration = maxW*valueL/2/scaleS;
+  let shearCalibration = maxW*maxL/2/scaleS;
   let maxShearY1 = valueW*valueL/2;
   let scaledMaxShearY1 = limitValue(maxShearY1, shearCalibration, "S");
-  shearCalibration = maxW*valueL/2/scaleS;
+  shearCalibration = maxW*maxL/2/scaleS;
   let maxShearY2 = -valueW*valueL/2;
   let scaledMaxShearY2 = limitValue(maxShearY2, shearCalibration, "S");
-  shearCalibration = maxW*valueL/2/scaleS;
+  shearCalibration = maxW*maxL/2/scaleS;
 
   fill(0, 200, 0);
   stroke(0, 100, 0);
@@ -1074,13 +1074,13 @@ function drawFUniLoad(x, heights) {
 
 
   // Draws the shear diagram
-  let shearCalibration = maxW*valueL/2/scaleS;
+  let shearCalibration = maxW*maxL/2/scaleS;
   let maxShearY1 = valueW*valueL/2;
   let scaledMaxShearY1 = limitValue(maxShearY1, shearCalibration, "S");
-  shearCalibration = maxW*valueL/2/scaleS;
+  shearCalibration = maxW*maxL/2/scaleS;
   let maxShearY2 = -valueW*valueL/2;
   let scaledMaxShearY2 = limitValue(maxShearY2, shearCalibration, "S");
-  shearCalibration = maxW*valueL/2/scaleS;
+  shearCalibration = maxW*maxL/2/scaleS;
 
   fill(0, 200, 0);
   stroke(0, 100, 0);

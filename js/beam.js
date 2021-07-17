@@ -99,20 +99,8 @@ function draw() {
     line(leftOffset, heights[i], leftOffset+valueLPX, heights[i]);
   }
 
-  if (autoScale) {
-    zoomF.value = Math.floor(validateInput(maxZ, minZ, maxZ));
-    scaleF = parseFloat(zoomF.value)*0.01;
-
-    zoomD.value = Math.floor(validateInput(maxZ, minZ, maxZ));
-    scaleD = parseFloat(zoomD.value)*0.01;
-
-    zoomS.value = Math.floor(validateInput(maxZ, minZ, maxZ));
-    scaleS = parseFloat(zoomS.value)*0.01;
-
-    zoomM.value = Math.floor(validateInput(maxZ, minZ, maxZ));
-    scaleM = parseFloat(zoomM.value)*0.01;
-
-    autoScale = false;
+  if (halfButton) {
+    halfIt();
   }
 }
 
@@ -1568,6 +1556,7 @@ function limitValue(max, calibration, type = "N/A", limit = heightPX) {
       zoomM.value = Math.floor(validateInput(zoomM.value*(limit/num), minZ, maxZ));
       scaleM = parseFloat(zoomM.value)*0.01;
     }
+
     return limit;
   }
   else if (num < -limit) {
@@ -1584,8 +1573,10 @@ function limitValue(max, calibration, type = "N/A", limit = heightPX) {
       zoomM.value =  Math.floor(validateInput(zoomM.value*(limit/-num), minZ, maxZ));
       scaleM = parseFloat(zoomM.value)*0.01;
     }
+
     return -limit;
   }
+
   return num;
 }
 

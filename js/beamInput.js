@@ -42,7 +42,8 @@ let maxZ, minZ;
 
 // used for setting the scale variables
 let buttonA;
-let autoScale;
+let buttonH;
+let halfButton;
 
 // same units as input variables
 let sliderF;
@@ -111,7 +112,8 @@ window.onload = () => {
   minZ = 1;
 
   buttonA = document.querySelector("#button-A");
-  autoScale = false;
+  buttonH = document.querySelector("#button-H");
+  halfButton = false;
 
   sliderF = document.querySelector("#slider-F");
   sliderW = document.querySelector("#slider-W");
@@ -234,7 +236,22 @@ window.onload = () => {
 
 
   buttonA.onclick = () => {
-    autoScale = true;
+    zoomF.value = Math.floor(validateInput(maxZ, minZ, maxZ));
+    scaleF = parseFloat(zoomF.value)*0.01;
+
+    zoomD.value = Math.floor(validateInput(maxZ, minZ, maxZ));
+    scaleD = parseFloat(zoomD.value)*0.01;
+
+    zoomS.value = Math.floor(validateInput(maxZ, minZ, maxZ));
+    scaleS = parseFloat(zoomS.value)*0.01;
+
+    zoomM.value = Math.floor(validateInput(maxZ, minZ, maxZ));
+    scaleM = parseFloat(zoomM.value)*0.01;
+  }
+
+  buttonH.onclick = () => {
+    buttonA.onclick();
+    halfButton = true;
   }
 
 
@@ -758,4 +775,20 @@ function changeValues() {
   valueM = parseFloat(validateInput(sliderM.value, minM/1000, maxM/1000))*1000;
   valueI = parseFloat(validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001))*0.000000000001;
   valueE = parseFloat(validateInput(sliderE.value, minE/1000000000, maxE/1000000000))*1000000000;
+}
+
+function halfIt() {
+  zoomF.value = Math.floor(validateInput(zoomF.value/2, minZ, maxZ));
+  scaleF = parseFloat(zoomF.value)*0.01;
+  
+  zoomD.value = Math.floor(validateInput(zoomD.value/2, minZ, maxZ));
+  scaleD = parseFloat(zoomD.value)*0.01;
+
+  zoomS.value = Math.floor(validateInput(zoomS.value/2, minZ, maxZ));
+  scaleS = parseFloat(zoomS.value)*0.01;
+
+  zoomM.value = Math.floor(validateInput(zoomM.value/2, minZ, maxZ));
+  scaleM = parseFloat(zoomM.value)*0.01;
+
+  halfButton = false;
 }

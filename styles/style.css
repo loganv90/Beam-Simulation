@@ -59,6 +59,10 @@
   .input-label {
     font-family: "Times New Roman", Times, serif;
   }
+
+  .input-box {
+    width: 140px;
+  }
   
   /* --MULTIPLE CHOICE-- */
   .question {

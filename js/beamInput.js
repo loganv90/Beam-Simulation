@@ -44,6 +44,14 @@ let maxZ, minZ;
 let buttonA;
 let autoScale;
 
+// same units as input variables
+let sliderF;
+let sliderW;
+let sliderA;
+let sliderL;
+let sliderM;
+let sliderI;
+let sliderE;
 
 window.onload = () => {
   maxF = 100000;
@@ -53,7 +61,7 @@ window.onload = () => {
   minW = -100000;
 
   maxA = 1000;
-  minA = 0.001;
+  minA = 0;
 
   maxL = 1000;
   minL = 0.001;
@@ -104,46 +112,108 @@ window.onload = () => {
 
   buttonA = document.querySelector("#button-A");
   autoScale = false;
-  
+
+  sliderF = document.querySelector("#slider-F");
+  sliderW = document.querySelector("#slider-W");
+  sliderA = document.querySelector("#slider-A");
+  sliderL = document.querySelector("#slider-L");
+  sliderM = document.querySelector("#slider-M");
+  sliderI = document.querySelector("#slider-I");
+  sliderE = document.querySelector("#slider-E");
+
+
+  sliderF.onchange = () => {
+    inputF.value = validateInput(sliderF.value, minF/1000, maxF/1000);
+    valueW = parseFloat(inputW.value)*1000;
+  }
+  sliderW.onchange = () => {
+    inputW.value = validateInput(sliderW.value, minW/1000, maxW/1000);
+    valueW = parseFloat(inputW.value)*1000;
+  }
+  sliderA.onchange = () => {
+    inputL.value = validateInput(sliderL.value, minL, maxL);
+    inputA.value = validateInput(sliderA.value, minA, maxA);
+
+    valueL = parseFloat(inputL.value);
+    valueA = parseFloat(inputA.value);
+
+    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
+  }
+  sliderL.onchange = () => {
+    inputL.value = validateInput(sliderL.value, minL, maxL);
+    inputA.value = validateInput(sliderA.value, minA, maxA);
+
+    valueL = parseFloat(inputL.value);
+    valueA = parseFloat(inputA.value);
+    
+    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
+  }
+  sliderM.onchange = () => {
+    inputM.value = validateInput(sliderM.value, minM/1000, maxM/1000);
+    valueM = parseFloat(inputM.value)*1000;
+  }
+  sliderI.onchange = () => {
+    inputI.value = validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001);
+    valueI = parseFloat(inputI.value)*0.000000000001;
+  }
+  sliderE.onchange = () => {
+    inputE.value = validateInput(sliderE.value, minE/1000000000, maxE/1000000000);
+    valueE = parseFloat(inputE.value)*1000000000;
+  }
+
 
   inputF.onchange = () => {
     inputF.value = validateInput(inputF.value, minF/1000, maxF/1000);
     valueF = parseFloat(inputF.value)*1000;
+    sliderF.value = inputF.value;
   }
   inputW.onchange = () => {
     inputW.value = validateInput(inputW.value, minW/1000, maxW/1000);
     valueW = parseFloat(inputW.value)*1000;
+    sliderW.value = inputW.value;
   }
   inputA.onchange = () => {
     inputA.value = validateInput(inputA.value, minA, maxA);
     valueA = parseFloat(inputA.value);
+
     if (valueA > valueL) {
       inputL.value = validateInput(inputA.value, minL, maxL);
       valueL = parseFloat(inputL.value);
     }
+
     valueAPX = map(valueA, 0, valueL, 0, valueLPX);
+    sliderA.value = inputA.value;
+    sliderL.value = inputL.value;
   }
   inputL.onchange = () => {
     inputL.value = validateInput(inputL.value, minL, maxL);
     valueL = parseFloat(inputL.value);
+
     if (valueA > valueL) {
       inputA.value = validateInput(inputL.value, minA, maxA);
       valueA = parseFloat(inputA.value);
     }
+
     valueAPX = map(valueA, 0, valueL, 0, valueLPX);
+    sliderL.value = inputL.value;
+    sliderA.value = inputA.value;
   }
   inputM.onchange = () => {
     inputM.value = validateInput(inputM.value, minM/1000, maxM/1000);
     valueM = parseFloat(inputM.value)*1000;
+    sliderM.value = inputM.value;
   }
   inputI.onchange = () => {
     inputI.value = validateInput(inputI.value, minI/0.000000000001, maxI/0.000000000001);
     valueI = parseFloat(inputI.value)*0.000000000001;
+    sliderI.value = inputI.value;
   }
   inputE.onchange = () => {
     inputE.value = validateInput(inputE.value, minE/1000000000, maxE/1000000000);
     valueE = parseFloat(inputE.value)*1000000000;
+    sliderE.value = inputE.value;
   }
+
 
   zoomF.onchange = () => {
     zoomF.value = Math.floor(validateInput(zoomF.value, minZ, maxZ));
@@ -162,9 +232,11 @@ window.onload = () => {
     scaleM = parseFloat(zoomM.value)*0.01;
   }
 
+
   buttonA.onclick = () => {
     autoScale = true;
   }
+
 
   beamType.onchange = () => {
     let textArea = document.getElementById("output-calculations");
@@ -664,4 +736,26 @@ function validateInput(input, min, max) {
     return min;
   }
   return Math.round(input*1000)/1000;
+}
+
+
+function changeValues() {
+  valueF = parseFloat(validateInput(sliderF.value, minF/1000, maxF/1000))*1000;
+  valueW = parseFloat(validateInput(sliderW.value, minW/1000, maxW/1000))*1000;
+
+  valueA = parseFloat(validateInput(sliderA.value, minA, maxA));
+  if (valueA > valueL) {
+    sliderL.value = validateInput(sliderA.value, minL, maxL);
+    valueL = parseFloat(validateInput(sliderA.value, minL, maxL));
+  }
+  valueL = parseFloat(validateInput(sliderL.value, minL, maxL));
+  if (valueA > valueL) {
+    sliderA.value = validateInput(sliderL.value, minL, maxL);
+    valueA = parseFloat(validateInput(sliderL.value, minA, maxA));
+  }
+  valueAPX = map(valueA, 0, valueL, 0, valueLPX);
+
+  valueM = parseFloat(validateInput(sliderM.value, minM/1000, maxM/1000))*1000;
+  valueI = parseFloat(validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001))*0.000000000001;
+  valueE = parseFloat(validateInput(sliderE.value, minE/1000000000, maxE/1000000000))*1000000000;
 }

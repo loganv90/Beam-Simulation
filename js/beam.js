@@ -10,6 +10,7 @@ function setup() {
 }
 
 function draw() {
+  changeValues();
   background(200);
   let leftOffset = 100;
   let heights = [height/5, 2*height/5, 3*height/5, 4*height/5];

@@ -14,6 +14,7 @@ function draw() {
   let leftOffset = 100;
   let heights = [height/5, 2*height/5, 3*height/5, 4*height/5];
 
+  // draws the diagram titles
   textFont('Helvetica');
   textAlign(LEFT, BOTTOM);
   textStyle(BOLD);
@@ -25,8 +26,8 @@ function draw() {
   text("Shear", leftOffset+10, heights[2]);
   text("Moment", leftOffset+10, heights[3]);
   textFont('TimesNewRoman');
-  changeValues();
 
+  // draws the diagrams
   if (beamType.value == "c-end-load") {
     drawCEndLoad(leftOffset, heights);
     drawFixedEnd(leftOffset, heights[0], false);
@@ -93,12 +94,15 @@ function draw() {
     drawFixedEnd(leftOffset+valueLPX, heights[0], true);
   }
 
+  // draws the x axis for all the diagrams and the coordinate system
   fill(0);
   stroke(0);
   for (let i=0; i<heights.length; i++) {
     line(leftOffset, heights[i], leftOffset+valueLPX, heights[i]);
   }
+  drawCoordinateSystem(leftOffset, height-20);
 
+  // processes the "Half Zoom" button
   if (halfButton) {
     halfIt();
     halfButton = false;
@@ -253,7 +257,7 @@ function drawCUniLoad(x, heights) {
 
   drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "W", "", maxForceY, "W");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "w", "", maxForceY, "w");
 
 
   // Draws the deflection diagram
@@ -322,7 +326,7 @@ function drawCTriLoad(x, heights) {
 
   drawTriArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x, heights[0], scaledMaxForceY, "W", "", maxForceY, "W");
+  drawValue(x, heights[0], scaledMaxForceY, "w", "", maxForceY, "w");
 
 
   // Draws the deflection diagram
@@ -705,7 +709,7 @@ function drawSUniLoad(x, heights) {
 
   drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "W", "", maxForceY, "W");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "w", "", maxForceY, "w");
 
 
   // Draws the deflection diagram
@@ -780,8 +784,8 @@ function drawSTwoMome(x, heights) {
   drawMoment(x, heights[0], 0, scaledMaxForceY);
   drawMoment(x, heights[0], valueLPX, -scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
-  drawValue(x, heights[0], scaledMaxForceY, "M", "1", maxForceY, "M");
-  drawValue(x+valueLPX, heights[0], -scaledMaxForceY, "M", "2", -maxForceY, "M");
+  drawValue(x, heights[0], scaledMaxForceY, "M", "0", maxForceY, "M");
+  drawValue(x+valueLPX, heights[0], -scaledMaxForceY, "M", "1", -maxForceY, "M");
 
 
   // Draws the deflection diagram
@@ -1054,7 +1058,7 @@ function drawFUniLoad(x, heights) {
 
   drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "W", "", maxForceY, "W");
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "w", "", maxForceY, "w");
 
 
   // Draws the deflection diagram
@@ -1472,6 +1476,29 @@ function drawSupportedEnd(x, y) {
 }
 
 /**
+ * This function draws the coordinate system.
+ * @param {number} x The position to draw the coordinate system from the left side of the canvas in pixels.
+ * @param {number} y The position to draw the coordinate system from the top of the canvas in pixels.
+ * @param {number} lineSize The size of the lines of the coordinate system.
+ * @param {number} arrowSize The size of the arrows of the coordinate system.
+ */
+ function drawCoordinateSystem(x, y, lineSize = 30, arrowSize = 3) {
+  fill(0);
+  stroke(0);
+
+  textSize(14);
+  textStyle(ITALIC);
+  textAlign(CENTER, CENTER);
+
+  line(x, y, x, y-lineSize);
+  line(x, y, x+lineSize, y);
+  triangle(x, y-lineSize-arrowSize, x+arrowSize, y-lineSize+arrowSize, x-arrowSize, y-lineSize+arrowSize);
+  triangle(x+lineSize+arrowSize, y, x+lineSize-arrowSize, y-arrowSize, x+lineSize-arrowSize, y+arrowSize);
+  text("y", x, y-lineSize-arrowSize-10);
+  text("x", x+lineSize+arrowSize+10, y);
+}
+
+/**
  * This function draws the values for the figures.
  * @param {number} x The position to draw the value from the left side of the canvas in pixels.
  * @param {number} y The position of the figure from the top of the canvas in pixels.
@@ -1516,7 +1543,7 @@ function drawValue(x, y, yOffset, name, subscript, value, type, additionalOffset
   let xOffset = textWidth(valueToDraw);
   if (type == "F") {
     text("N", x+15+xOffset, yPosition);
-  } else if (type == "W") {
+  } else if (type == "w") {
     text("N/m", x+15+xOffset, yPosition);
   } else if (type == "M") {
     text("Nm", x+15+xOffset, yPosition);

@@ -131,29 +131,46 @@ window.onload = () => {
 
 
 
-  sliderF.onchange = () => {
+  sliderF.addEventListener("input", () => {
     inputF.value = validateInput(sliderF.value, minF/1000, maxF/1000);
-  }
-  sliderW.onchange = () => {
+    valueF = parseFloat(validateInput(sliderF.value, minF/1000, maxF/1000))*1000;
+  })
+  sliderW.addEventListener("input", () => {
     inputW.value = validateInput(sliderW.value, minW/1000, maxW/1000);
-  }
-  sliderA.onchange = () => {
-    inputL.value = validateInput(sliderL.value, minL, maxL);
+    valueW = parseFloat(validateInput(sliderW.value, minW/1000, maxW/1000))*1000;
+  })
+  sliderA.addEventListener("input", () => {
     inputA.value = validateInput(sliderA.value, minA, maxA);
-  }
-  sliderL.onchange = () => {
+    valueA = parseFloat(validateInput(sliderA.value, minA, maxA));
+    if (valueA > valueL) {
+      inputL.value = validateInput(sliderA.value, minL, maxL);
+      sliderL.value = validateInput(sliderA.value, minL, maxL);
+      valueL = parseFloat(validateInput(sliderA.value, minL, maxL));
+    }
+    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
+  })
+  sliderL.addEventListener("input", () => {
     inputL.value = validateInput(sliderL.value, minL, maxL);
-    inputA.value = validateInput(sliderA.value, minA, maxA);
-  }
-  sliderM.onchange = () => {
+    valueL = parseFloat(validateInput(sliderL.value, minL, maxL));
+    if (valueA > valueL) {
+      inputA.value = validateInput(sliderL.value, minA, maxA);
+      sliderA.value = validateInput(sliderL.value, minL, maxL);
+      valueA = parseFloat(validateInput(sliderL.value, minA, maxA));
+    }
+    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
+  })
+  sliderM.addEventListener("input", () => {
     inputM.value = validateInput(sliderM.value, minM/1000, maxM/1000);
-  }
-  sliderI.onchange = () => {
+    valueM = parseFloat(validateInput(sliderM.value, minM/1000, maxM/1000))*1000;
+  })
+  sliderI.addEventListener("input", () => {
     inputI.value = validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001);
-  }
-  sliderE.onchange = () => {
+    valueI = parseFloat(validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001))*0.000000000001;
+  })
+  sliderE.addEventListener("input", () => {
     inputE.value = validateInput(sliderE.value, minE/1000000000, maxE/1000000000);
-  }
+    valueE = parseFloat(validateInput(sliderE.value, minE/1000000000, maxE/1000000000))*1000000000;
+  })
 
 
 
@@ -161,38 +178,49 @@ window.onload = () => {
 
   inputF.onchange = () => {
     inputF.value = validateInput(inputF.value, minF/1000, maxF/1000);
+    valueF = parseFloat(validateInput(inputF.value, minF/1000, maxF/1000))*1000;
     sliderF.value = inputF.value;
   }
   inputW.onchange = () => {
     inputW.value = validateInput(inputW.value, minW/1000, maxW/1000);
+    valueW = parseFloat(validateInput(inputW.value, minW/1000, maxW/1000))*1000;
     sliderW.value = inputW.value;
   }
   inputA.onchange = () => {
-    inputA.value = validateInput(inputA.value, minA, maxA)
-    if (inputA.value > inputL.value) {
+    inputA.value = validateInput(inputA.value, minA, maxA);
+    valueA = parseFloat(validateInput(inputA.value, minA, maxA));
+    if (valueA > valueL) {
       inputL.value = validateInput(inputA.value, minL, maxL);
+      sliderL.value = validateInput(inputA.value, minL, maxL);
+      valueL = parseFloat(validateInput(inputA.value, minL, maxL));
     }
+    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
     sliderA.value = inputA.value;
-    sliderL.value = inputL.value;
   }
   inputL.onchange = () => {
     inputL.value = validateInput(inputL.value, minL, maxL);
-    if (inputA.value > inputL.value) {
+    valueL = parseFloat(validateInput(inputL.value, minL, maxL));
+    if (valueA > valueL) {
       inputA.value = validateInput(inputL.value, minA, maxA);
+      sliderA.value = validateInput(inputL.value, minL, maxL);
+      valueA = parseFloat(validateInput(inputL.value, minA, maxA));
     }
+    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
     sliderL.value = inputL.value;
-    sliderA.value = inputA.value;
   }
   inputM.onchange = () => {
     inputM.value = validateInput(inputM.value, minM/1000, maxM/1000);
+    valueM = parseFloat(validateInput(inputM.value, minM/1000, maxM/1000))*1000;
     sliderM.value = inputM.value;
   }
   inputI.onchange = () => {
     inputI.value = validateInput(inputI.value, minI/0.000000000001, maxI/0.000000000001);
+    valueI = parseFloat(validateInput(inputI.value, minI/0.000000000001, maxI/0.000000000001))*0.000000000001;
     sliderI.value = inputI.value;
   }
   inputE.onchange = () => {
     inputE.value = validateInput(inputE.value, minE/1000000000, maxE/1000000000);
+    valueE = parseFloat(validateInput(inputE.value, minE/1000000000, maxE/1000000000))*1000000000;
     sliderE.value = inputE.value;
   }
 
@@ -627,9 +655,9 @@ window.onload = () => {
                               & \\text{Deflection:} \\\\
                               & \\\\
                               & \\\\
-                              & \u03B4 = -\\frac{M_{1}x}{2EI}(L-x) \\\\
+                              & \u03B4 = -\\frac{M_{0}x}{2EI}(L-x) \\\\
                               & \\\\
-                              & \u03B4_{max} = \\frac{M_{1}L^2}{8EI}, \\quad x = L/2 \\\\
+                              & \u03B4_{max} = \\frac{M_{0}L^2}{8EI}, \\quad x = L/2 \\\\
                             \\end{aligned}
 
                             \\qquad\\qquad\\qquad\\qquad
@@ -647,7 +675,7 @@ window.onload = () => {
                               & \\text{Moment:} \\\\
                               & \\\\
                               & \\\\
-                              & M_{max} = M_{1} = -M_{2} \\\\
+                              & M_{max} = M_{0} = -M_{1} \\\\
                             \\end{aligned}
                             \\]`;
     }
@@ -829,31 +857,6 @@ function validateInput(input, min, max) {
     return min;
   }
   return Math.round(input*1000)/1000;
-}
-
-
-
-
-
-function changeValues() {
-  valueF = parseFloat(validateInput(sliderF.value, minF/1000, maxF/1000))*1000;
-  valueW = parseFloat(validateInput(sliderW.value, minW/1000, maxW/1000))*1000;
-
-  valueA = parseFloat(validateInput(sliderA.value, minA, maxA));
-  if (valueA > valueL) {
-    sliderL.value = validateInput(sliderA.value, minL, maxL);
-    valueL = parseFloat(validateInput(sliderA.value, minL, maxL));
-  }
-  valueL = parseFloat(validateInput(sliderL.value, minL, maxL));
-  if (valueA > valueL) {
-    sliderA.value = validateInput(sliderL.value, minL, maxL);
-    valueA = parseFloat(validateInput(sliderL.value, minA, maxA));
-  }
-  valueAPX = map(valueA, 0, valueL, 0, valueLPX);
-
-  valueM = parseFloat(validateInput(sliderM.value, minM/1000, maxM/1000))*1000;
-  valueI = parseFloat(validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001))*0.000000000001;
-  valueE = parseFloat(validateInput(sliderE.value, minE/1000000000, maxE/1000000000))*1000000000;
 }
 
 

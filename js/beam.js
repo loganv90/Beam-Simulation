@@ -10,7 +10,6 @@ function setup() {
 }
 
 function draw() {
-  changeValues();
   background(200);
   let leftOffset = 100;
   let heights = [height/5, 2*height/5, 3*height/5, 4*height/5];
@@ -26,6 +25,7 @@ function draw() {
   text("Shear", leftOffset+10, heights[2]);
   text("Moment", leftOffset+10, heights[3]);
   textFont('TimesNewRoman');
+  changeValues();
 
   if (beamType.value == "c-end-load") {
     drawCEndLoad(leftOffset, heights);
@@ -101,6 +101,7 @@ function draw() {
 
   if (halfButton) {
     halfIt();
+    halfButton = false;
   }
 }
 

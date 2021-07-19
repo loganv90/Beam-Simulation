@@ -54,6 +54,10 @@ let sliderM;
 let sliderI;
 let sliderE;
 
+
+
+
+
 window.onload = () => {
   maxF = 100000;
   minF = -100000;
@@ -124,97 +128,76 @@ window.onload = () => {
   sliderE = document.querySelector("#slider-E");
 
 
+
+
+
   sliderF.onchange = () => {
     inputF.value = validateInput(sliderF.value, minF/1000, maxF/1000);
-    valueW = parseFloat(inputW.value)*1000;
   }
   sliderW.onchange = () => {
     inputW.value = validateInput(sliderW.value, minW/1000, maxW/1000);
-    valueW = parseFloat(inputW.value)*1000;
   }
   sliderA.onchange = () => {
     inputL.value = validateInput(sliderL.value, minL, maxL);
     inputA.value = validateInput(sliderA.value, minA, maxA);
-
-    valueL = parseFloat(inputL.value);
-    valueA = parseFloat(inputA.value);
-
-    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
   }
   sliderL.onchange = () => {
     inputL.value = validateInput(sliderL.value, minL, maxL);
     inputA.value = validateInput(sliderA.value, minA, maxA);
-
-    valueL = parseFloat(inputL.value);
-    valueA = parseFloat(inputA.value);
-    
-    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
   }
   sliderM.onchange = () => {
     inputM.value = validateInput(sliderM.value, minM/1000, maxM/1000);
-    valueM = parseFloat(inputM.value)*1000;
   }
   sliderI.onchange = () => {
     inputI.value = validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001);
-    valueI = parseFloat(inputI.value)*0.000000000001;
   }
   sliderE.onchange = () => {
     inputE.value = validateInput(sliderE.value, minE/1000000000, maxE/1000000000);
-    valueE = parseFloat(inputE.value)*1000000000;
   }
+
+
+
 
 
   inputF.onchange = () => {
     inputF.value = validateInput(inputF.value, minF/1000, maxF/1000);
-    valueF = parseFloat(inputF.value)*1000;
     sliderF.value = inputF.value;
   }
   inputW.onchange = () => {
     inputW.value = validateInput(inputW.value, minW/1000, maxW/1000);
-    valueW = parseFloat(inputW.value)*1000;
     sliderW.value = inputW.value;
   }
   inputA.onchange = () => {
-    inputA.value = validateInput(inputA.value, minA, maxA);
-    valueA = parseFloat(inputA.value);
-
-    if (valueA > valueL) {
+    inputA.value = validateInput(inputA.value, minA, maxA)
+    if (inputA.value > inputL.value) {
       inputL.value = validateInput(inputA.value, minL, maxL);
-      valueL = parseFloat(inputL.value);
     }
-
-    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
     sliderA.value = inputA.value;
     sliderL.value = inputL.value;
   }
   inputL.onchange = () => {
     inputL.value = validateInput(inputL.value, minL, maxL);
-    valueL = parseFloat(inputL.value);
-
-    if (valueA > valueL) {
+    if (inputA.value > inputL.value) {
       inputA.value = validateInput(inputL.value, minA, maxA);
-      valueA = parseFloat(inputA.value);
     }
-
-    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
     sliderL.value = inputL.value;
     sliderA.value = inputA.value;
   }
   inputM.onchange = () => {
     inputM.value = validateInput(inputM.value, minM/1000, maxM/1000);
-    valueM = parseFloat(inputM.value)*1000;
     sliderM.value = inputM.value;
   }
   inputI.onchange = () => {
     inputI.value = validateInput(inputI.value, minI/0.000000000001, maxI/0.000000000001);
-    valueI = parseFloat(inputI.value)*0.000000000001;
     sliderI.value = inputI.value;
   }
   inputE.onchange = () => {
     inputE.value = validateInput(inputE.value, minE/1000000000, maxE/1000000000);
-    valueE = parseFloat(inputE.value)*1000000000;
     sliderE.value = inputE.value;
   }
+
+
+
 
 
   zoomF.onchange = () => {
@@ -235,6 +218,9 @@ window.onload = () => {
   }
 
 
+
+
+
   buttonA.onclick = () => {
     zoomF.value = Math.floor(validateInput(maxZ, minZ, maxZ));
     scaleF = parseFloat(zoomF.value)*0.01;
@@ -248,17 +234,33 @@ window.onload = () => {
     zoomM.value = Math.floor(validateInput(maxZ, minZ, maxZ));
     scaleM = parseFloat(zoomM.value)*0.01;
   }
-
   buttonH.onclick = () => {
     buttonA.onclick();
     halfButton = true;
   }
 
 
+
+
+
   beamType.onchange = () => {
+    let boxes = document.getElementsByClassName("input-box");
+    for (let i=0; i<boxes.length; i++) {
+      boxes[i].disabled = false;
+    }
+    let sliders = document.getElementsByClassName("input-slider");
+    for (let i=0; i<sliders.length; i++) {
+      sliders[i].disabled = false;
+    }
     let textArea = document.getElementById("output-calculations");
 
     if (beamType.value == "c-end-load") {
+      boxes[1].disabled = true;
+      boxes[2].disabled = true;
+      boxes[3].disabled = true;
+      sliders[1].disabled = true;
+      sliders[2].disabled = true;
+      sliders[3].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -291,6 +293,10 @@ window.onload = () => {
                             \\]`;
     }
     else if (beamType.value == "c-int-load") {
+      boxes[1].disabled = true;
+      boxes[2].disabled = true;
+      sliders[1].disabled = true;
+      sliders[2].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -334,6 +340,12 @@ window.onload = () => {
                             \\]`;
     }
     else if (beamType.value == "c-uni-load") {
+      boxes[0].disabled = true;
+      boxes[2].disabled = true;
+      boxes[3].disabled = true;
+      sliders[0].disabled = true;
+      sliders[2].disabled = true;
+      sliders[3].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -368,6 +380,12 @@ window.onload = () => {
                             \\]`;
     }
     else if (beamType.value == "c-tri-load") {
+      boxes[0].disabled = true;
+      boxes[2].disabled = true;
+      boxes[3].disabled = true;
+      sliders[0].disabled = true;
+      sliders[2].disabled = true;
+      sliders[3].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -398,6 +416,12 @@ window.onload = () => {
                             \\]`;
     }
     else if (beamType.value == "c-end-mome") {
+      boxes[0].disabled = true;
+      boxes[1].disabled = true;
+      boxes[3].disabled = true;
+      sliders[0].disabled = true;
+      sliders[1].disabled = true;
+      sliders[3].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -428,6 +452,10 @@ window.onload = () => {
                             \\]`;
     }
     else if (beamType.value == "s-int-load") {
+      boxes[1].disabled = true;
+      boxes[2].disabled = true;
+      sliders[1].disabled = true;
+      sliders[2].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -464,6 +492,12 @@ window.onload = () => {
                             \\]`;
     }
     else if (beamType.value == "s-cen-load") {
+      boxes[1].disabled = true;
+      boxes[2].disabled = true;
+      boxes[3].disabled = true;
+      sliders[1].disabled = true;
+      sliders[2].disabled = true;
+      sliders[3].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -500,6 +534,10 @@ window.onload = () => {
                             \\]`;
     }
     else if (beamType.value == "s-two-load") {
+      boxes[1].disabled = true;
+      boxes[2].disabled = true;
+      sliders[1].disabled = true;
+      sliders[2].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -539,6 +577,12 @@ window.onload = () => {
                             \\]`;
     }
     else if (beamType.value == "s-uni-load") {
+      boxes[0].disabled = true;
+      boxes[2].disabled = true;
+      boxes[3].disabled = true;
+      sliders[0].disabled = true;
+      sliders[2].disabled = true;
+      sliders[3].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -572,6 +616,12 @@ window.onload = () => {
                             \\]`;
     }
     else if (beamType.value == "s-two-mome") {
+      boxes[0].disabled = true;
+      boxes[1].disabled = true;
+      boxes[3].disabled = true;
+      sliders[0].disabled = true;
+      sliders[1].disabled = true;
+      sliders[3].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -602,6 +652,12 @@ window.onload = () => {
                             \\]`;
     }
     else if (beamType.value == "s-one-mome") {
+      boxes[0].disabled = true;
+      boxes[1].disabled = true;
+      boxes[3].disabled = true;
+      sliders[0].disabled = true;
+      sliders[1].disabled = true;
+      sliders[3].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -632,6 +688,12 @@ window.onload = () => {
                             \\]`;
     }
     else if (beamType.value == "s-cen-mome") {
+      boxes[0].disabled = true;
+      boxes[1].disabled = true;
+      boxes[3].disabled = true;
+      sliders[0].disabled = true;
+      sliders[1].disabled = true;
+      sliders[3].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -662,6 +724,12 @@ window.onload = () => {
                             \\]`;
     }
     else if (beamType.value == "f-cen-load") {
+      boxes[1].disabled = true;
+      boxes[2].disabled = true;
+      boxes[3].disabled = true;
+      sliders[1].disabled = true;
+      sliders[2].disabled = true;
+      sliders[3].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -702,6 +770,12 @@ window.onload = () => {
                             \\]`;
     }
     else if (beamType.value == "f-uni-load") {
+      boxes[0].disabled = true;
+      boxes[2].disabled = true;
+      boxes[3].disabled = true;
+      sliders[0].disabled = true;
+      sliders[2].disabled = true;
+      sliders[3].disabled = true;
       textArea.innerHTML = `\\[
                             \\begin{aligned}[t]
                               & \\text{Deflection:} \\\\
@@ -738,10 +812,12 @@ window.onload = () => {
                             \\end{aligned}
                             \\]`;
     }
-
     MathJax.typeset();
   }
 }
+
+
+
 
 
 function validateInput(input, min, max) {
@@ -754,6 +830,9 @@ function validateInput(input, min, max) {
   }
   return Math.round(input*1000)/1000;
 }
+
+
+
 
 
 function changeValues() {
@@ -777,6 +856,10 @@ function changeValues() {
   valueE = parseFloat(validateInput(sliderE.value, minE/1000000000, maxE/1000000000))*1000000000;
 }
 
+
+
+
+
 function halfIt() {
   zoomF.value = Math.floor(validateInput(zoomF.value/2, minZ, maxZ));
   scaleF = parseFloat(zoomF.value)*0.01;
@@ -789,6 +872,4 @@ function halfIt() {
 
   zoomM.value = Math.floor(validateInput(zoomM.value/2, minZ, maxZ));
   scaleM = parseFloat(zoomM.value)*0.01;
-
-  halfButton = false;
 }

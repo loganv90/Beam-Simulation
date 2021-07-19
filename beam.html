@@ -72,35 +72,33 @@
 
             <br></br><br></br>
 
-
             <label class="input-label" for="input-F">Load (<b><i>F</i></b>) (kN): </label><br>
             <input class="input-box" type="text" value="50" id="input-F">
-            <input type="range" min="-100" max="100" value="50" id="slider-F"><br></br>
+            <input class="input-slider" type="range" min="-100" max="100" value="50" id="slider-F"><br></br>
 
             <label class="input-label" for="input-W">Distrubuted Load (<b><i>W</i></b>) (kN/m): </label><br>
-            <input class="input-box" type="text" value="50" id="input-W">
-            <input type="range" min="-100" max="100" value="50" id="slider-W"><br></br>
+            <input class="input-box" type="text" value="50" id="input-W" disabled="disabled">
+            <input class="input-slider" type="range" min="-100" max="100" value="50" id="slider-W" disabled="disabled"><br></br>
 
             <label class="input-label" for="input-M">Moment (<b><i>M<sub>0</sub></i></b>, <b><i>M<sub>1</sub></i></b>) (kN*m): </label><br>
-            <input class="input-box" type="text" value="50" id="input-M">
-            <input type="range" min="-100" max="100" value="50" id="slider-M"><br></br>
+            <input class="input-box" type="text" value="50" id="input-M" disabled="disabled">
+            <input class="input-slider" type="range" min="-100" max="100" value="50" id="slider-M" disabled="disabled"><br></br>
 
             <label class="input-label" for="input-A">Load Position (<b><i>a</i></b>) (m): </label><br>
-            <input class="input-box" type="text" value="60" id="input-A">
-            <input type="range" min="0" max="1000" value="60" id="slider-A"><br></br>
+            <input class="input-box" type="text" value="60" id="input-A" disabled="disabled">
+            <input class="input-slider" type="range" min="0" max="1000" value="60" id="slider-A" disabled="disabled"><br></br>
 
             <label class="input-label" for="input-L">Beam Length (<b><i>L</i></b>) (m): </label><br>
             <input class="input-box" type="text" value="100" id="input-L">
-            <input type="range" min="0" max="1000" value="100" id="slider-L"><br></br>
+            <input class="input-slider" type="range" min="0" max="1000" value="100" id="slider-L"><br></br>
 
             <label class="input-label" for="input-I">Moment of Inertia (<b><i>I</i></b>) (mm<sup>4</sup>): </label><br>
             <input class="input-box" type="text" value="1000000" id="input-I">
-            <input type="range" min="100000" max="1000000000" value="1000000" id="slider-I"><br></br>
+            <input class="input-slider" type="range" min="100000" max="1000000000" value="1000000" id="slider-I"><br></br>
 
             <label class="input-label" for="input-E">Young's Modulus (<b><i>E</i></b>) (GPa): </label><br>
             <input class="input-box" type="text" value="200" id="input-E">
-            <input type="range" min="10" max="1000" value="200" id="slider-E">
-
+            <input class="input-slider" type="range" min="10" max="1000" value="200" id="slider-E">
 
             <br></br><br></br>
 
@@ -118,7 +116,25 @@
           </div>
 
           <div id="output-container">
-            <p><b>EQUATIONS:</b></p><br></br>
+            <b>EQUATIONS:</b>
+
+            <br></br>
+
+            Below are the equations that this simulation uses to generate its diagrams.<br>
+            The equations are only valid if these assumptions are satisfied:
+
+            <br></br>
+
+            <ul>
+              <li>- The longitudinal axis does not experience any change in length.</li>
+              <li>- The cross-sections of the beam remain plane and perpendicular to the longitudinal axis.</li>
+              <li>- The cross-section is constant and retains its shape.</li>
+              <li>- The material is in the linear elastic range according to Hooke's Law.</li>
+              <li>- The deformed angles and displacements are small.</li>
+              <li>- The beam is made of a homogeneous material.</li>
+            </ul>
+            
+            <br></br>
             
             <div id="output-calculations" style="font-size: 12px"></div>
           </div>

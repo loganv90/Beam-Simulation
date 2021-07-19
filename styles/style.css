@@ -63,6 +63,10 @@
   .input-box {
     width: 140px;
   }
+
+  .input-slider {
+    width: 140px;
+  }
   
   /* --MULTIPLE CHOICE-- */
   .question {

@@ -1,3 +1,4 @@
+// the input text boxes
 let inputF; // unit: kN
 let inputW; // unit: kN/W
 let inputA; // unit: m
@@ -5,7 +6,15 @@ let inputL; // unit: m
 let inputM; // unit: kN*m
 let inputI; // unit: mm^4
 let inputE; // unit: GPa
-
+// the input sliders
+let sliderF; // unit: kN
+let sliderW; // unit: kN/W
+let sliderA; // unit: m
+let sliderL; // unit: m
+let sliderM; // unit: kN*m
+let sliderI; // unit: mm^4
+let sliderE; // unit: GPa
+// converted values for the calculations
 let valueF; // unit: N
 let valueW; // unit: N/m
 let valueA; // unit: m
@@ -13,8 +22,7 @@ let valueL; // unit: m
 let valueM; // unit: N*m
 let valueI; // unit: m^4
 let valueE; // unit: Pa
-
-// same units as value variables
+// limits for the value variables
 let maxF, minF;
 let maxW, minW;
 let maxA, minA;
@@ -23,63 +31,33 @@ let maxM, minM;
 let maxI, minI;
 let maxE, minE;
 
-// used to select the draw function
-let beamType;
+// the zoom text boxes
+let zoomF; // unit: percentage
+let zoomD; // unit: percentage
+let zoomS; // unit: percentage
+let zoomM; // unit: percentage
+// converted values for the calibrations
+let scaleF; // unit: fraction
+let scaleD; // unit: fraction
+let scaleS; // unit: fraction
+let scaleM; // unit: fraction
+// limits for the scale variables
+let maxZ, minZ;
 
-// used to draw figures in the correct scale
+// limits on the size of the figures
 let heightPX;
 let valueLPX;
 let valueAPX;
 
-// used to control the scale of the figures
-let zoomF, scaleF;
-let zoomD, scaleD;
-let zoomS, scaleS;
-let zoomM, scaleM;
-
-// limits for the zoom variables
-let maxZ, minZ;
-
-// used for setting the scale variables
+// the buttons and a flag
 let buttonA;
 let buttonH;
 let halfButton;
 
-// same units as input variables
-let sliderF;
-let sliderW;
-let sliderA;
-let sliderL;
-let sliderM;
-let sliderI;
-let sliderE;
-
-
-
-
+// the selected beam type
+let beamType;
 
 window.onload = () => {
-  maxF = 100000;
-  minF = -100000;
-
-  maxW = 100000;
-  minW = -100000;
-
-  maxA = 1000;
-  minA = 0;
-
-  maxL = 1000;
-  minL = 0.001;
-
-  maxM = 100000;
-  minM = -100000;
-
-  maxI = 0.001;
-  minI = 0.0000001;
-
-  maxE = 1000000000000;
-  minE = 10000000000;
-
   inputF = document.querySelector("#input-F");
   inputW = document.querySelector("#input-W");
   inputA = document.querySelector("#input-A");
@@ -87,38 +65,6 @@ window.onload = () => {
   inputM = document.querySelector("#input-M");
   inputI = document.querySelector("#input-I");
   inputE = document.querySelector("#input-E");
-  
-  valueF = parseFloat(inputF.value)*1000;
-  valueW = parseFloat(inputW.value)*1000;
-  valueA = parseFloat(inputA.value);
-  valueL = parseFloat(inputL.value);
-  valueM = parseFloat(inputM.value)*1000;
-  valueI = parseFloat(inputI.value)*0.000000000001;
-  valueE = parseFloat(inputE.value)*1000000000;
-
-  beamType = document.querySelector("#beam-select");
-
-  heightPX = 50;
-  valueLPX = 400;
-  valueAPX = map(valueA, 0, valueL, 0, valueLPX);
-
-  zoomF = document.querySelector("#zoom-F");
-  zoomD = document.querySelector("#zoom-D");
-  zoomS = document.querySelector("#zoom-S");
-  zoomM = document.querySelector("#zoom-M");
-
-  scaleF = parseFloat(zoomF.value)*0.01;
-  scaleD = parseFloat(zoomD.value)*0.01;
-  scaleS = parseFloat(zoomS.value)*0.01;
-  scaleM = parseFloat(zoomM.value)*0.01;
-
-  maxZ = 100000000000000000;
-  minZ = 1;
-
-  buttonA = document.querySelector("#button-A");
-  buttonH = document.querySelector("#button-H");
-  halfButton = false;
-
   sliderF = document.querySelector("#slider-F");
   sliderW = document.querySelector("#slider-W");
   sliderA = document.querySelector("#slider-A");
@@ -126,56 +72,51 @@ window.onload = () => {
   sliderM = document.querySelector("#slider-M");
   sliderI = document.querySelector("#slider-I");
   sliderE = document.querySelector("#slider-E");
+  valueF = parseFloat(inputF.value)*1000;
+  valueW = parseFloat(inputW.value)*1000;
+  valueA = parseFloat(inputA.value);
+  valueL = parseFloat(inputL.value);
+  valueM = parseFloat(inputM.value)*1000;
+  valueI = parseFloat(inputI.value)*0.000000000001;
+  valueE = parseFloat(inputE.value)*1000000000;
+  maxF = 100000;
+  minF = -100000;
+  maxW = 100000;
+  minW = -100000;
+  maxA = 1000;
+  minA = 0;
+  maxL = 1000;
+  minL = 0.001;
+  maxM = 100000;
+  minM = -100000;
+  maxI = 0.001;
+  minI = 0.0000001;
+  maxE = 1000000000000;
+  minE = 10000000000;
+
+  zoomF = document.querySelector("#zoom-F");
+  zoomD = document.querySelector("#zoom-D");
+  zoomS = document.querySelector("#zoom-S");
+  zoomM = document.querySelector("#zoom-M");
+  scaleF = parseFloat(zoomF.value)*0.01;
+  scaleD = parseFloat(zoomD.value)*0.01;
+  scaleS = parseFloat(zoomS.value)*0.01;
+  scaleM = parseFloat(zoomM.value)*0.01;
+  maxZ = 100000000000000000;
+  minZ = 1;
+
+  heightPX = 50;
+  valueLPX = 400;
+  valueAPX = map(valueA, 0, valueL, 0, valueLPX);
+
+  buttonA = document.querySelector("#button-A");
+  buttonH = document.querySelector("#button-H");
+  halfButton = false;
+
+  beamType = document.querySelector("#beam-select");
 
 
-
-
-
-  sliderF.addEventListener("input", () => {
-    inputF.value = validateInput(sliderF.value, minF/1000, maxF/1000);
-    valueF = parseFloat(validateInput(sliderF.value, minF/1000, maxF/1000))*1000;
-  })
-  sliderW.addEventListener("input", () => {
-    inputW.value = validateInput(sliderW.value, minW/1000, maxW/1000);
-    valueW = parseFloat(validateInput(sliderW.value, minW/1000, maxW/1000))*1000;
-  })
-  sliderA.addEventListener("input", () => {
-    inputA.value = validateInput(sliderA.value, minA, maxA);
-    valueA = parseFloat(validateInput(sliderA.value, minA, maxA));
-    if (valueA > valueL) {
-      inputL.value = validateInput(sliderA.value, minL, maxL);
-      sliderL.value = validateInput(sliderA.value, minL, maxL);
-      valueL = parseFloat(validateInput(sliderA.value, minL, maxL));
-    }
-    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
-  })
-  sliderL.addEventListener("input", () => {
-    inputL.value = validateInput(sliderL.value, minL, maxL);
-    valueL = parseFloat(validateInput(sliderL.value, minL, maxL));
-    if (valueA > valueL) {
-      inputA.value = validateInput(sliderL.value, minA, maxA);
-      sliderA.value = validateInput(sliderL.value, minL, maxL);
-      valueA = parseFloat(validateInput(sliderL.value, minA, maxA));
-    }
-    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
-  })
-  sliderM.addEventListener("input", () => {
-    inputM.value = validateInput(sliderM.value, minM/1000, maxM/1000);
-    valueM = parseFloat(validateInput(sliderM.value, minM/1000, maxM/1000))*1000;
-  })
-  sliderI.addEventListener("input", () => {
-    inputI.value = validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001);
-    valueI = parseFloat(validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001))*0.000000000001;
-  })
-  sliderE.addEventListener("input", () => {
-    inputE.value = validateInput(sliderE.value, minE/1000000000, maxE/1000000000);
-    valueE = parseFloat(validateInput(sliderE.value, minE/1000000000, maxE/1000000000))*1000000000;
-  })
-
-
-
-
-
+  // the functionality of the input text boxes
   inputF.onchange = () => {
     inputF.value = validateInput(inputF.value, minF/1000, maxF/1000);
     valueF = parseFloat(validateInput(inputF.value, minF/1000, maxF/1000))*1000;
@@ -225,9 +166,50 @@ window.onload = () => {
   }
 
 
+  // the functionality of the input sliders
+  sliderF.addEventListener("input", () => {
+    inputF.value = validateInput(sliderF.value, minF/1000, maxF/1000);
+    valueF = parseFloat(validateInput(sliderF.value, minF/1000, maxF/1000))*1000;
+  })
+  sliderW.addEventListener("input", () => {
+    inputW.value = validateInput(sliderW.value, minW/1000, maxW/1000);
+    valueW = parseFloat(validateInput(sliderW.value, minW/1000, maxW/1000))*1000;
+  })
+  sliderA.addEventListener("input", () => {
+    inputA.value = validateInput(sliderA.value, minA, maxA);
+    valueA = parseFloat(validateInput(sliderA.value, minA, maxA));
+    if (valueA > valueL) {
+      inputL.value = validateInput(sliderA.value, minL, maxL);
+      sliderL.value = validateInput(sliderA.value, minL, maxL);
+      valueL = parseFloat(validateInput(sliderA.value, minL, maxL));
+    }
+    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
+  })
+  sliderL.addEventListener("input", () => {
+    inputL.value = validateInput(sliderL.value, minL, maxL);
+    valueL = parseFloat(validateInput(sliderL.value, minL, maxL));
+    if (valueA > valueL) {
+      inputA.value = validateInput(sliderL.value, minA, maxA);
+      sliderA.value = validateInput(sliderL.value, minL, maxL);
+      valueA = parseFloat(validateInput(sliderL.value, minA, maxA));
+    }
+    valueAPX = map(valueA, 0, valueL, 0, valueLPX);
+  })
+  sliderM.addEventListener("input", () => {
+    inputM.value = validateInput(sliderM.value, minM/1000, maxM/1000);
+    valueM = parseFloat(validateInput(sliderM.value, minM/1000, maxM/1000))*1000;
+  })
+  sliderI.addEventListener("input", () => {
+    inputI.value = validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001);
+    valueI = parseFloat(validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001))*0.000000000001;
+  })
+  sliderE.addEventListener("input", () => {
+    inputE.value = validateInput(sliderE.value, minE/1000000000, maxE/1000000000);
+    valueE = parseFloat(validateInput(sliderE.value, minE/1000000000, maxE/1000000000))*1000000000;
+  })
 
 
-
+  // the functionality of the zoom text boxes
   zoomF.onchange = () => {
     zoomF.value = Math.floor(validateInput(zoomF.value, minZ, maxZ));
     scaleF = parseFloat(zoomF.value)*0.01;
@@ -246,9 +228,7 @@ window.onload = () => {
   }
 
 
-
-
-
+  // the functionality of the buttons
   buttonA.onclick = () => {
     zoomF.value = Math.floor(validateInput(maxZ, minZ, maxZ));
     scaleF = parseFloat(zoomF.value)*0.01;
@@ -268,9 +248,7 @@ window.onload = () => {
   }
 
 
-
-
-
+  // this function runs when the beam type is changed
   beamType.onchange = () => {
     let boxes = document.getElementsByClassName("input-box");
     for (let i=0; i<boxes.length; i++) {
@@ -848,6 +826,13 @@ window.onload = () => {
 
 
 
+/**
+ * This function constrains and rounds a value.
+ * @param {number} input The number to constrain and round.
+ * @param {number} min The upper limit.
+ * @param {number} max The lower limit.
+ * @returns {number} The scaled and rounded number.
+ */
 function validateInput(input, min, max) {
   if (isNaN(input) || input == "") {
     return max;
@@ -863,7 +848,10 @@ function validateInput(input, min, max) {
 
 
 
-function halfIt() {
+/**
+ * This function divides the zoom text box values and the scale variables by two.
+ */
+function halfZoom() {
   zoomF.value = Math.floor(validateInput(zoomF.value/2, minZ, maxZ));
   scaleF = parseFloat(zoomF.value)*0.01;
   

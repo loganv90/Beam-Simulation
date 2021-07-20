@@ -102,7 +102,7 @@ window.onload = () => {
   scaleD = parseFloat(zoomD.value)*0.01;
   scaleS = parseFloat(zoomS.value)*0.01;
   scaleM = parseFloat(zoomM.value)*0.01;
-  maxZ = 100000000000000000;
+  maxZ = 1e+50;
   minZ = 1;
 
   heightPX = 50;

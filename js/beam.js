@@ -1661,6 +1661,10 @@ function limitValue(max, calibration, type = "N/A", limit = heightPX) {
  * @returns {string} The converted number.
  */
 function valueToString(value) {
+  if (abs(value) < 0.1) {
+    return value.toExponential(2).toString();
+  }
+
   value = Math.round(value*1000)/1000;
   valueStr = value.toString().replace("-", "").replace(".", "");
   

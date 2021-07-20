@@ -100,7 +100,7 @@ function draw() {
   for (let i=0; i<heights.length; i++) {
     line(leftOffset, heights[i], leftOffset+valueLPX, heights[i]);
   }
-  drawCoordinateSystem(leftOffset, height-20);
+  drawCoordinateSystem(leftOffset, heights[0]);
 
   // additional processing for the "Half Zoom" button
   if (halfButton) {
@@ -1517,9 +1517,9 @@ function drawSupportedEnd(x, y) {
  * @param {number} lineSize The size of the lines of the coordinate system.
  * @param {number} arrowSize The size of the arrows of the coordinate system.
  */
- function drawCoordinateSystem(x, y, lineSize = 30, arrowSize = 3) {
-  fill(0);
-  stroke(0);
+ function drawCoordinateSystem(x, y, lineSize = 30, arrowSize = 3, colour = color(0, 0, 200)) {
+  fill(colour);
+  stroke(colour);
 
   textSize(14);
   textStyle(ITALIC);

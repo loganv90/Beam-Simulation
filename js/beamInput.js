@@ -111,7 +111,7 @@ window.onload = () => {
 
   buttonA = document.querySelector("#button-A");
   buttonH = document.querySelector("#button-H");
-  halfButton = false;
+  halfButton = true;
 
   beamType = document.querySelector("#beam-select");
 
@@ -243,13 +243,14 @@ window.onload = () => {
     scaleM = parseFloat(zoomM.value)*0.01;
   }
   buttonH.onclick = () => {
-    buttonA.onclick();
     halfButton = true;
   }
 
 
   // this function runs when the beam type is changed
   beamType.onchange = () => {
+    halfButton = true;
+
     let boxes = document.getElementsByClassName("input-box");
     for (let i=0; i<boxes.length; i++) {
       boxes[i].disabled = false;
@@ -819,9 +820,7 @@ window.onload = () => {
                             \\]`;
     }
     MathJax.typeset();
-    buttonH.onclick();
   }
-  buttonH.onclick();
 }
 
 
@@ -844,25 +843,4 @@ function validateInput(input, min, max) {
     return min;
   }
   return Math.round(input*1000)/1000;
-}
-
-
-
-
-
-/**
- * This function divides the zoom text box values and the scale variables by two.
- */
-function halfZoom() {
-  zoomF.value = Math.floor(validateInput(zoomF.value/2, minZ, maxZ));
-  scaleF = parseFloat(zoomF.value)*0.01;
-  
-  zoomD.value = Math.floor(validateInput(zoomD.value/2, minZ, maxZ));
-  scaleD = parseFloat(zoomD.value)*0.01;
-
-  zoomS.value = Math.floor(validateInput(zoomS.value/2, minZ, maxZ));
-  scaleS = parseFloat(zoomS.value)*0.01;
-
-  zoomM.value = Math.floor(validateInput(zoomM.value/2, minZ, maxZ));
-  scaleM = parseFloat(zoomM.value)*0.01;
 }

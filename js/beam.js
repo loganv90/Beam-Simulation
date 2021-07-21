@@ -27,6 +27,8 @@ function draw() {
   text("Moment", leftOffset+10, heights[3]);
   textFont('TimesNewRoman');
 
+  // additional functionality for buttonH
+  if (halfButton) buttonA.onclick();
   // draws the figures
   if (beamType.value == "c-end-load") {
     drawCEndLoad(leftOffset, heights);
@@ -93,6 +95,8 @@ function draw() {
     drawFixedEnd(leftOffset, heights[0], false);
     drawFixedEnd(leftOffset+valueLPX, heights[0], true);
   }
+  // additional functionality for buttonH
+  halfButton = false;
 
   // draws the x axes and the coordinate system
   fill(0);
@@ -101,12 +105,6 @@ function draw() {
     line(leftOffset, heights[i], leftOffset+valueLPX, heights[i]);
   }
   drawCoordinateSystem(leftOffset, heights[0]);
-
-  // additional processing for the "Half Zoom" button
-  if (halfButton) {
-    halfZoom();
-    halfButton = false;
-  }
 }
 
 
@@ -119,28 +117,22 @@ function draw() {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawCEndLoad(x, heights) {
-  // free body variables
   let forceCalibration = maxF/scaleF;
   let maxForceY = valueF;
   let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
   forceCalibration = maxF/scaleF;
-  // deflection variables
   let deflectionCalibration = -(maxF*maxL*maxL*maxL)/(3*minE*minI)/scaleD;
   let maxDeflectionY = -(valueF*valueL*valueL*valueL)/(3*valueE*valueI);
   let scaledMaxDeflectionY = limitValue(maxDeflectionY, deflectionCalibration, "D");
   deflectionCalibration = -(maxF*maxL*maxL*maxL)/(3*minE*minI)/scaleD;
-  // shear variables
   let shearCalibration = maxF/scaleS;
   let maxShearY = valueF;
   let scaledMaxShearY = limitValue(maxShearY, shearCalibration, "S");
   shearCalibration = maxF/scaleS;
-  // moment variables
   let momentCalibration = -maxF*maxL/scaleM;
   let maxMomentY = -valueF*valueL;
   let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
   momentCalibration = -maxF*maxL/scaleM;
-
-  if (halfButton) return;
 
   // draws the free body figure
   drawArrow(x+valueLPX, heights[0], scaledMaxForceY);
@@ -178,24 +170,29 @@ function drawCEndLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawCIntLoad(x, heights) {
-  // Draws the free body figure
   let forceCalibration = maxF/scaleF;
   let maxForceY = valueF;
   let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
   forceCalibration = maxF/scaleF;
-
-  drawArrow(x+valueAPX, heights[0], scaledMaxForceY);
-  drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawDimAB(x, heights[0], valueLPX, valueAPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL, valueA);
-  drawValue(x+valueAPX, heights[0], scaledMaxForceY, "F", "", maxForceY, "F");
-
-
-  // Draws the deflection figure
   let deflectionCalibration = -(3*maxL-maxA)*(maxF*maxA*maxA)/(6*minE*minI)/scaleD;
   let maxDeflectionY = -(3*valueL-valueA)*(valueF*valueA*valueA)/(6*valueE*valueI);
   let scaledMaxDeflectionY = limitValue(maxDeflectionY, deflectionCalibration, "D");
   deflectionCalibration = -(3*maxL-maxA)*(maxF*maxA*maxA)/(6*minE*minI)/scaleD;
+  let shearCalibration = maxF/scaleS;
+  let maxShearY = valueF;
+  let scaledMaxShearY = limitValue(maxShearY, shearCalibration, "S");
+  shearCalibration = maxF/scaleS;
+  let momentCalibration = -maxF*maxA/scaleM;
+  let maxMomentY = -valueF*valueA;
+  let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
+  momentCalibration = -maxF*maxA/scaleM;
 
+  // draws the free body figure
+  drawArrow(x+valueAPX, heights[0], scaledMaxForceY);
+  drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
+  drawDimAB(x, heights[0], valueLPX, valueAPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL, valueA);
+  drawValue(x+valueAPX, heights[0], scaledMaxForceY, "F", "", maxForceY, "F");
+  // draws the deflection figure
   noFill();
   stroke(0, 0, 100);
   beginShape();
@@ -210,26 +207,12 @@ function drawCIntLoad(x, heights) {
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
-
-
-  // Draws the shear figure
-  let shearCalibration = maxF/scaleS;
-  let maxShearY = valueF;
-  let scaledMaxShearY = limitValue(maxShearY, shearCalibration, "S");
-  shearCalibration = maxF/scaleS;
-
+  // draws the shear figure
   fill(0, 200, 0);
   stroke(0, 100, 0);
   rect(x, heights[2], x+valueAPX, heights[2]-scaledMaxShearY);
   drawValue(x, heights[2], scaledMaxShearY, "V", "max", maxShearY, "S");
-
-
-  // Draws the moment figure
-  let momentCalibration = -maxF*maxA/scaleM;
-  let maxMomentY = -valueF*valueA;
-  let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
-  momentCalibration = -maxF*maxA/scaleM;
-
+  // draws the moment figure
   fill(200, 0, 0);
   stroke(100, 0, 0);
   triangle(x, heights[3], x+valueAPX, heights[3], x, heights[3]-scaledMaxMomentY);
@@ -246,23 +229,28 @@ function drawCIntLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawCUniLoad(x, heights) {
-  // Draws the free body figure
   let forceCalibration = maxW/scaleF;
   let maxForceY = valueW;
   let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
   forceCalibration = maxW/scaleF;
-
-  drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
-  drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "w", "", maxForceY, "w");
-
-
-  // Draws the deflection figure
   let deflectionCalibration = -(maxW*maxL*maxL*maxL*maxL)/(8*minE*minI)/scaleD;
   let maxDeflectionY = -(valueW*valueL*valueL*valueL*valueL)/(8*valueE*valueI);
   let scaledMaxDeflectionY = limitValue(maxDeflectionY, deflectionCalibration, "D");
   deflectionCalibration = -(maxW*maxL*maxL*maxL*maxL)/(8*minE*minI)/scaleD;
+  let shearCalibration = maxW*maxL/scaleS;
+  let maxShearY = valueW*valueL;
+  let scaledMaxShearY = limitValue(maxShearY, shearCalibration, "S");
+  shearCalibration = maxW*maxL/scaleS;
+  let momentCalibration = -maxW*maxL*maxL/2/scaleM;
+  let maxMomentY = -valueW*valueL*valueL/2;
+  let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
+  momentCalibration = -maxW*maxL*maxL/2/scaleM;
 
+  // draws the free body figure
+  drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
+  drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
+  drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "w", "", maxForceY, "w");
+  // draws the deflection figure
   noFill();
   stroke(0, 0, 100);
   beginShape();
@@ -272,26 +260,12 @@ function drawCUniLoad(x, heights) {
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
-
-
-  // Draws the shear figure
-  let shearCalibration = maxW*maxL/scaleS;
-  let maxShearY = valueW*valueL;
-  let scaledMaxShearY = limitValue(maxShearY, shearCalibration, "S");
-  shearCalibration = maxW*maxL/scaleS;
-
+  // draws the shear figure
   fill(0, 200, 0);
   stroke(0, 100, 0);
   triangle(x, heights[2], x+valueLPX, heights[2], x, heights[2]-scaledMaxShearY);
   drawValue(x, heights[2], scaledMaxShearY, "V", "max", maxShearY, "S");
-
-
-  // Draws the moment figure
-  let momentCalibration = -maxW*maxL*maxL/2/scaleM;
-  let maxMomentY = -valueW*valueL*valueL/2;
-  let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
-  momentCalibration = -maxW*maxL*maxL/2/scaleM;
-
+  // draws the moment figure
   fill(200, 0, 0);
   stroke(100, 0, 0);
   beginShape();
@@ -315,23 +289,28 @@ function drawCUniLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawCTriLoad(x, heights) {
-  // Draws the free body figure
   let forceCalibration = maxW/scaleF;
   let maxForceY = valueW;
   let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
   forceCalibration = maxW/scaleF;
-
-  drawTriArrow(x, heights[0], valueLPX, scaledMaxForceY);
-  drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
-  drawValue(x, heights[0], scaledMaxForceY, "w", "", maxForceY, "w");
-
-
-  // Draws the deflection figure
   let deflectionCalibration = -(maxW*maxL*maxL*maxL*maxL)/(30*minE*minI)/scaleD;
   let maxDeflectionY = -(valueW*valueL*valueL*valueL*valueL)/(30*valueE*valueI);
   let scaledMaxDeflectionY = limitValue(maxDeflectionY, deflectionCalibration, "D");
   deflectionCalibration = -(maxW*maxL*maxL*maxL*maxL)/(30*minE*minI)/scaleD;
+  let shearCalibration = maxW*maxL/2/scaleS;
+  let maxShearY = valueW*valueL/2;
+  let scaledMaxShearY = limitValue(maxShearY, shearCalibration, "S");
+  shearCalibration = maxW*maxL/2/scaleS;
+  let momentCalibration = -maxW*maxL*maxL/6/scaleM;
+  let maxMomentY = -valueW*valueL*valueL/6;
+  let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
+  momentCalibration = -maxW*maxL*maxL/6/scaleM;
 
+  // draws the free body figure
+  drawTriArrow(x, heights[0], valueLPX, scaledMaxForceY);
+  drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
+  drawValue(x, heights[0], scaledMaxForceY, "w", "", maxForceY, "w");
+  // draws the deflection figure
   noFill();
   stroke(0, 0, 100);
   beginShape();
@@ -341,14 +320,7 @@ function drawCTriLoad(x, heights) {
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
-
-
-  // Draws the shear figure
-  let shearCalibration = maxW*maxL/2/scaleS;
-  let maxShearY = valueW*valueL/2;
-  let scaledMaxShearY = limitValue(maxShearY, shearCalibration, "S");
-  shearCalibration = maxW*maxL/2/scaleS;
-
+  // draws the shear figure
   fill(0, 200, 0);
   stroke(0, 100, 0);
   beginShape();
@@ -360,14 +332,7 @@ function drawCTriLoad(x, heights) {
   vertex(x, heights[2]-scaledMaxShearY);
   endShape();
   drawValue(x, heights[2], scaledMaxShearY, "V", "max", maxShearY, "S");
-
-
-  // Draws the moment figure
-  let momentCalibration = -maxW*maxL*maxL/6/scaleM;
-  let maxMomentY = -valueW*valueL*valueL/6;
-  let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
-  momentCalibration = -maxW*maxL*maxL/6/scaleM;
-
+  // draws the moment figure
   fill(200, 0, 0);
   stroke(100, 0, 0);
   beginShape();
@@ -391,23 +356,28 @@ function drawCTriLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawCEndMome(x, heights) {
-  // Draws the free body figure
   let forceCalibration = maxM/scaleF;
   let maxForceY = valueM;
   let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
   forceCalibration = maxM/scaleF;
-
-  drawMoment(x+valueLPX, heights[0], scaledMaxForceY);
-  drawDimL(x, heights[0], valueLPX, 1, valueL);
-  drawValue(x+valueLPX, heights[0], scaledMaxForceY, "M", "0", maxForceY, "M");
-
-
-  // Draws the deflection figure
   let deflectionCalibration = -(maxM*maxL*maxL)/(2*minE*minI)/scaleD;
   let maxDeflectionY = -(valueM*valueL*valueL)/(2*valueE*valueI);
   let scaledMaxDeflectionY = limitValue(maxDeflectionY, deflectionCalibration, "D");
   deflectionCalibration = -(maxM*maxL*maxL)/(2*minE*minI)/scaleD;
+  let shearCalibration = 1/scaleS;
+  let maxShearY = 0;
+  let scaledMaxShearY = limitValue(maxShearY, shearCalibration, "S");
+  shearCalibration = 1/scaleS;
+  let momentCalibration = -maxM/scaleM;
+  let maxMomentY = -valueM;
+  let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
+  momentCalibration = -maxM/scaleM;
 
+  // Draws the free body figure
+  drawMoment(x+valueLPX, heights[0], scaledMaxForceY);
+  drawDimL(x, heights[0], valueLPX, 1, valueL);
+  drawValue(x+valueLPX, heights[0], scaledMaxForceY, "M", "0", maxForceY, "M");
+  // Draws the deflection figure
   noFill();
   stroke(0, 0, 100);
   beginShape();
@@ -417,25 +387,11 @@ function drawCEndMome(x, heights) {
   }
   endShape();
   drawValue(x+valueLPX, heights[1], scaledMaxDeflectionY, "\u03B4", "max", maxDeflectionY, "D");
-
-
   // Draws the shear figure
-  let shearCalibration = 1/scaleS;
-  let maxShearY = 0;
-  let scaledMaxShearY = limitValue(maxShearY, shearCalibration, "S");
-  shearCalibration = 1/scaleS;
-
   fill(0, 200, 0);
   stroke(0, 100, 0);
   drawValue(x, heights[2], scaledMaxShearY, "V", "max", 0, "S");
-
-
   // Draws the moment figure
-  let momentCalibration = -maxM/scaleM;
-  let maxMomentY = -valueM;
-  let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
-  momentCalibration = -maxM/scaleM;
-
   fill(200, 0, 0);
   stroke(100, 0, 0);
   rect(x, heights[3], x+valueLPX, heights[3]-scaledMaxMomentY);
@@ -1600,7 +1556,7 @@ function drawValue(x, y, yOffset, name, subscript, value, type, additionalOffset
 
 
 /**
- * This function constrains a value and adjusts zoom text box values and scale variables.
+ * This function constrains a value, adjusts zoom text box values and scale variables, and considers if buttonH was pressed.
  * @param {number} max The maximum number to constrain.
  * @param {number} calibration The maximum number that could be constrained.
  * @param {string} type The zoom text box value and scale variable to adjust.
@@ -1614,15 +1570,35 @@ function limitValue(max, calibration, type = "N/A", limit = heightPX) {
     if (type == "F") {
       zoomF.value = Math.floor(validateInput(zoomF.value*(limit/num), minZ, maxZ));
       scaleF = parseFloat(zoomF.value)*0.01;
+      if (halfButton) {
+        zoomF.value = zoomF.value/2;
+        scaleF = scaleF/2;
+        limit = limit/2;
+      }
     } else if (type == "D") {
       zoomD.value = Math.floor(validateInput(zoomD.value*(limit/num), minZ, maxZ));
       scaleD = parseFloat(zoomD.value)*0.01;
+      if (halfButton) {
+        zoomD.value = zoomD.value/2;
+        scaleD = scaleD/2;
+        limit = limit/2;
+      }
     } else if (type == "S") {
       zoomS.value = Math.floor(validateInput(zoomS.value*(limit/num), minZ, maxZ));
       scaleS = parseFloat(zoomS.value)*0.01;
+      if (halfButton) {
+        zoomS.value = zoomS.value/2;
+        scaleS = scaleS/2;
+        limit = limit/2;
+      }
     } else if (type == "M") {
       zoomM.value = Math.floor(validateInput(zoomM.value*(limit/num), minZ, maxZ));
       scaleM = parseFloat(zoomM.value)*0.01;
+      if (halfButton) {
+        zoomM.value = zoomM.value/2;
+        scaleM = scaleM/2;
+        limit = limit/2;
+      }
     }
 
     return limit;
@@ -1631,15 +1607,35 @@ function limitValue(max, calibration, type = "N/A", limit = heightPX) {
     if (type == "F") {
       zoomF.value = Math.floor(validateInput(zoomF.value*(limit/-num), minZ, maxZ));
       scaleF = parseFloat(zoomF.value)*0.01;
+      if (halfButton) {
+        zoomF.value = zoomF.value/2;
+        scaleF = scaleF/2;
+        limit = limit/2;
+      }
     } else if (type == "D") {
       zoomD.value =  Math.floor(validateInput(zoomD.value*(limit/-num), minZ, maxZ));
       scaleD = parseFloat(zoomD.value)*0.01;
+      if (halfButton) {
+        zoomD.value = zoomD.value/2;
+        scaleD = scaleD/2;
+        limit = limit/2;
+      }
     } else if (type == "S") {
       zoomS.value =  Math.floor(validateInput(zoomS.value*(limit/-num), minZ, maxZ));
       scaleS = parseFloat(zoomS.value)*0.01;
+      if (halfButton) {
+        zoomS.value = zoomS.value/2;
+        scaleS = scaleS/2;
+        limit = limit/2;
+      }
     } else if (type == "M") {
       zoomM.value =  Math.floor(validateInput(zoomM.value*(limit/-num), minZ, maxZ));
       scaleM = parseFloat(zoomM.value)*0.01;
+      if (halfButton) {
+        zoomM.value = zoomM.value/2;
+        scaleM = scaleM/2;
+        limit = limit/2;
+      }
     }
 
     return -limit;

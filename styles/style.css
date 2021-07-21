@@ -12,6 +12,27 @@
     padding-right: 100px;
   }
 
+  #intro {
+    justify-content: center;
+    align-items: center;
+
+    display: flex;
+    flex-wrap: wrap;
+    
+    min-width: 1000px;
+  }
+
+  #intro-container {
+    padding: 5px;
+    margin: 5px;
+
+    width: 916px;
+    height: auto;
+    
+    font-size: 10pt;
+    border: 3px solid var(--black);
+  }
+
   #simulation {
     justify-content: center;
     align-items: center;
@@ -19,7 +40,6 @@
     display: flex;
     flex-wrap: wrap;
     
-    width: 100%;
     min-width: 1000px;
   }
 
@@ -45,7 +65,7 @@
   }
   
   #output-container {
-    padding: 5px 5px 50px 5px;
+    padding: 5px;
     margin: 5px;
 
     width: 916px;

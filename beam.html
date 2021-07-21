@@ -46,6 +46,60 @@
       </noscript>
 
       <div id="content-inner"><br></br>
+        <div id="intro">
+          <div id="intro-container">
+            <b>INTRODUCTION:</b>
+
+            <br></br>
+
+            This is a simulator/calculator for beam deflections.<br>
+            The "INPUT" section contains the controls for the simulation.<br>
+            The "EQUATIONS" section contains the equations used generate the diagrams.<br>
+
+            <br></br>
+
+            Controls:
+
+            <br></br>
+
+            <ul>
+              <li>- <font face="Times New Roman, Times, serif">Beam Type:</font>
+                    This drop down menu changes the type of beam to simulate/calculate.</li>
+              <li>- <font face="Times New Roman, Times, serif">Load (<b><i>F</i></b>) (kN):</font>
+                    This slider and text box change the value of applicable point loads.</li>
+              <li>- <font face="Times New Roman, Times, serif">Distrubuted Load (<b><i>w</i></b>) (kN/m):</font>
+                    This slider and text box change the value of applicable distributed loads.</li>
+              <li>- <font face="Times New Roman, Times, serif">Moment (<b><i>M<sub>0</sub></i></b>) (kN*m):</font>
+                    This slider and text box change the value of applicable moments.</li>
+              <li>- <font face="Times New Roman, Times, serif">Load Position (<b><i>a</i></b>) (m):</font>
+                    This slider and text box change the position of applicable loads.</li>
+              <li>- <font face="Times New Roman, Times, serif">Beam Length (<b><i>L</i></b>) (m):</font>
+                    This slider and text box change the length of the beam.</li>
+              <li>- <font face="Times New Roman, Times, serif">Moment of Inertia (<b><i>I</i></b>) (mm<sup>4</sup>):</font>
+                    This slider and text box change the moment of inertia of the beam.</li>
+              <li>- <font face="Times New Roman, Times, serif">Young's Modulus (<b><i>E</i></b>) (GPa):</font>
+                    The slider and text box change the Young's modulus of the beam.</li>
+              <li>- <font face="Times New Roman, Times, serif">Zoom Buttons:</font>
+                    The button "Max Zoom" zooms in as much as possible on each diagram.<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    The button "Half Zoom" zooms in half as much as possible on each diagram.<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    The diagrams automatically zoom out until their entire plot is visible.</li>
+              <li>- <font face="Times New Roman, Times, serif">Zoom for Free Body Diagram (%):</font>
+                    This text box changes the zoom level for the free body diagram.</li>
+              <li>- <font face="Times New Roman, Times, serif">Zoom for Deflection Diagram (%):</font>
+                    This text box changes the zoom level for the deflection diagram.</li>
+              <li>- <font face="Times New Roman, Times, serif">Zoom for Shear Diagram (%):</font>
+                    This text box changes the zoom level for the shear diagram.</li>
+              <li>- <font face="Times New Roman, Times, serif">Zoom for Moment Diagram (%):</font>
+                    This text box changes the zoom level for the moment diagram.</li>
+            </ul>
+            
+            <br></br>
+          </div>
+        </div>
+
+
         <div id="simulation">
           <div id="p5-container"></div>
 
@@ -102,7 +156,7 @@
 
             <br><br></br>
 
-            <label class="input-label">Buttons that scale the data so that its visible:</label><br>
+            <label class="input-label">Zoom Buttons:</label><br>
             <input class="input-button" type="button" value="Max Zoom" id="button-A">
             <input class="input-button" type="button" value="Half Zoom" id="button-H"><br></br>
 
@@ -121,7 +175,15 @@
 
             <br></br>
 
-            Below are the equations that this simulation uses to generate its diagrams.<br>
+            Below are the equations that are uses to generate the diagrams.<br>
+            The equations change to match the selected beam type.<br>
+            
+            <br></br>
+            
+            <div id="output-calculations" style="font-size: 12px"></div><br></br>
+
+            <br></br>
+
             The equations are only valid if these assumptions are satisfied:
 
             <br></br>
@@ -134,10 +196,8 @@
               <li>- The deformed angles and displacements are small.</li>
               <li>- The beam is made of a homogeneous material.</li>
             </ul>
-            
+
             <br></br>
-            
-            <div id="output-calculations" style="font-size: 12px"></div>
           </div>
         </div>
       <br></br></div>
@@ -147,7 +207,7 @@
           <p>Copyright © 2016 <a href="#">Optical Diagnostics Group</a>. All Rights Reserved</p>
           <span>Design By: Bianca Angotti and Carmen Leung</span> <br>
           <p></p>
-          <span>Simulation By: Pranj Patel and Logan Vaughan</span>
+          <span>Simulation By: Logan Vaughan</span>
         </div>
       </div>
     </body>

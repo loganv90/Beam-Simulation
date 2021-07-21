@@ -819,7 +819,9 @@ window.onload = () => {
                             \\]`;
     }
     MathJax.typeset();
+    buttonH.onclick();
   }
+  buttonH.onclick();
 }
 
 

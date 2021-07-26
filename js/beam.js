@@ -21,7 +21,7 @@ function draw() {
   textSize(70);
   fill(190);
   noStroke();
-  text("Free Body", leftOffset+10, heights[0]);
+  text("Loading", leftOffset+10, heights[0]);
   text("Deflection", leftOffset+10, heights[1]);
   text("Shear", leftOffset+10, heights[2]);
   text("Moment", leftOffset+10, heights[3]);
@@ -117,10 +117,10 @@ function draw() {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawCEndLoad(x, heights) {
-  let forceCalibration = maxF/scaleF;
+  let forceCalibration = maxF/scaleL;
   let maxForceY = valueF;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxF/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxF/scaleL;
   let deflectionCalibration = -(maxF*maxL*maxL*maxL)/(3*minE*minI)/scaleD;
   let maxDeflectionY = -(valueF*valueL*valueL*valueL)/(3*valueE*valueI);
   let scaledMaxDeflectionY = limitValue(maxDeflectionY, deflectionCalibration, "D");
@@ -134,7 +134,7 @@ function drawCEndLoad(x, heights) {
   let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
   momentCalibration = -maxF*maxL/scaleM;
 
-  // draws the free body figure
+  // draws the loading figure
   drawArrow(x+valueLPX, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawValue(x+valueLPX, heights[0], scaledMaxForceY, "F", "", maxForceY, "F");
@@ -170,10 +170,10 @@ function drawCEndLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawCIntLoad(x, heights) {
-  let forceCalibration = maxF/scaleF;
+  let forceCalibration = maxF/scaleL;
   let maxForceY = valueF;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxF/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxF/scaleL;
   let deflectionCalibration = -(3*maxL-maxA)*(maxF*maxA*maxA)/(6*minE*minI)/scaleD;
   let maxDeflectionY = -(3*valueL-valueA)*(valueF*valueA*valueA)/(6*valueE*valueI);
   let scaledMaxDeflectionY = limitValue(maxDeflectionY, deflectionCalibration, "D");
@@ -187,7 +187,7 @@ function drawCIntLoad(x, heights) {
   let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
   momentCalibration = -maxF*maxA/scaleM;
 
-  // draws the free body figure
+  // draws the loading figure
   drawArrow(x+valueAPX, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawDimAB(x, heights[0], valueLPX, valueAPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL, valueA);
@@ -229,10 +229,10 @@ function drawCIntLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawCUniLoad(x, heights) {
-  let forceCalibration = maxW/scaleF;
+  let forceCalibration = maxW/scaleL;
   let maxForceY = valueW;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxW/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxW/scaleL;
   let deflectionCalibration = -(maxW*maxL*maxL*maxL*maxL)/(8*minE*minI)/scaleD;
   let maxDeflectionY = -(valueW*valueL*valueL*valueL*valueL)/(8*valueE*valueI);
   let scaledMaxDeflectionY = limitValue(maxDeflectionY, deflectionCalibration, "D");
@@ -246,7 +246,7 @@ function drawCUniLoad(x, heights) {
   let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
   momentCalibration = -maxW*maxL*maxL/2/scaleM;
 
-  // draws the free body figure
+  // draws the loading figure
   drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawValue(x+valueLPX/2, heights[0], scaledMaxForceY, "w", "", maxForceY, "w");
@@ -289,10 +289,10 @@ function drawCUniLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawCTriLoad(x, heights) {
-  let forceCalibration = maxW/scaleF;
+  let forceCalibration = maxW/scaleL;
   let maxForceY = valueW;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxW/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxW/scaleL;
   let deflectionCalibration = -(maxW*maxL*maxL*maxL*maxL)/(30*minE*minI)/scaleD;
   let maxDeflectionY = -(valueW*valueL*valueL*valueL*valueL)/(30*valueE*valueI);
   let scaledMaxDeflectionY = limitValue(maxDeflectionY, deflectionCalibration, "D");
@@ -306,7 +306,7 @@ function drawCTriLoad(x, heights) {
   let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
   momentCalibration = -maxW*maxL*maxL/6/scaleM;
 
-  // draws the free body figure
+  // draws the loading figure
   drawTriArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
   drawValue(x, heights[0], scaledMaxForceY, "w", "", maxForceY, "w");
@@ -356,10 +356,10 @@ function drawCTriLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawCEndMome(x, heights) {
-  let forceCalibration = maxM/scaleF;
+  let forceCalibration = maxM/scaleL;
   let maxForceY = valueM;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxM/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxM/scaleL;
   let deflectionCalibration = -(maxM*maxL*maxL)/(2*minE*minI)/scaleD;
   let maxDeflectionY = -(valueM*valueL*valueL)/(2*valueE*valueI);
   let scaledMaxDeflectionY = limitValue(maxDeflectionY, deflectionCalibration, "D");
@@ -373,7 +373,7 @@ function drawCEndMome(x, heights) {
   let scaledMaxMomentY = limitValue(maxMomentY, momentCalibration, "M");
   momentCalibration = -maxM/scaleM;
 
-  // Draws the free body figure
+  // Draws the loading figure
   drawMoment(x+valueLPX, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
   drawValue(x+valueLPX, heights[0], scaledMaxForceY, "M", "0", maxForceY, "M");
@@ -408,11 +408,11 @@ function drawCEndMome(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawSIntLoad(x, heights) {
-  // Draws the free body figure
-  let forceCalibration = maxF/scaleF;
+  // Draws the loading figure
+  let forceCalibration = maxF/scaleL;
   let maxForceY = valueF;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxF/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxF/scaleL;
 
   drawArrow(x+valueAPX, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
@@ -490,11 +490,11 @@ function drawSIntLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawSCenLoad(x, heights) {
-  // Draws the free body figure
-  let forceCalibration = maxF/scaleF;
+  // Draws the loading figure
+  let forceCalibration = maxF/scaleL;
   let maxForceY = valueF;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxF/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxF/scaleL;
 
   drawArrow(x+valueLPX/2, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
@@ -573,11 +573,11 @@ function drawSTwoLoad(x, heights) {
     additionalOffset = 7;
   }
   
-  // Draws the free body figure
-  let forceCalibration = maxF/scaleF;
+  // Draws the loading figure
+  let forceCalibration = maxF/scaleL;
   let maxForceY = valueF;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxF/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxF/scaleL;
 
   drawArrow(x+valueAPX, heights[0], scaledMaxForceY);
   drawArrow(x+valueLPX-valueAPX, heights[0], scaledMaxForceY);
@@ -654,11 +654,11 @@ function drawSTwoLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawSUniLoad(x, heights) {
-  // Draws the free body figure
-  let forceCalibration = maxW/scaleF;
+  // Draws the loading figure
+  let forceCalibration = maxW/scaleL;
   let maxForceY = valueW;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxW/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxW/scaleL;
 
   drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
@@ -728,11 +728,11 @@ function drawSUniLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawSTwoMome(x, heights) {
-  // Draws the free body figure
-  let forceCalibration = maxM/scaleF;
+  // Draws the loading figure
+  let forceCalibration = maxM/scaleL;
   let maxForceY = valueM;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxM/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxM/scaleL;
 
   drawMoment(x, heights[0], scaledMaxForceY);
   drawMoment(x+valueLPX, heights[0], -scaledMaxForceY);
@@ -791,11 +791,11 @@ function drawSTwoMome(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawSOneMome(x, heights) {
-  // Draws the free body figure
-  let forceCalibration = maxM/scaleF;
+  // Draws the loading figure
+  let forceCalibration = maxM/scaleL;
   let maxForceY = valueM;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxM/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxM/scaleL;
 
   drawMoment(x, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
@@ -854,11 +854,11 @@ function drawSOneMome(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawSCenMome(x, heights) {
-  // Draws the free body figure
-  let forceCalibration = maxM/scaleF;
+  // Draws the loading figure
+  let forceCalibration = maxM/scaleL;
   let maxForceY = valueM;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxM/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxM/scaleL;
   
   drawMoment(x+valueLPX/2, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
@@ -923,11 +923,11 @@ function drawSCenMome(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawFCenLoad(x, heights) {
-  // Draws the free body figure
-  let forceCalibration = maxF/scaleF;
+  // Draws the loading figure
+  let forceCalibration = maxF/scaleL;
   let maxForceY = valueF;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxF/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxF/scaleL;
 
   drawArrow(x+valueLPX/2, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
@@ -1003,11 +1003,11 @@ function drawFCenLoad(x, heights) {
  * @param {number[]} heights An array containing the positions of the figures from the top of the canvas in pixels.
  */
 function drawFUniLoad(x, heights) {
-  // Draws the free body figure
-  let forceCalibration = maxW/scaleF;
+  // Draws the loading figure
+  let forceCalibration = maxW/scaleL;
   let maxForceY = valueW;
-  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "F");
-  forceCalibration = maxW/scaleF;
+  let scaledMaxForceY = limitValue(maxForceY, forceCalibration, "L");
+  forceCalibration = maxW/scaleL;
 
   drawUniArrow(x, heights[0], valueLPX, scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, (scaledMaxForceY >= 0) ? 1 : -1, valueL);
@@ -1567,12 +1567,12 @@ function limitValue(max, calibration, type = "N/A", limit = heightPX) {
   let num = max/(abs(calibration)/limit);
 
   if (num > limit) {
-    if (type == "F") {
-      zoomF.value = Math.floor(validateInput(zoomF.value*(limit/num), minZ, maxZ));
-      scaleF = parseFloat(zoomF.value)*0.01;
+    if (type == "L") {
+      zoomL.value = Math.floor(validateInput(zoomL.value*(limit/num), minZ, maxZ));
+      scaleL = parseFloat(zoomL.value)*0.01;
       if (halfButton) {
-        zoomF.value = zoomF.value/2;
-        scaleF = scaleF/2;
+        zoomL.value = zoomL.value/2;
+        scaleL = scaleL/2;
         limit = limit/2;
       }
     } else if (type == "D") {
@@ -1604,12 +1604,12 @@ function limitValue(max, calibration, type = "N/A", limit = heightPX) {
     return limit;
   }
   else if (num < -limit) {
-    if (type == "F") {
-      zoomF.value = Math.floor(validateInput(zoomF.value*(limit/-num), minZ, maxZ));
-      scaleF = parseFloat(zoomF.value)*0.01;
+    if (type == "L") {
+      zoomL.value = Math.floor(validateInput(zoomL.value*(limit/-num), minZ, maxZ));
+      scaleL = parseFloat(zoomL.value)*0.01;
       if (halfButton) {
-        zoomF.value = zoomF.value/2;
-        scaleF = scaleF/2;
+        zoomL.value = zoomL.value/2;
+        scaleL = scaleL/2;
         limit = limit/2;
       }
     } else if (type == "D") {

@@ -32,12 +32,12 @@ let maxI, minI;
 let maxE, minE;
 
 // the zoom text boxes
-let zoomF; // unit: percentage
+let zoomL; // unit: percentage
 let zoomD; // unit: percentage
 let zoomS; // unit: percentage
 let zoomM; // unit: percentage
 // converted values for the calibrations
-let scaleF; // unit: fraction
+let scaleL; // unit: fraction
 let scaleD; // unit: fraction
 let scaleS; // unit: fraction
 let scaleM; // unit: fraction
@@ -94,11 +94,11 @@ window.onload = () => {
   maxE = 1000000000000;
   minE = 10000000000;
 
-  zoomF = document.querySelector("#zoom-F");
+  zoomL = document.querySelector("#zoom-F");
   zoomD = document.querySelector("#zoom-D");
   zoomS = document.querySelector("#zoom-S");
   zoomM = document.querySelector("#zoom-M");
-  scaleF = parseFloat(zoomF.value)*0.01;
+  scaleL = parseFloat(zoomL.value)*0.01;
   scaleD = parseFloat(zoomD.value)*0.01;
   scaleS = parseFloat(zoomS.value)*0.01;
   scaleM = parseFloat(zoomM.value)*0.01;
@@ -210,9 +210,9 @@ window.onload = () => {
 
 
   // the functionality of the zoom text boxes
-  zoomF.onchange = () => {
-    zoomF.value = Math.floor(validateInput(zoomF.value, minZ, maxZ));
-    scaleF = parseFloat(zoomF.value)*0.01;
+  zoomL.onchange = () => {
+    zoomL.value = Math.floor(validateInput(zoomL.value, minZ, maxZ));
+    scaleL = parseFloat(zoomL.value)*0.01;
   }
   zoomD.onchange = () => {
     zoomD.value = Math.floor(validateInput(zoomD.value, minZ, maxZ));
@@ -230,8 +230,8 @@ window.onload = () => {
 
   // the functionality of the buttons
   buttonA.onclick = () => {
-    zoomF.value = Math.floor(validateInput(maxZ, minZ, maxZ));
-    scaleF = parseFloat(zoomF.value)*0.01;
+    zoomL.value = Math.floor(validateInput(maxZ, minZ, maxZ));
+    scaleL = parseFloat(zoomL.value)*0.01;
 
     zoomD.value = Math.floor(validateInput(maxZ, minZ, maxZ));
     scaleD = parseFloat(zoomD.value)*0.01;

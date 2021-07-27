@@ -1,5 +1,5 @@
 function setup() {
-  let canvas = createCanvas(600, 800);
+  let canvas = createCanvas(600, 950);
   canvas.parent("p5-container");
   frameRate(60);
   rectMode(CORNERS);
@@ -12,7 +12,7 @@ function setup() {
 function draw() {
   background(200);
   let leftOffset = 100;
-  let heights = [height/5, 2*height/5, 3*height/5, 4*height/5];
+  let heights = [2*height/6, 3*height/6, 4*height/6, 5*height/6, height/6];
 
   // draws the figure titles
   textFont('Helvetica');
@@ -25,6 +25,7 @@ function draw() {
   text("Deflection", leftOffset+10, heights[1]);
   text("Shear", leftOffset+10, heights[2]);
   text("Moment", leftOffset+10, heights[3]);
+  text("Free Body", leftOffset+10, heights[4]);
   textFont('TimesNewRoman');
 
   // additional functionality for buttonH
@@ -33,67 +34,491 @@ function draw() {
   if (beamType.value == "c-end-load") {
     drawCEndLoad(leftOffset, heights);
     drawFixedEnd(leftOffset, heights[0], false);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("F", leftOffset+valueLPX, heights[4]-50);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("M", leftOffset-30, heights[4]+30);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("A", leftOffset-30, heights[4]+30+3);
+
+    // reaction arrows
+    stroke(0);
+    triangle(leftOffset+valueLPX, heights[4], leftOffset+valueLPX-5, heights[4]-10, leftOffset+valueLPX+5, heights[4]-10);
+    line(leftOffset+valueLPX, heights[4], leftOffset+valueLPX, heights[4]-40);
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+5, heights[4]+25, leftOffset-5, heights[4]+20, leftOffset-5, heights[4]+30);
+    noFill();
+    arc(leftOffset, heights[4], 50, 50, PI/2, 7*PI/6);
   }
   else if (beamType.value == "c-int-load") {
     drawCIntLoad(leftOffset, heights);
     drawFixedEnd(leftOffset, heights[0], false);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("F", leftOffset+valueAPX, heights[4]-50);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("M", leftOffset-30, heights[4]+30);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("A", leftOffset-30, heights[4]+30+3);
+
+    // reaction arrows
+    stroke(0);
+    triangle(leftOffset+valueAPX, heights[4], leftOffset+valueAPX-5, heights[4]-10, leftOffset+valueAPX+5, heights[4]-10);
+    line(leftOffset+valueAPX, heights[4], leftOffset+valueAPX, heights[4]-40);
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+5, heights[4]+25, leftOffset-5, heights[4]+20, leftOffset-5, heights[4]+30);
+    noFill();
+    arc(leftOffset, heights[4], 50, 50, PI/2, 7*PI/6);
   }
   else if (beamType.value == "c-uni-load") {
     drawCUniLoad(leftOffset, heights);
     drawFixedEnd(leftOffset, heights[0], false);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("w", leftOffset+valueLPX/2, heights[4]-50);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("M", leftOffset-30, heights[4]+30);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("A", leftOffset-30, heights[4]+30+3);
+
+    // reaction arrows
+    stroke(0);
+    drawUniArrow(leftOffset, heights[4], valueLPX, 40, color(0));
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+5, heights[4]+25, leftOffset-5, heights[4]+20, leftOffset-5, heights[4]+30);
+    noFill();
+    arc(leftOffset, heights[4], 50, 50, PI/2, 7*PI/6);
   }
   else if (beamType.value == "c-tri-load") {
     drawCTriLoad(leftOffset, heights);
     drawFixedEnd(leftOffset, heights[0], false);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("w", leftOffset, heights[4]-50);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("M", leftOffset-30, heights[4]+30);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("A", leftOffset-30, heights[4]+30+3);
+
+    // reaction arrows
+    stroke(0);
+    drawTriArrow(leftOffset, heights[4], valueLPX, 40, color(0));
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+5, heights[4]+25, leftOffset-5, heights[4]+20, leftOffset-5, heights[4]+30);
+    noFill();
+    arc(leftOffset, heights[4], 50, 50, PI/2, 7*PI/6);
   }
   else if (beamType.value == "c-end-mome") {
     drawCEndMome(leftOffset, heights);
     drawFixedEnd(leftOffset, heights[0], false);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("M", leftOffset+valueLPX, heights[4]-50);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("M", leftOffset-30, heights[4]+30);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("A", leftOffset-30, heights[4]+30+3);
+
+    // reaction arrows
+    stroke(0);
+    drawMoment(leftOffset+valueLPX, heights[4], 40, color(0));
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+5, heights[4]+25, leftOffset-5, heights[4]+20, leftOffset-5, heights[4]+30);
+    noFill();
+    arc(leftOffset, heights[4], 50, 50, PI/2, 7*PI/6);
   }
   else if (beamType.value == "s-int-load") {
     drawSIntLoad(leftOffset, heights);
-    drawSupportedEnd(leftOffset, heights[0], false);
-    drawSupportedEnd(leftOffset+valueLPX, heights[0], false);
+    drawSupportedEnd(leftOffset, heights[0]);
+    drawRollerEnd(leftOffset+valueLPX, heights[0]);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("F", leftOffset+valueAPX, heights[4]-50);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("B", leftOffset+valueLPX, heights[4]+50);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("y", leftOffset+valueLPX, heights[4]+50+3);
+
+    // reaction arrows
+    stroke(0);
+    triangle(leftOffset+valueAPX, heights[4], leftOffset+valueAPX-5, heights[4]-10, leftOffset+valueAPX+5, heights[4]-10);
+    line(leftOffset+valueAPX, heights[4], leftOffset+valueAPX, heights[4]-40);
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+valueLPX, heights[4], leftOffset+valueLPX-5, heights[4]+10, leftOffset+valueLPX+5, heights[4]+10);
+    line(leftOffset+valueLPX, heights[4], leftOffset+valueLPX, heights[4]+40);
   }
   else if (beamType.value == "s-cen-load") {
     drawSCenLoad(leftOffset, heights);
-    drawSupportedEnd(leftOffset, heights[0], false);
-    drawSupportedEnd(leftOffset+valueLPX, heights[0], false);
+    drawSupportedEnd(leftOffset, heights[0]);
+    drawRollerEnd(leftOffset+valueLPX, heights[0]);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("F", leftOffset+valueLPX/2, heights[4]-50);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("B", leftOffset+valueLPX, heights[4]+50);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("y", leftOffset+valueLPX, heights[4]+50+3);
+
+    // reaction arrows
+    stroke(0);
+    triangle(leftOffset+valueLPX/2, heights[4], leftOffset+valueLPX/2-5, heights[4]-10, leftOffset+valueLPX/2+5, heights[4]-10);
+    line(leftOffset+valueLPX/2, heights[4], leftOffset+valueLPX/2, heights[4]-40);
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+valueLPX, heights[4], leftOffset+valueLPX-5, heights[4]+10, leftOffset+valueLPX+5, heights[4]+10);
+    line(leftOffset+valueLPX, heights[4], leftOffset+valueLPX, heights[4]+40);
   }
   else if (beamType.value == "s-two-load") {
     drawSTwoLoad(leftOffset, heights);
-    drawSupportedEnd(leftOffset, heights[0], false);
-    drawSupportedEnd(leftOffset+valueLPX, heights[0], false);
+    drawSupportedEnd(leftOffset, heights[0]);
+    drawRollerEnd(leftOffset+valueLPX, heights[0]);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("F", leftOffset+valueAPX, heights[4]-50);
+    text("F", leftOffset+valueLPX-valueAPX, heights[4]-50);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("B", leftOffset+valueLPX, heights[4]+50);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("y", leftOffset+valueLPX, heights[4]+50+3);
+
+    // reaction arrows
+    stroke(0);
+    triangle(leftOffset+valueAPX, heights[4], leftOffset+valueAPX-5, heights[4]-10, leftOffset+valueAPX+5, heights[4]-10);
+    line(leftOffset+valueAPX, heights[4], leftOffset+valueAPX, heights[4]-40);
+    triangle(leftOffset+valueLPX-valueAPX, heights[4], leftOffset+valueLPX-valueAPX-5, heights[4]-10, leftOffset+valueLPX-valueAPX+5, heights[4]-10);
+    line(leftOffset+valueLPX-valueAPX, heights[4], leftOffset+valueLPX-valueAPX, heights[4]-40);
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+valueLPX, heights[4], leftOffset+valueLPX-5, heights[4]+10, leftOffset+valueLPX+5, heights[4]+10);
+    line(leftOffset+valueLPX, heights[4], leftOffset+valueLPX, heights[4]+40);
   }
   else if (beamType.value == "s-uni-load") {
     drawSUniLoad(leftOffset, heights);
-    drawSupportedEnd(leftOffset, heights[0], false);
-    drawSupportedEnd(leftOffset+valueLPX, heights[0], false);
+    drawSupportedEnd(leftOffset, heights[0]);
+    drawRollerEnd(leftOffset+valueLPX, heights[0]);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("w", leftOffset+valueLPX/2, heights[4]-50);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("B", leftOffset+valueLPX, heights[4]+50);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("y", leftOffset+valueLPX, heights[4]+50+3);
+
+    // reaction arrows
+    stroke(0);
+    drawUniArrow(leftOffset, heights[4], valueLPX, 40, color(0));
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+valueLPX, heights[4], leftOffset+valueLPX-5, heights[4]+10, leftOffset+valueLPX+5, heights[4]+10);
+    line(leftOffset+valueLPX, heights[4], leftOffset+valueLPX, heights[4]+40);
   }
   else if (beamType.value == "s-two-mome") {
     drawSTwoMome(leftOffset, heights);
-    drawSupportedEnd(leftOffset, heights[0], false);
-    drawSupportedEnd(leftOffset+valueLPX, heights[0], false);
+    drawSupportedEnd(leftOffset, heights[0]);
+    drawRollerEnd(leftOffset+valueLPX, heights[0]);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("M", leftOffset, heights[4]-50);
+    text("-M", leftOffset+valueLPX+25, heights[4]+40);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("B", leftOffset+valueLPX, heights[4]+50);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("y", leftOffset+valueLPX, heights[4]+50+3);
+    text("0", leftOffset+5, heights[4]-50+3);
+    text("0", leftOffset+valueLPX+25+7, heights[4]+40+3);
+
+    // reaction arrows
+    stroke(0);
+    drawMoment(leftOffset, heights[4], 40, color(0));
+    drawMoment(leftOffset+valueLPX, heights[4], -35, color(0));
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+valueLPX, heights[4], leftOffset+valueLPX-5, heights[4]+10, leftOffset+valueLPX+5, heights[4]+10);
+    line(leftOffset+valueLPX, heights[4], leftOffset+valueLPX, heights[4]+40);
   }
   else if (beamType.value == "s-one-mome") {
     drawSOneMome(leftOffset, heights);
-    drawSupportedEnd(leftOffset, heights[0], false);
-    drawSupportedEnd(leftOffset+valueLPX, heights[0], false);
+    drawSupportedEnd(leftOffset, heights[0]);
+    drawRollerEnd(leftOffset+valueLPX, heights[0]);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("M", leftOffset, heights[4]-50);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("B", leftOffset+valueLPX, heights[4]+50);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("y", leftOffset+valueLPX, heights[4]+50+3);
+    text("0", leftOffset+5, heights[4]-50+3);
+
+    // reaction arrows
+    stroke(0);
+    drawMoment(leftOffset, heights[4], 40, color(0));
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+valueLPX, heights[4], leftOffset+valueLPX-5, heights[4]+10, leftOffset+valueLPX+5, heights[4]+10);
+    line(leftOffset+valueLPX, heights[4], leftOffset+valueLPX, heights[4]+40);
   }
   else if (beamType.value == "s-cen-mome") {
     drawSCenMome(leftOffset, heights);
-    drawSupportedEnd(leftOffset, heights[0], false);
-    drawSupportedEnd(leftOffset+valueLPX, heights[0], false);
+    drawSupportedEnd(leftOffset, heights[0]);
+    drawRollerEnd(leftOffset+valueLPX, heights[0]);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("M", leftOffset+valueLPX/2, heights[4]-50);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("B", leftOffset+valueLPX, heights[4]+50);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("y", leftOffset+valueLPX, heights[4]+50+3);
+    text("0", leftOffset+valueLPX/2+5, heights[4]-50+3);
+
+    // reaction arrows
+    stroke(0);
+    drawMoment(leftOffset+valueLPX/2, heights[4], 40, color(0));
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+valueLPX, heights[4], leftOffset+valueLPX-5, heights[4]+10, leftOffset+valueLPX+5, heights[4]+10);
+    line(leftOffset+valueLPX, heights[4], leftOffset+valueLPX, heights[4]+40);
   }
   else if (beamType.value == "f-cen-load") {
     drawFCenLoad(leftOffset, heights);
     drawFixedEnd(leftOffset, heights[0], false);
     drawFixedEnd(leftOffset+valueLPX, heights[0], true);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("F", leftOffset+valueLPX/2, heights[4]-50);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("B", leftOffset+valueLPX, heights[4]+50);
+    text("B", leftOffset+valueLPX+50, heights[4]);
+    text("M", leftOffset-30, heights[4]+30);
+    text("M", leftOffset+valueLPX+30, heights[4]+30);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("y", leftOffset+valueLPX, heights[4]+50+3);
+    text("y", leftOffset+valueLPX+50, heights[4]+3);
+    text("A", leftOffset-30, heights[4]+30+3);
+    text("B", leftOffset+valueLPX+30, heights[4]+30+3);
+
+    // reaction arrows
+    stroke(0);
+    triangle(leftOffset+valueLPX/2, heights[4], leftOffset+valueLPX/2-5, heights[4]-10, leftOffset+valueLPX/2+5, heights[4]-10);
+    line(leftOffset+valueLPX/2, heights[4], leftOffset+valueLPX/2, heights[4]-40);
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+valueLPX, heights[4], leftOffset+valueLPX-5, heights[4]+10, leftOffset+valueLPX+5, heights[4]+10);
+    line(leftOffset+valueLPX, heights[4], leftOffset+valueLPX, heights[4]+40);
+    triangle(leftOffset+valueLPX, heights[4], leftOffset+valueLPX+10, heights[4]-5, leftOffset+valueLPX+10, heights[4]+5);
+    line(leftOffset+valueLPX, heights[4], leftOffset+valueLPX+40, heights[4]);
+    triangle(leftOffset+5, heights[4]+25, leftOffset-5, heights[4]+20, leftOffset-5, heights[4]+30);
+    triangle(leftOffset+valueLPX-5, heights[4]+25, leftOffset+valueLPX+5, heights[4]+20, leftOffset+valueLPX+5, heights[4]+30);
+    noFill();
+    arc(leftOffset, heights[4], 50, 50, PI/2, 7*PI/6);
+    arc(leftOffset+valueLPX, heights[4], 50, 50, -PI/6, PI/2);
   }
   else if (beamType.value == "f-uni-load") {
     drawFUniLoad(leftOffset, heights);
     drawFixedEnd(leftOffset, heights[0], false);
     drawFixedEnd(leftOffset+valueLPX, heights[0], true);
+
+    // reaction names
+    textStyle(BOLDITALIC);
+    fill(0);
+    noStroke(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("w", leftOffset+valueLPX/2, heights[4]-50);
+    textAlign(RIGHT, CENTER);
+    text("A", leftOffset-50, heights[4]);
+    text("A", leftOffset, heights[4]+50);
+    text("B", leftOffset+valueLPX, heights[4]+50);
+    text("B", leftOffset+valueLPX+50, heights[4]);
+    text("M", leftOffset-30, heights[4]+30);
+    text("M", leftOffset+valueLPX+30, heights[4]+30);
+    textSize(10);
+    textAlign(LEFT, CENTER);
+    text("x", leftOffset-50, heights[4]+3);
+    text("y", leftOffset, heights[4]+50+3);
+    text("y", leftOffset+valueLPX, heights[4]+50+3);
+    text("y", leftOffset+valueLPX+50, heights[4]+3);
+    text("A", leftOffset-30, heights[4]+30+3);
+    text("B", leftOffset+valueLPX+30, heights[4]+30+3);
+
+    // reaction arrows
+    stroke(0);
+    drawUniArrow(leftOffset, heights[4], valueLPX, 40, color(0));
+    triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
+    line(leftOffset, heights[4], leftOffset-40, heights[4]);
+    triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
+    line(leftOffset, heights[4], leftOffset, heights[4]+40);
+    triangle(leftOffset+valueLPX, heights[4], leftOffset+valueLPX-5, heights[4]+10, leftOffset+valueLPX+5, heights[4]+10);
+    line(leftOffset+valueLPX, heights[4], leftOffset+valueLPX, heights[4]+40);
+    triangle(leftOffset+valueLPX, heights[4], leftOffset+valueLPX+10, heights[4]-5, leftOffset+valueLPX+10, heights[4]+5);
+    line(leftOffset+valueLPX, heights[4], leftOffset+valueLPX+40, heights[4]);
+    triangle(leftOffset+5, heights[4]+25, leftOffset-5, heights[4]+20, leftOffset-5, heights[4]+30);
+    triangle(leftOffset+valueLPX-5, heights[4]+25, leftOffset+valueLPX+5, heights[4]+20, leftOffset+valueLPX+5, heights[4]+30);
+    noFill();
+    arc(leftOffset, heights[4], 50, 50, PI/2, 7*PI/6);
+    arc(leftOffset+valueLPX, heights[4], 50, 50, -PI/6, PI/2);
   }
   // additional functionality for buttonH
   halfButton = false;
@@ -104,7 +529,8 @@ function draw() {
   for (let i=0; i<heights.length; i++) {
     line(leftOffset, heights[i], leftOffset+valueLPX, heights[i]);
   }
-  drawCoordinateSystem(leftOffset, heights[0]);
+  drawCoordinateSystem(leftOffset, heights[4]);
+  drawPoints(leftOffset, heights[4]);
 }
 
 
@@ -142,7 +568,7 @@ function drawCEndLoad(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY = -(3*valueL-funcX)*(valueF*funcX*funcX)/(6*valueE*valueI);
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
@@ -196,7 +622,7 @@ function drawCIntLoad(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY;
     if (funcX <= valueA) {
       funcY = -(3*valueA-funcX)*(valueF*funcX*funcX)/(6*valueE*valueI);
@@ -254,7 +680,7 @@ function drawCUniLoad(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY = -(6*valueL*valueL-4*valueL*funcX+funcX*funcX)*(valueW*funcX*funcX)/(24*valueE*valueI);
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
@@ -269,7 +695,7 @@ function drawCUniLoad(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY = -valueW*(valueL-funcX)*(valueL-funcX)/2;
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-heightPX, heights[3]+heightPX, true));
   }
@@ -314,7 +740,7 @@ function drawCTriLoad(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY = -(10*valueL*valueL*valueL-10*valueL*valueL*funcX+5*valueL*funcX*funcX-funcX*funcX*funcX)*(valueW*funcX*funcX)/(120*valueL*valueE*valueI);
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
@@ -324,7 +750,7 @@ function drawCTriLoad(x, heights) {
   fill(0, 200, 0);
   stroke(0, 100, 0);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY = (valueW-valueW*(funcX/valueL))*(valueL-funcX)/2;
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, shearCalibration, -shearCalibration, heights[2]-heightPX, heights[2]+heightPX, true));
   }
@@ -336,7 +762,7 @@ function drawCTriLoad(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY = -(valueW-valueW*(funcX/valueL))*(valueL-funcX)*(valueL-funcX)/6;
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-heightPX, heights[3]+heightPX, true));
   }
@@ -381,7 +807,7 @@ function drawCEndMome(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY = -(valueM*funcX*funcX)/(2*valueE*valueI);
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
@@ -437,7 +863,7 @@ function drawSIntLoad(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY;
     if (funcX <= valueA) {
       funcY = -(valueL*valueL-(valueL-valueA)*(valueL-valueA)-funcX*funcX)*(valueF*(valueL-valueA)*funcX)/(6*valueL*valueE*valueI);
@@ -510,7 +936,7 @@ function drawSCenLoad(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY;
     if (funcX <= valueL/2) {
       funcY = -(3*valueL*valueL-4*funcX*funcX)*(valueF*funcX)/(48*valueE*valueI);
@@ -596,7 +1022,7 @@ function drawSTwoLoad(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY;
     if (funcX <= valueA) {
       funcY = -(3*valueA*valueL-3*valueA*valueA-funcX*funcX)*(valueF*funcX)/(6*valueE*valueI);
@@ -674,7 +1100,7 @@ function drawSUniLoad(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY = -(valueL*valueL*valueL-2*valueL*funcX*funcX+funcX*funcX*funcX)*(valueW*funcX)/(24*valueE*valueI);
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
@@ -708,7 +1134,7 @@ function drawSUniLoad(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY = -(valueL*funcX-funcX*funcX)*valueW/2;
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-heightPX, heights[3]+heightPX, true));
   }
@@ -750,7 +1176,7 @@ function drawSTwoMome(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY = -(valueL-funcX)*(valueM*funcX)/(2*valueE*valueI);
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
@@ -812,7 +1238,7 @@ function drawSOneMome(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY = -(2*valueL*valueL-3*valueL*funcX+funcX*funcX)*(valueM*funcX)/(6*valueL*valueE*valueI);
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
@@ -875,7 +1301,7 @@ function drawSCenMome(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY;
     if (funcX <= valueL/2) {
       funcY = -(valueL*valueL-4*funcX*funcX)*(valueM*funcX)/(24*valueL*valueE*valueI);
@@ -943,7 +1369,7 @@ function drawFCenLoad(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY;
     if (funcX <= valueL/2) {
       funcY = -(3*valueL-4*funcX)*(valueF*funcX*funcX)/(48*valueE*valueI);
@@ -1023,7 +1449,7 @@ function drawFUniLoad(x, heights) {
   noFill();
   stroke(0, 0, 100);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY = -(valueL-funcX)*(valueL-funcX)*(valueW*funcX*funcX)/(24*valueE*valueI);
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -deflectionCalibration, deflectionCalibration, heights[1]-heightPX, heights[1]+heightPX, true));
   }
@@ -1060,7 +1486,7 @@ function drawFUniLoad(x, heights) {
   fill(200, 0, 0);
   stroke(100, 0, 0);
   beginShape();
-  for (let funcX = 0; funcX <= valueL; funcX+=valueL/100) {
+  for (let funcX = 0; funcX <= valueL; funcX+=valueL/1000) {
     let funcY = -(6*valueL*funcX-6*funcX*funcX-valueL*valueL)*valueW/12;
     vertex(x+map(funcX, 0, valueL, 0, valueLPX), map(funcY, -momentCalibration, momentCalibration, heights[3]-heightPX, heights[3]+heightPX, true));
   }
@@ -1464,6 +1890,34 @@ function drawSupportedEnd(x, y) {
 
 
 /**
+ * This function draws the roller end symbol.
+ * @param {number} x The position to draw the symbol from the left side of the canvas in pixels.
+ * @param {number} y The position to draw the symbol from the top of the canvas in pixels.
+ */
+ function drawRollerEnd(x, y) {
+  noFill(0);
+  stroke(0);
+  circle(x, y+2, 4);
+  fill(0);
+  
+  line(x+9, y+5, x+4, y+10);
+  line(x+4, y+5, x-1, y+10);
+  line(x-1, y+5, x-6, y+10);
+  line(x-6, y+5, x-11, y+10);
+  line(x-10, y+5, x+10, y+5); // horizontal line
+
+  line(x+9, y+5, x+4, y+10);
+  line(x+4, y+5, x-1, y+10);
+  line(x-1, y+5, x-6, y+10);
+  line(x-6, y+5, x-11, y+10);
+  line(x-10, y+5, x+10, y+5); // horizontal line
+}
+
+
+
+
+
+/**
  * This function draws the coordinate system.
  * @param {number} x The position to draw the coordinate system from the left side of the canvas in pixels.
  * @param {number} y The position to draw the coordinate system from the top of the canvas in pixels.
@@ -1491,14 +1945,36 @@ function drawSupportedEnd(x, y) {
 
 
 /**
+ * This function draws points on the end of a diagram.
+ * @param {number} x The position to draw the diagram from the left side of the canvas in pixels.
+ * @param {number} y The position to draw the diagram from the top of the canvas in pixels.
+ */
+function drawPoints(x, y) {
+  fill(200, 100, 0);
+  stroke(200, 100, 0);
+  circle(x, y, 5);
+  circle(x+valueLPX, y, 5);
+  noStroke(0);
+  textStyle(BOLDITALIC);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text("A", x+10, y-10);
+  text("B", x+valueLPX+10, y-10);
+}
+
+
+
+
+
+/**
  * This function draws the values for the figures.
  * @param {number} x The position to draw the value from the left side of the canvas in pixels.
  * @param {number} y The position of the figure from the top of the canvas in pixels.
  * @param {number} yOffset The vertical offset from the figure caused by its graphical value in pixels.
- * @param {number} yExtension The vertical separation of the text and the figure.
  * @param {string} name The name of the value.
  * @param {number} value The value itself.
- * @param {string} unit The unit of the value.
+ * @param {string} type This is used to identify the units to use.
+ * @param {number} additionalOffest This is used to provide an additional offset to the height.
  */
 function drawValue(x, y, yOffset, name, subscript, value, type, additionalOffset = 0) {
   fill(0);

@@ -10,8 +10,9 @@
       <link rel="stylesheet" href="./styles/styl.css">
       <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       <script src="./js/p5.min.js"></script>
-      <script src="./js/beam.js"></script>
-      <script src="./js/beamInput.js" defer></script>
+      <script src="./js/beamInput.js"></script>
+      <script src="./js/beam.js" defer></script>
+      <script src="./js/beamEditor.js" defer></script>
       <title>Optical Diagnostics Group | MecE265</title>
     </head>
     <body>
@@ -45,8 +46,10 @@
         This page requires javascript to be enabled or a javascript able browser.
       </noscript>
 
-      <div id="content-inner"><br></br>
-        <div id="intro">
+      <br></br>
+
+      <div id="content-inner">
+        <div id="level1">
           <div id="intro-container">
             <b>INTRODUCTION:</b>
 
@@ -66,13 +69,13 @@
               <li>- <font face="Times New Roman, Times, serif">Beam Type:</font>
                     This drop down menu changes the type of beam to simulate/calculate.</li>
               <li>- <font face="Times New Roman, Times, serif">Load (<b><i>F</i></b>) (kN):</font>
-                    This slider and text box change the value of applicable point loads.</li>
+                    This slider and text box change the value of point loads.</li>
               <li>- <font face="Times New Roman, Times, serif">Distrubuted Load (<b><i>w</i></b>) (kN/m):</font>
-                    This slider and text box change the value of applicable distributed loads.</li>
+                    This slider and text box change the value of distributed loads.</li>
               <li>- <font face="Times New Roman, Times, serif">Moment (<b><i>M<sub>0</sub></i></b>) (kN*m):</font>
-                    This slider and text box change the value of applicable moments.</li>
+                    This slider and text box change the value of moments.</li>
               <li>- <font face="Times New Roman, Times, serif">Load Position (<b><i>a</i></b>) (m):</font>
-                    This slider and text box change the position of applicable loads.</li>
+                    This slider and text box change the position of loads.</li>
               <li>- <font face="Times New Roman, Times, serif">Beam Length (<b><i>L</i></b>) (m):</font>
                     This slider and text box change the length of the beam.</li>
               <li>- <font face="Times New Roman, Times, serif">Moment of Inertia (<b><i>I</i></b>) (mm<sup>4</sup>):</font>
@@ -100,78 +103,132 @@
         </div>
 
 
-        <div id="simulation">
-          <div id="p5-container"></div>
+        <div id="level2">
+          <div id="p5-simulation-container"></div>
 
-          <div id="input-container">
-            <p><b>INPUT:</b></p>
-            
-            <br></br><br></br>
+          <div id="level2-stack">
+            <div id="input-container">
+              <b>INPUT:</b>
+              
+              <br></br>
 
-            <label class="input-label" for="beam-select">Beam Type:</label><br>
-            <select id="beam-select">
-              <option value="c-end-load">Cantilever End Load</option>
-              <option value="c-int-load">Cantilever Intermediate Load</option>
-              <option value="c-uni-load">Cantilever Uniform Distrubuted Load</option>
-              <option value="c-tri-load">Cantilever Triangular Distrubuted Load</option>
-              <option value="c-end-mome">Cantilever End Moment</option>
-              <option value="s-int-load">Simply Supported Intermediate Load</option>
-              <option value="s-cen-load">Simply Supported Center Load</option>
-              <option value="s-two-load">Simply Supported Equidistant Loads</option>
-              <option value="s-uni-load">Simply Supported Uniform Distrubuted Load</option>
-              <option value="s-two-mome">Simply Supported Moment at Each Support</option>
-              <option value="s-one-mome">Simply Supported Moment at One Support</option>
-              <option value="s-cen-mome">Simply Supported Center Moment</option>
-              <option value="f-cen-load">Fixed-Fixed Center Load</option>
-              <option value="f-uni-load">Fixed-Fixed Uniform Distributed Load</option>
-            </select>
+              <label class="input-label">Beam Type:</label><br>
+              <select id="beam-select">
+                <option value="c-end-load">Cantilever End Load</option>
+                <option value="c-int-load">Cantilever Intermediate Load</option>
+                <option value="c-uni-load">Cantilever Uniform Distrubuted Load</option>
+                <option value="c-tri-load">Cantilever Triangular Distrubuted Load</option>
+                <option value="c-end-mome">Cantilever End Moment</option>
+                <option value="s-int-load">Simply Supported Intermediate Load</option>
+                <option value="s-cen-load">Simply Supported Center Load</option>
+                <option value="s-two-load">Simply Supported Equidistant Loads</option>
+                <option value="s-uni-load">Simply Supported Uniform Distrubuted Load</option>
+                <option value="s-two-mome">Simply Supported Moment at Each Support</option>
+                <option value="s-one-mome">Simply Supported Moment at One Support</option>
+                <option value="s-cen-mome">Simply Supported Center Moment</option>
+                <option value="f-cen-load">Fixed-Fixed Center Load</option>
+                <option value="f-uni-load">Fixed-Fixed Uniform Distributed Load</option>
+              </select>
 
-            <br></br><br></br><br></br>
+              <br></br>
 
-            <label class="input-label" for="input-F">Load (<b><i>F</i></b>) (kN): </label><br>
-            <input class="input-box" type="text" value="50" id="input-F">
-            <input class="input-slider" type="range" min="-100" max="100" value="50" id="slider-F"><br></br>
+              <label class="input-label">Zoom Buttons:</label><br>
+              <input class="input-button" type="button" value="Max Zoom" id="button-A">
+              <input class="input-button" type="button" value="Half Zoom" id="button-H">
 
-            <label class="input-label" for="input-W">Distrubuted Load (<b><i>w</i></b>) (kN/m): </label><br>
-            <input class="input-box" type="text" value="50" id="input-W" disabled="disabled">
-            <input class="input-slider" type="range" min="-100" max="100" value="50" id="slider-W" disabled="disabled"><br></br>
+              <br></br>
 
-            <label class="input-label" for="input-M">Moment (<b><i>M<sub>0</sub></i></b>) (kN*m): </label><br>
-            <input class="input-box" type="text" value="50" id="input-M" disabled="disabled">
-            <input class="input-slider" type="range" min="-100" max="100" value="50" id="slider-M" disabled="disabled"><br></br>
+              <label class="input-label">Loading Zoom:</label>&nbsp;&nbsp;
+              <label class="input-label">Deflection Zoom:</label>&nbsp;&nbsp;
+              <label class="input-label">Shear Zoom:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <label class="input-label">Moment Zoom:</label><br>
 
-            <label class="input-label" for="input-A">Load Position (<b><i>a</i></b>) (m): </label><br>
-            <input class="input-box" type="text" value="60" id="input-A" disabled="disabled">
-            <input class="input-slider" type="range" min="0" max="1000" value="60" id="slider-A" disabled="disabled"><br></br>
+              <input class="input-zoom" type="text" value="100" id="zoom-L">%&nbsp;&nbsp;&nbsp;
+              <input class="input-zoom" type="text" value="100" id="zoom-D">%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <input class="input-zoom" type="text" value="100" id="zoom-S">%&nbsp;&nbsp;&nbsp;
+              <input class="input-zoom" type="text" value="100" id="zoom-M">%
 
-            <label class="input-label" for="input-L">Beam Length (<b><i>L</i></b>) (m): </label><br>
-            <input class="input-box" type="text" value="100" id="input-L">
-            <input class="input-slider" type="range" min="0" max="1000" value="100" id="slider-L"><br></br>
+              <br></br>
 
-            <label class="input-label" for="input-I">Moment of Inertia (<b><i>I</i></b>) (mm<sup>4</sup>): </label><br>
-            <input class="input-box" type="text" value="1000000" id="input-I">
-            <input class="input-slider" type="range" min="100000" max="1000000000" value="1000000" id="slider-I"><br></br>
+              <label class="input-label">Load (<b><i>F</i></b>) (kN):</label><br>
+              <input class="input-box" type="text" value="50" id="input-F">
+              <input class="input-slider" type="range" min="-100" max="100" value="50" id="slider-F"><br></br>
 
-            <label class="input-label" for="input-E">Young's Modulus (<b><i>E</i></b>) (GPa): </label><br>
-            <input class="input-box" type="text" value="200" id="input-E">
-            <input class="input-slider" type="range" min="10" max="1000" value="200" id="slider-E">
+              <label class="input-label">Distrubuted Load (<b><i>w</i></b>) (kN/m):</label><br>
+              <input class="input-box" type="text" value="50" id="input-W" disabled="disabled">
+              <input class="input-slider" type="range" min="-100" max="100" value="50" id="slider-W" disabled="disabled"><br></br>
 
-            <br></br><br></br><br></br>
+              <label class="input-label">Moment (<b><i>M<sub>0</sub></i></b>) (kN*m):</label><br>
+              <input class="input-box" type="text" value="50" id="input-M" disabled="disabled">
+              <input class="input-slider" type="range" min="-100" max="100" value="50" id="slider-M" disabled="disabled"><br></br>
 
-            <label class="input-label">Zoom Buttons:</label><br>
-            <input class="input-button" type="button" value="Max Zoom" id="button-A">
-            <input class="input-button" type="button" value="Half Zoom" id="button-H"><br></br>
+              <label class="input-label">Load Position (<b><i>a</i></b>) (m):</label><br>
+              <input class="input-box" type="text" value="60" id="input-A" disabled="disabled">
+              <input class="input-slider" type="range" min="0" max="1000" value="60" id="slider-A" disabled="disabled"><br></br>
 
-            <label class="input-label" for="zoom-F">Zoom for Loading Diagram (%): </label><br>
-            <input type="text" value="100" id="zoom-F"><br></br>
-            <label class="input-label" for="zoom-D">Zoom for Deflection Diagram (%): </label><br>
-            <input type="text" value="100" id="zoom-D"><br></br>
-            <label class="input-label" for="zoom-S">Zoom for Shear Diagram (%): </label><br>
-            <input type="text" value="100" id="zoom-S"><br></br>
-            <label class="input-label" for="zoom-M">Zoom for Moment Diagram (%): </label><br>
-            <input type="text" value="100" id="zoom-M">
+              <label class="input-label">Beam Length (<b><i>L</i></b>) (m):</label><br>
+              <input class="input-box" type="text" value="100" id="input-L">
+              <input class="input-slider" type="range" min="0" max="1000" value="100" id="slider-L"><br></br>
+
+              <label class="input-label">Moment of Inertia (<b><i>I</i></b>) (mm<sup>4</sup>):</label><br>
+              <input class="input-box" type="text" value="100000000" id="input-I">
+              <input class="input-button-E" type="button" value="Apply from Beam Editor" id="button-E"><br></br>
+
+              <label class="input-label">Young's Modulus (<b><i>E</i></b>) (GPa):</label><br>
+              <input class="input-box" type="text" value="200" id="input-E">
+              <select id="material-select">
+                <option value="no-selection">Material Select</option>
+                <option value="69">Aluminium: 69 GPa</option>
+                <option value="15">Birch: 15 GPa</option>
+                <option value="150">Carbon Fiber Reinforced Plastic: 150 GPa</option>
+                <option value="1220">Diamond: 1220 GPa</option>
+                <option value="210">Iron: 210 GPa</option>
+                <option value="200">Steel, Structural ASTM-A36: 200 GPa</option>
+                <option value="410">Tungsten: 410 GPa</option>
+                <option value="170">Uranium: 170 GPa</option>
+              </select>
+            </div>
+
+            <div id="level2-row">
+              <div id="p5-beam-container"></div>
+
+              <div id="beam-input-container">
+                <b>BEAM EDITOR:</b>
+                
+                <br></br>
+  
+                <label class="input-label">Beam Shape:</label><br>
+                <select id="shape-select">
+                  <option value="full-rect">Rectangle</option>
+                  <option value="holl-rect">Hollow Rectangle</option>
+                  <option value="full-circ">Circle</option>
+                  <option value="holl-circ">Hollow Circle</option>
+                  <option value="i-section">I-Beam</option>
+                </select>
+
+                <br></br>
+
+                <label class="input-label">Dimension <b><i>a</i></b> (mm):</label><br>
+                <input class="editor-box" type="text" value="5000" id="editor-box-a">
+                <input class="editor-slider" type="range" min="0" max="10000" value="5000" id="editor-slider-a"><br></br>
+
+                <label class="input-label">Dimension <b><i>b</i></b> (mm):</label><br>
+                <input class="editor-box" type="text" value="4000" id="editor-box-b">
+                <input class="editor-slider" type="range" min="0" max="10000" value="4000" id="editor-slider-b"><br></br>
+
+                <label class="input-label">Dimension <b><i>c</i></b> (mm):</label><br>
+                <input class="editor-box" type="text" value="3000" id="editor-box-c" disabled="disabled">
+                <input class="editor-slider" type="range" min="0" max="10000" value="3000" id="editor-slider-c" disabled="disabled"><br></br>
+
+                <label class="input-label">Dimension <b><i>d</i></b> (mm):</label><br>
+                <input class="editor-box" type="text" value="2000" id="editor-box-d" disabled="disabled">
+                <input class="editor-slider" type="range" min="0" max="10000" value="2000" id="editor-slider-d" disabled="disabled"><br></br>
+              </div>
+            </div>
           </div>
+        </div>
 
+        <div id="level3">
           <div id="output-container">
             <b>EQUATIONS:</b>
 
@@ -202,7 +259,9 @@
             <br></br>
           </div>
         </div>
-      <br></br></div>
+      </div>
+
+      <br></br>
 
       <div id="footer">
         <div id="footer_in">

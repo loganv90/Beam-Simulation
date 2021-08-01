@@ -52,10 +52,28 @@ let valueAPX;
 // the buttons and a flag
 let buttonA;
 let buttonH;
+let buttonE;
 let halfButton;
 
-// the selected beam type
+// the selectors
 let beamType;
+let materialType;
+let shapeType;
+
+// beam editor stuff
+let beamEditorI;
+let editorBoxA;
+let editorBoxB;
+let editorBoxC;
+let editorBoxD;
+let editorSliderA;
+let editorSliderB;
+let editorSliderC;
+let editorSliderD;
+let editorValueA;
+let editorValueB;
+let editorValueC;
+let editorValueD;
 
 window.onload = () => {
   inputF = document.querySelector("#input-F");
@@ -70,8 +88,8 @@ window.onload = () => {
   sliderA = document.querySelector("#slider-A");
   sliderL = document.querySelector("#slider-L");
   sliderM = document.querySelector("#slider-M");
-  sliderI = document.querySelector("#slider-I");
-  sliderE = document.querySelector("#slider-E");
+  //sliderI = document.querySelector("#slider-I");
+  //sliderE = document.querySelector("#slider-E");
   valueF = parseFloat(inputF.value)*1000;
   valueW = parseFloat(inputW.value)*1000;
   valueA = parseFloat(inputA.value);
@@ -89,12 +107,12 @@ window.onload = () => {
   minL = 0.001;
   maxM = 100000;
   minM = -100000;
-  maxI = 0.001;
-  minI = 0.0000001;
-  maxE = 1000000000000;
-  minE = 10000000000;
+  maxI = 1000;
+  minI = 0.000000000000001;
+  maxE = 10000000000000;
+  minE = 1000000000;
 
-  zoomL = document.querySelector("#zoom-F");
+  zoomL = document.querySelector("#zoom-L");
   zoomD = document.querySelector("#zoom-D");
   zoomS = document.querySelector("#zoom-S");
   zoomM = document.querySelector("#zoom-M");
@@ -102,7 +120,7 @@ window.onload = () => {
   scaleD = parseFloat(zoomD.value)*0.01;
   scaleS = parseFloat(zoomS.value)*0.01;
   scaleM = parseFloat(zoomM.value)*0.01;
-  maxZ = 1e+50;
+  maxZ = 1e+100;
   minZ = 1;
 
   heightPX = 50;
@@ -111,9 +129,26 @@ window.onload = () => {
 
   buttonA = document.querySelector("#button-A");
   buttonH = document.querySelector("#button-H");
+  buttonE = document.querySelector("#button-E");
   halfButton = true;
 
   beamType = document.querySelector("#beam-select");
+  materialType = document.querySelector("#material-select");
+  shapeType = document.querySelector("#shape-select");
+
+  beamEditorI = 0;
+  editorBoxA = document.querySelector("#editor-box-a");
+  editorBoxB = document.querySelector("#editor-box-b");
+  editorBoxC = document.querySelector("#editor-box-c");
+  editorBoxD = document.querySelector("#editor-box-d");
+  editorSliderA = document.querySelector("#editor-slider-a");
+  editorSliderB = document.querySelector("#editor-slider-b");
+  editorSliderC = document.querySelector("#editor-slider-c");
+  editorSliderD = document.querySelector("#editor-slider-d");
+  editorValueA = parseFloat(editorBoxA.value);
+  editorValueB = parseFloat(editorBoxB.value);
+  editorValueC = parseFloat(editorBoxC.value);
+  editorValueD = parseFloat(editorBoxD.value);
 
 
   // the functionality of the input text boxes
@@ -157,12 +192,13 @@ window.onload = () => {
   inputI.onchange = () => {
     inputI.value = validateInput(inputI.value, minI/0.000000000001, maxI/0.000000000001);
     valueI = parseFloat(validateInput(inputI.value, minI/0.000000000001, maxI/0.000000000001))*0.000000000001;
-    sliderI.value = inputI.value;
+    //sliderI.value = inputI.value;
   }
   inputE.onchange = () => {
     inputE.value = validateInput(inputE.value, minE/1000000000, maxE/1000000000);
     valueE = parseFloat(validateInput(inputE.value, minE/1000000000, maxE/1000000000))*1000000000;
-    sliderE.value = inputE.value;
+    //sliderE.value = inputE.value;
+    materialType.selectedIndex = 0;
   }
 
 
@@ -199,14 +235,15 @@ window.onload = () => {
     inputM.value = validateInput(sliderM.value, minM/1000, maxM/1000);
     valueM = parseFloat(validateInput(sliderM.value, minM/1000, maxM/1000))*1000;
   })
-  sliderI.addEventListener("input", () => {
-    inputI.value = validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001);
-    valueI = parseFloat(validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001))*0.000000000001;
-  })
-  sliderE.addEventListener("input", () => {
-    inputE.value = validateInput(sliderE.value, minE/1000000000, maxE/1000000000);
-    valueE = parseFloat(validateInput(sliderE.value, minE/1000000000, maxE/1000000000))*1000000000;
-  })
+  //sliderI.addEventListener("input", () => {
+  //  inputI.value = validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001);
+  //  valueI = parseFloat(validateInput(sliderI.value, minI/0.000000000001, maxI/0.000000000001))*0.000000000001;
+  //})
+  //sliderE.addEventListener("input", () => {
+  //  inputE.value = validateInput(sliderE.value, minE/1000000000, maxE/1000000000);
+  //  valueE = parseFloat(validateInput(sliderE.value, minE/1000000000, maxE/1000000000))*1000000000;
+  //  materialType.selectedIndex = 0;
+  //})
 
 
   // the functionality of the zoom text boxes
@@ -245,9 +282,14 @@ window.onload = () => {
   buttonH.onclick = () => {
     halfButton = true;
   }
+  buttonE.onclick = () => {
+    inputI.value = validateInput(beamEditorI, minI/0.000000000001, maxI/0.000000000001);
+    valueI = parseFloat(validateInput(beamEditorI, minI/0.000000000001, maxI/0.000000000001))*0.000000000001;
+    //sliderI.value = beamEditorI;
+  }
 
 
-  // this function runs when the beam type is changed
+  // this functionality of the selectors
   beamType.onchange = () => {
     halfButton = true;
 
@@ -821,6 +863,128 @@ window.onload = () => {
     }
     MathJax.typeset();
   }
+  materialType.onchange = () => {
+    if (!isNaN(materialType.value)) {
+      inputE.value = validateInput(materialType.value, minE/1000000000, maxE/1000000000);
+      valueE = parseFloat(validateInput(materialType.value, minE/1000000000, maxE/1000000000))*1000000000;
+      //sliderE.value = materialType.value;
+    }
+  }
+  shapeType.onchange = () => {
+    let boxes = document.getElementsByClassName("editor-box");
+    for (let i=0; i<boxes.length; i++) {
+      boxes[i].disabled = false;
+    }
+    let sliders = document.getElementsByClassName("editor-slider");
+    for (let i=0; i<sliders.length; i++) {
+      sliders[i].disabled = false;
+    }
+    
+    if (shapeType.value == "full-rect") {
+      boxes[2].disabled = true;
+      boxes[3].disabled = true;
+      sliders[2].disabled = true;
+      sliders[3].disabled = true;
+    }
+    else if (shapeType.value == "holl-rect") {
+    }
+    else if (shapeType.value == "full-circ") {
+      boxes[1].disabled = true;
+      boxes[2].disabled = true;
+      boxes[3].disabled = true;
+      sliders[1].disabled = true;
+      sliders[2].disabled = true;
+      sliders[3].disabled = true;
+    }
+    else if (shapeType.value == "holl-circ") {
+      boxes[1].disabled = true;
+      boxes[3].disabled = true;
+      sliders[1].disabled = true;
+      sliders[3].disabled = true;
+    }
+    else if (shapeType.value == "i-section") {
+    }
+  }
+
+
+
+  // the functionality of the beam editor stuff
+  editorBoxA.onchange = () => {
+    editorBoxA.value = validateInput(editorBoxA.value, 0, 10000);
+    editorValueA = parseFloat(validateInput(editorBoxA.value, 0, 10000));
+    editorSliderA.value = editorBoxA.value;
+
+    if (editorValueC > editorValueA) {
+      editorBoxC.value = validateInput(editorBoxA.value, 0, 10000);
+      editorBoxC.onchange();
+    }
+  }
+  editorBoxB.onchange = () => {
+    editorBoxB.value = validateInput(editorBoxB.value, 0, 10000);
+    editorValueB = parseFloat(validateInput(editorBoxB.value, 0, 10000));
+    editorSliderB.value = editorBoxB.value;
+
+    if (editorValueD > editorValueB) {
+      editorBoxD.value = validateInput(editorBoxB.value, 0, 10000);
+      editorBoxD.onchange();
+    }
+  }
+  editorBoxC.onchange = () => {
+    editorBoxC.value = validateInput(editorBoxC.value, 0, 10000);
+    editorValueC = parseFloat(validateInput(editorBoxC.value, 0, 10000));
+    editorSliderC.value = editorBoxC.value;
+
+    if (editorValueC > editorValueA) {
+      editorBoxA.value = validateInput(editorBoxC.value, 0, 10000);
+      editorBoxA.onchange();
+    }
+  }
+  editorBoxD.onchange = () => {
+    editorBoxD.value = validateInput(editorBoxD.value, 0, 10000);
+    editorValueD = parseFloat(validateInput(editorBoxD.value, 0, 10000));
+    editorSliderD.value = editorBoxD.value;
+
+    if (editorValueD > editorValueB) {
+      editorBoxB.value = validateInput(editorBoxD.value, 0, 10000);
+      editorBoxB.onchange();
+    }
+  }
+  editorSliderA.addEventListener("input", () => {
+    editorBoxA.value = validateInput(editorSliderA.value, 0, 10000);
+    editorValueA = parseFloat(validateInput(editorSliderA.value, 0, 10000));
+
+    if (editorValueC > editorValueA) {
+      editorBoxC.value = validateInput(editorBoxA.value, 0, 10000);
+      editorBoxC.onchange();
+    }
+  })
+  editorSliderB.addEventListener("input", () => {
+    editorBoxB.value = validateInput(editorSliderB.value, 0, 10000);
+    editorValueB = parseFloat(validateInput(editorSliderB.value, 0, 10000));
+
+    if (editorValueD > editorValueB) {
+      editorBoxD.value = validateInput(editorBoxB.value, 0, 10000);
+      editorBoxD.onchange();
+    }
+  })
+  editorSliderC.addEventListener("input", () => {
+    editorBoxC.value = validateInput(editorSliderC.value, 0, 10000);
+    editorValueC = parseFloat(validateInput(editorSliderC.value, 0, 10000));
+
+    if (editorValueC > editorValueA) {
+      editorBoxA.value = validateInput(editorBoxC.value, 0, 10000);
+      editorBoxA.onchange();
+    }
+  })
+  editorSliderD.addEventListener("input", () => {
+    editorBoxD.value = validateInput(editorSliderD.value, 0, 10000);
+    editorValueD = parseFloat(validateInput(editorSliderD.value, 0, 10000));
+
+    if (editorValueD > editorValueB) {
+      editorBoxB.value = validateInput(editorBoxD.value, 0, 10000);
+      editorBoxB.onchange();
+    }
+  })
 }
 
 
@@ -835,7 +999,7 @@ window.onload = () => {
  * @returns {number} The scaled and rounded number.
  */
 function validateInput(input, min, max) {
-  if (isNaN(input) || input == "") {
+  if (isNaN(input) || input.toString() == "") {
     return max;
   } else if (input > max) {
     return max;

@@ -1,6 +1,6 @@
 function setup() {
   let canvas = createCanvas(600, 950);
-  canvas.parent("p5-container");
+  canvas.parent("p5-simulation-container");
   frameRate(60);
   rectMode(CORNERS);
   textFont('TimesNewRoman');
@@ -12,7 +12,7 @@ function setup() {
 function draw() {
   background(200);
   let leftOffset = 100;
-  let heights = [2*height/6, 3*height/6, 4*height/6, 5*height/6, height/6];
+  let heights = [height/6, 3*height/6, 4*height/6, 5*height/6, 2*height/6];
 
   // draws the figure titles
   textFont('Helvetica');
@@ -339,7 +339,7 @@ function draw() {
     textSize(14);
     textAlign(CENTER, CENTER);
     text("M", leftOffset, heights[4]-50);
-    text("-M", leftOffset+valueLPX+25, heights[4]+40);
+    text("M", leftOffset+valueLPX, heights[4]-50);
     textAlign(RIGHT, CENTER);
     text("A", leftOffset-50, heights[4]);
     text("A", leftOffset, heights[4]+50);
@@ -350,12 +350,12 @@ function draw() {
     text("y", leftOffset, heights[4]+50+3);
     text("y", leftOffset+valueLPX, heights[4]+50+3);
     text("0", leftOffset+5, heights[4]-50+3);
-    text("0", leftOffset+valueLPX+25+7, heights[4]+40+3);
+    text("1", leftOffset+valueLPX+5, heights[4]-50+3);
 
     // reaction arrows
     stroke(0);
     drawMoment(leftOffset, heights[4], 40, color(0));
-    drawMoment(leftOffset+valueLPX, heights[4], -35, color(0));
+    drawMomentReversed(leftOffset+valueLPX, heights[4], 40, color(0));
     triangle(leftOffset, heights[4], leftOffset-10, heights[4]-5, leftOffset-10, heights[4]+5);
     line(leftOffset, heights[4], leftOffset-40, heights[4]);
     triangle(leftOffset, heights[4], leftOffset-5, heights[4]+10, leftOffset+5, heights[4]+10);
@@ -1161,10 +1161,10 @@ function drawSTwoMome(x, heights) {
   forceCalibration = maxM/scaleL;
 
   drawMoment(x, heights[0], scaledMaxForceY);
-  drawMoment(x+valueLPX, heights[0], -scaledMaxForceY);
+  drawMomentReversed(x+valueLPX, heights[0], scaledMaxForceY);
   drawDimL(x, heights[0], valueLPX, 1, valueL);
   drawValue(x, heights[0], scaledMaxForceY, "M", "0", maxForceY, "M");
-  drawValue(x+valueLPX, heights[0], -scaledMaxForceY, "M", "1", -maxForceY, "M");
+  drawValue(x+valueLPX, heights[0], scaledMaxForceY, "M", "1", -maxForceY, "M");
 
 
   // Draws the deflection figure
@@ -1610,6 +1610,36 @@ function drawMoment(x, y, momentMagnitude, colour = color(200, 0, 0)) {
     triangle(x-momentMagnitude,                   y+momentMagnitude/6,
              x-momentMagnitude-momentMagnitude/6, y-momentMagnitude/6,
              x-momentMagnitude+momentMagnitude/6, y-momentMagnitude/6);
+  }
+  circle(x, y, 5);
+}
+
+
+
+
+
+/**
+ * This function draws an arrow for a moment.
+ * @param {number} x The position of the center of the arrow's arc from the left side of the canvas in pixels.
+ * @param {number} y The position of the center of the arrow's arc from the top of the canvas in pixels.
+ * @param {number} momentMagnitude The magnitude of the moment.
+ * @param {Color} colour The colour of the arrow.
+ */
+ function drawMomentReversed(x, y, momentMagnitude, colour = color(200, 0, 0)) {
+  noFill();
+  stroke(colour);
+  if (momentMagnitude >= 0) {
+    arc(x, y, momentMagnitude*2, momentMagnitude*2, PI, 11*PI/6);
+    fill(colour);
+    triangle(x-momentMagnitude,                   y+momentMagnitude/6,
+             x-momentMagnitude-momentMagnitude/6, y-momentMagnitude/6,
+             x-momentMagnitude+momentMagnitude/6, y-momentMagnitude/6);
+  } else {
+    arc(x, y, momentMagnitude*2, momentMagnitude*2, PI/6, PI);
+    fill(colour);
+    triangle(x+momentMagnitude,                   y+momentMagnitude/6,
+             x+momentMagnitude-momentMagnitude/6, y-momentMagnitude/6,
+             x+momentMagnitude+momentMagnitude/6, y-momentMagnitude/6);
   }
   circle(x, y, 5);
 }

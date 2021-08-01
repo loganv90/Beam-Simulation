@@ -7,43 +7,28 @@
   
   /* --CONTAINERS-- */
   #content-inner {
-    width: auto;
-    padding-left: 100px;
-    padding-right: 100px;
+    min-width: 1100px;
   }
 
-  #intro {
-    justify-content: center;
-    align-items: center;
-
+  #level1 {
     display: flex;
-    flex-wrap: wrap;
-    
-    min-width: 1000px;
+    justify-content: center;
   }
-
   #intro-container {
     padding: 5px;
     margin: 5px;
 
-    width: 916px;
-    height: auto;
+    width: 1000px;
     
     font-size: 10pt;
     border: 3px solid var(--black);
   }
 
-  #simulation {
-    justify-content: center;
-    align-items: center;
-
+  #level2 {
     display: flex;
-    flex-wrap: wrap;
-    
-    min-width: 1000px;
+    justify-content: center;
   }
-
-  #p5-container {
+  #p5-simulation-container {
     padding: 0px;
     margin: 5px;
 
@@ -52,30 +37,72 @@
     
     border: 3px solid var(--black);
   }
-  
+  #level2-stack {
+    display: inline;
+    justify-content: center;
+  }
   #input-container {
     padding: 5px;
-    margin: 5px;
+    margin: 5px 5px 5px 5px;
 
-    width: 300px;
-    height: 940px;
+    width: 384px;
+    height: 584px;
     
     font-size: 10pt;
     border: 3px solid var(--black);
   }
+  #level2-row {
+    display: flex;
+    justify-content: center;
+  }
+  #p5-beam-container {
+    padding: 0px;
+    margin: 5px 5px 5px 5px;
+
+    width: 190px;
+    height: 340px;
+    
+    border: 3px solid var(--black);
+  }
+  #beam-input-container {
+    font-size: 10pt;
+    
+    padding: 5px;
+    margin: 5px 5px 5px 5px;
+
+    width: 178px;
+    height: 330px;
+    
+    border: 3px solid var(--black);
+  }
   
+  #level3 {
+    display: flex;
+    justify-content: center;
+  }
   #output-container {
     padding: 5px;
     margin: 5px;
 
-    width: 916px;
-    height: auto;
+    width: 1000px;
     
     font-size: 10pt;
     border: 3px solid var(--black);
   }
 
   /* --INPUTS-- */
+  #beam-select {
+    width: 364px;
+  }
+
+  #material-select {
+    width: 212px;
+  }
+
+  #shape-select {
+    width: 164px;
+  }
+
   .input-label {
     font-family: "Times New Roman", Times, serif;
   }
@@ -84,12 +111,38 @@
     width: 140px;
   }
 
+  .input-box-beam {
+    width: 100px;
+  }
+
   .input-slider {
-    width: 140px;
+    width: 210px;
+  }
+
+  .input-slider-beam {
+    width: 65px;
   }
 
   .input-button {
-    width: 120px;
+    width: 180px;
+  }
+
+  .input-button-E {
+    width: 212px;
+  }
+
+  .input-zoom {
+    width: 60px;
+    text-align: right;
+  }
+
+  /* --BEAM EDITOR-- */
+  .editor-box {
+    width: 75px;
+  }
+
+  .editor-slider {
+    width: 75px;
   }
   
   /* --MULTIPLE CHOICE-- */

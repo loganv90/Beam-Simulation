@@ -54,48 +54,46 @@
             <div id="text-container">
               <b>INTRODUCTION:</b>
               <br></br>
-              This is a simulator/calculator for beam deflections.<br>
-              The "INPUT" section contains the controls for the simulation.<br>
-              The "EQUATIONS" section contains the equations used generate the diagrams.<br>
+              This is a simulator/calculator for beam deflections using Euler-Brenoulli Beam Theory.<br>
+              The <b>INPUT</b> section contains general controls for the simulation.<br>
+              The <b>BEAM EDITOR</b> section contains controls for designing a beam.<br>
+              The <b>EQUATIONS</b> section contains equations used to generate the diagrams.<br>
+              <br></br>
               <br></br>
               Controls:
               <br></br>
               <ul>
-                <li>- <font face="Times New Roman, Times, serif">Beam Type:</font>
-                      This drop down menu changes the type of beam to simulate/calculate.</li>
-                <li>- <font face="Times New Roman, Times, serif">Load (<b><i>F</i></b>) (kN):</font>
-                      This slider and text box change the value of point loads.</li>
-                <li>- <font face="Times New Roman, Times, serif">Distrubuted Load (<b><i>w</i></b>) (kN/m):</font>
-                      This slider and text box change the value of distributed loads.</li>
-                <li>- <font face="Times New Roman, Times, serif">Moment (<b><i>M<sub>0</sub></i></b>) (kN*m):</font>
-                      This slider and text box change the value of moments.</li>
-                <li>- <font face="Times New Roman, Times, serif">Load Position (<b><i>a</i></b>) (m):</font>
-                      This slider and text box change the position of loads.</li>
-                <li>- <font face="Times New Roman, Times, serif">Beam Length (<b><i>L</i></b>) (m):</font>
-                      This slider and text box change the length of the beam.</li>
-                <li>- <font face="Times New Roman, Times, serif">Moment of Inertia (<b><i>I</i></b>) (mm<sup>4</sup>):</font>
-                      This slider and text box change the moment of inertia of the beam.</li>
-                <li>- <font face="Times New Roman, Times, serif">Young's Modulus (<b><i>E</i></b>) (GPa):</font>
-                      The slider and text box change the Young's modulus of the beam.</li>
-                <li>- <font face="Times New Roman, Times, serif">Zoom Buttons:</font>
-                      The button "Max Zoom" zooms in as much as possible on each diagram.<br>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      The button "Half Zoom" zooms in half as much as possible on each diagram.<br>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      The diagrams automatically zoom out until their entire plot is visible.</li>
-                <li>- <font face="Times New Roman, Times, serif">Zoom for Loading Diagram (%):</font>
-                      This text box changes the zoom level for the loading diagram.</li>
-                <li>- <font face="Times New Roman, Times, serif">Zoom for Deflection Diagram (%):</font>
-                      This text box changes the zoom level for the deflection diagram.</li>
-                <li>- <font face="Times New Roman, Times, serif">Zoom for Shear Diagram (%):</font>
-                      This text box changes the zoom level for the shear diagram.</li>
-                <li>- <font face="Times New Roman, Times, serif">Zoom for Moment Diagram (%):</font>
-                      This text box changes the zoom level for the moment diagram.</li>
+                <li>- <span style="font-family:'Times New Roman', Times, serif;font-size:15px">Beam Type:</span>
+                  &nbsp;This drop down menu changes the scenario to simulate/calculate.</li>
+                <li>- <span style="font-family:'Times New Roman', Times, serif;font-size:15px">Zoom Buttons:</span>
+                  &nbsp;Both buttons adjust the diagram zoom levels so the plots are visible.</li>
+                <li>- <span style="font-family:'Times New Roman', Times, serif;font-size:15px">"diagram" Zoom:</span>
+                  &nbsp;Changes the zoom level of the related diagram.</li>
+                <li>- <span style="font-family:'Times New Roman', Times, serif;font-size:15px">Load (<b><i>F</i></b>) (kN):</span>
+                  &nbsp;Changes the value of point loads.</li>
+                <li>- <span style="font-family:'Times New Roman', Times, serif;font-size:15px">Distrubuted Load (<b><i>w</i></b>) (kN/m):</span>
+                  &nbsp;Changes the value of distributed loads.</li>
+                <li>- <span style="font-family:'Times New Roman', Times, serif;font-size:15px">Moment (<b><i>M<sub>0</sub></i></b>) (kNm):</span>
+                  &nbsp;Changes the value of moments.</li>
+                <li>- <span style="font-family:'Times New Roman', Times, serif;font-size:15px">Load Position (<b><i>a</i></b>) (m):</span>
+                  &nbsp;Changes the position of various loads.</li>
+                <li>- <span style="font-family:'Times New Roman', Times, serif;font-size:15px">Beam Length (<b><i>L</i></b>) (m):</span>
+                  &nbsp;Changes the beam's length.</li>
+                <li>- <span style="font-family:'Times New Roman', Times, serif;font-size:15px">Moment of Inertia (<b><i>I</i></b>) (mm<sup>4</sup>):</span>
+                  &nbsp;Changes the beam's moment of inertia about the neutral axis.</li>
+                <li>- <span style="font-family:'Times New Roman', Times, serif;font-size:15px">Young's Modulus (<b><i>E</i></b>) (GPa):</span>
+                  &nbsp;Changes the Young's modulus of the beam.</li>
+                <li>- <span style="font-family:'Times New Roman', Times, serif;font-size:15px">Beam Shape:</span>
+                  &nbsp;This drop down menu changes the shape of beam being designed.</li>
+                <li>- <span style="font-family:'Times New Roman', Times, serif;font-size:15px">Dimension "variable" (mm):</span>
+                  &nbsp;Changes the value of the related dimension.</li>
               </ul>
               <br></br>
             </div>
 
             <div id="video-container">
+              <br></br>
+              Instructional Video:
               <video height="220" controls>
                 <source src="./video/videoPowerPoint.mp4" type="video/mp4">
                 Your browser does not support the video tag.
@@ -135,8 +133,8 @@
               <br></br>
 
               <label class="input-label">Zoom Buttons:</label><br>
-              <input class="input-button" type="button" value="Max Zoom" id="button-A">
-              <input class="input-button" type="button" value="Half Zoom" id="button-H">
+              <input class="input-button" type="button" value="Max" id="button-A">
+              <input class="input-button" type="button" value="Half" id="button-H">
 
               <br></br>
 
@@ -160,7 +158,7 @@
               <input class="input-box" type="text" value="50" id="input-W" disabled="disabled">
               <input class="input-slider" type="range" min="-100" max="100" value="50" id="slider-W" disabled="disabled"><br></br>
 
-              <label class="input-label">Moment (<b><i>M<sub>0</sub></i></b>) (kN*m):</label><br>
+              <label class="input-label">Moment (<b><i>M<sub>0</sub></i></b>) (kNm):</label><br>
               <input class="input-box" type="text" value="50" id="input-M" disabled="disabled">
               <input class="input-slider" type="range" min="-100" max="100" value="50" id="slider-M" disabled="disabled"><br></br>
 
@@ -233,22 +231,14 @@
         <div id="level3">
           <div id="output-container">
             <b>EQUATIONS:</b>
-
             <br></br>
-
-            Below are the equations that are uses to generate the diagrams.<br>
-            The equations change to match the selected beam type.<br>
-            
+            Below are the equations used to generate the diagrams.<br>
+            The equations change depending on the selected scenario.<br>
             <br></br>
-            
             <div id="output-calculations" style="font-size: 12px"></div><br></br>
-
             <br></br>
-
-            The equations are only valid if these assumptions are satisfied:
-
+            The equations are only valid if the following assumptions are satisfied according to Euler-Bernoulli Beam Theory:
             <br></br>
-
             <ul>
               <li>- The longitudinal axis does not experience any change in length.</li>
               <li>- The cross-sections of the beam remain plane and perpendicular to the longitudinal axis.</li>
@@ -257,7 +247,6 @@
               <li>- The deformed angles and displacements are small.</li>
               <li>- The beam is made of a homogeneous material.</li>
             </ul>
-
             <br></br>
           </div>
         </div>

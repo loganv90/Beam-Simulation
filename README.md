@@ -1,1 +1,1 @@
-# Beam-Simulation
+# Educational-Simulation-Beam
